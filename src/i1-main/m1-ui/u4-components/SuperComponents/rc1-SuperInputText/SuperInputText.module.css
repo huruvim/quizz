@@ -1,0 +1,18 @@
+.superInput {
+    font-size: 14px;
+    background: none;
+    color: #5a6674;
+
+}
+.superInput:focus {
+    transition: .2s;
+    background-color: #668392;
+    color: white;
+}
+.errorInput {
+    border: 3px solid lime;
+    background: red;
+}
+.error {
+    color: red;
+}

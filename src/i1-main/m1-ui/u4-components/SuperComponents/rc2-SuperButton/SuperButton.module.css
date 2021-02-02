@@ -1,0 +1,29 @@
+.default {
+    background: white;
+    height: 40px;
+    width: content-box;
+    font-size: 20px;
+
+}
+
+.red {
+    background-color: #4d646e; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.default:hover {
+    color: red;
+    background-color: grey;
+    cursor: pointer;
+}
+.red:hover {
+    transition: .2s;
+    background-color: #ff6374;
+    cursor: pointer;
+}

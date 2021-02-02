@@ -1,0 +1,27 @@
+.background {
+    height: 80px;
+    background-color: #dbedff;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.nav_links {
+    max-width: 1400px;
+    width: 100%;
+    /*padding: 0 10px;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.nav_container {
+    font-size: 22px;
+}
+.title_nav {
+    text-decoration: none;
+    color: black;
+    margin-right: 30px;
+
+}
+.title_nav:hover {
+    color: orange;
+}
