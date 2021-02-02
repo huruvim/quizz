@@ -2,5 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
+    margin: 10px;
+}
+.superComponent {
+    padding: 20px;
 }

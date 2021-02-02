@@ -1,0 +1,11 @@
+.superSpan {
+    font-size: 22px;
+}
+.superSpan:hover {
+    color: grey;
+
+}
+.superSpan:hover::after{
+    color: #d6503b;
+    content: " <--- double click on me =)";
+}
