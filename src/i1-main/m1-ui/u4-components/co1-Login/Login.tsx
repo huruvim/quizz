@@ -36,7 +36,8 @@ export const Login: FC<PropsType> = (
     // const rememberMe = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.rememberMe)
 
     // const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
-    const newError = useSelector<AppRootStateType, string>(s => s.isLoggedIn.error)
+    // const newError = useSelector<AppRootStateType, string>(s => s.isLoggedIn.error)
+    const error = useSelector<AppRootStateType, string>(state=>state.isLoggedIn.error)
     const totalValues = {email, password, rememberMe}
 
 
@@ -61,7 +62,7 @@ export const Login: FC<PropsType> = (
 
     return (
         <div className={s.login}>
-            {newError === '' ?
+
             <form className={s.loginForm} onSubmit={handleSubmit}>
                 <label>
                     <SuperInputText className={s.inputForm} onChange={loginChange} placeholder={'email'}
@@ -77,8 +78,12 @@ export const Login: FC<PropsType> = (
                 <label>
                     <SuperInputText type={'submit'} value={'Login'}/>
                 </label>
+                {error === ''
+                    ? <div className={s.message}>enter you email and password</div>
+                    : <div className={s.message}>{error}</div>
+                }
             </form>
-            : newError}
+
         </div>
     )
 }

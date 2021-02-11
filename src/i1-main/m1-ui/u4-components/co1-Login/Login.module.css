@@ -14,3 +14,14 @@
     margin: 20px;
     padding: 20px;
 }
+.message {
+    padding: 5px;
+    margin-top: 15px;
+    font-size: 24px;
+    color: red;
+
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px;
+
+    background-color: #b780ff;
+}
