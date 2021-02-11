@@ -48,9 +48,6 @@ export const Test = () => {
                 7) <span>{value2}</span>
                 <SuperRange name={"radio"} value={value2} onChangeRange={setMinValue}/>
             </div>
-            <div className={s.superComponent}>
-                Test
-            </div>
         </div>
     )
 }

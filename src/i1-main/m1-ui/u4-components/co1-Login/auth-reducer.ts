@@ -13,6 +13,6 @@ export const authReducer = (state: InitialStateType = initialState, action: any)
     }
 }
 
-const firstCase = ''
 
+const firstCase = ''
 
