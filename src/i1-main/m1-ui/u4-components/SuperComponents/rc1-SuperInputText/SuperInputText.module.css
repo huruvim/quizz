@@ -2,12 +2,14 @@
     font-size: 14px;
     background: none;
     color: #5a6674;
+    margin: 10px;
+    padding: 3px;
 
 }
 .superInput:focus {
     transition: .2s;
-    background-color: #668392;
-    color: white;
+    /*background-color: #668392;*/
+    /*color: white;*/
 }
 .errorInput {
     border: 3px solid lime;

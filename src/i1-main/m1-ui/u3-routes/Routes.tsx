@@ -7,6 +7,7 @@ import {Profile} from "../u4-components/co3-Profile/Profile";
 import {Recovery} from "../u4-components/co5-Recovery/Recovery";
 import {CreateNewPassword} from "../u4-components/co5-Recovery/CreateNewPassword";
 import {Test} from "../../../i2-features/f0-test/Test";
+import LoginContainer from "../../../i2-features/f1 Login/LoginContainer";
 
 
 export const PATH = {
@@ -29,9 +30,9 @@ function Routes() {
             <Switch>
                 {/*в начале мы попадаем на страницу "/" и переходим сразу на страницу PRE_JUNIOR*/}
                 {/*exact нужен чтоб указать полное совподение (что после "/" ничего не будет)*/}
-                {/*<Route path={"/"} exact render={() => <Redirect to={PATH.PRE_JUNIOR}/>}/>*/}
+                {/*<Route path={"/"} exact render={() => <Redirect to={PATH.PROFILE}/>}/>*/}
                 <Route path={"/"} exact render={() => <Redirect to={PATH.PROFILE}/>}/>
-                <Route path={PATH.LOGIN} render={() => <Login/>}/>
+                <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>
                 <Route path={PATH.REGISTRATION} render={() => <Registration/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
                 <Route path={PATH.RECOVERY} render={() => <Recovery/>}/>
