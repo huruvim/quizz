@@ -1,9 +1,9 @@
 import {Dispatch} from "redux";
 import {APIRegistration, RequestType} from "../../../m3-dal/api";
 
-const   CHANGE_EMAIL = 'CHANGE_EMAIL',
-        CHANGE_PASSWORD = 'CHANGE_PASSWORD',
-        IS_REGISTRATION = 'IS_REGISTRATION'
+const CHANGE_EMAIL = 'CHANGE_EMAIL',
+    CHANGE_PASSWORD = 'CHANGE_PASSWORD',
+    IS_REGISTRATION = 'IS_REGISTRATION'
 
 const initialState = {
     isRegistered: false,
@@ -68,15 +68,17 @@ const checkRegistration = (isRegistered: boolean) => {
     } as const
 }
 
-export const createUser = (dataRegistration: RequestType) => (dispatch: Dispatch)=> {
-    APIRegistration.signUp({email: dataRegistration.email, password: dataRegistration.password}).then(res => {
-        if (res.status === 201) {
-            dispatch(checkRegistration(true))
-        } else {
-            console.log('error')
-        }
-    }).catch(e=> {
-        console.log(e)
-    })
+export const createUserTC = (dataRegistration: RequestType) => (dispatch: Dispatch) => {
+    APIRegistration.signUp({email: dataRegistration.email, password: dataRegistration.password})
+        .then((res) => {
+            if (res.status === 201) {
+                dispatch(checkRegistration(true))
+            } else {
+                console.log('error')
+            }
+        })
+        .catch(e => {
+            console.log(e)
+        })
 }
 

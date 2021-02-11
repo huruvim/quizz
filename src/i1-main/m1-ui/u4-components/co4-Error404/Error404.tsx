@@ -7,8 +7,8 @@ function Error404() {
         <div className={s.error404}>
             <div className={s.error404_text}>404
             Page not found!</div><br/>
-            {/*<div className={s.girl}><img src={girl} alt=""/>*/}
-            {/*</div>*/}
+            <div className={s.girl}><img src={girl} alt=""/>
+            </div>
         </div>
     )
 }

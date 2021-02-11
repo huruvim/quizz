@@ -22,7 +22,6 @@ type ActionsType = PROFILE
 export const profileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case profileChanged:
-            debugger
             return {
                 ...state,
                 _id: action._id,

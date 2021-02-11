@@ -36,8 +36,8 @@ export type AxiosResponseType = {
 }
 
 const initialState = {
-    login: 'nya-admin@nya.nya',
-    password: '1qazxcvBG',
+    login: '',
+    password: '',
     rememberMe: false,
     isLoggedIn: false,
     error: ''
@@ -47,7 +47,6 @@ const initialState = {
 type ActionsType = EMAIL_CHANGED | PASSWORD_CHANGED | ON_SUBMIT | REMEMBER_ME | ON_ERROR
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-    debugger
     switch (action.type) {
         case emailChanged:
             return {...state, login: action.value}
@@ -81,19 +80,17 @@ export const onErrorAC = (error: string) => ({type: onError, error} as const)
 export const onSubmitTC = (data: LoginType) => (dispatch: Dispatch) => {
     authAPI.login(data)
 
-        .then((res:AxiosResponse<AxiosResponseType>) => {
-            console.log('you have logged in')
+        .then((res: AxiosResponse<AxiosResponseType>) => {
+            // console.log('you have logged in')
             dispatch(onSubmitAC())
             dispatch(profileAC(res.data._id, res.data.email, res.data.name, res.data.publicCardPacksCount, res.data.created,
                 res.data.updated, res.data.isAdmin, res.data.verified, res.data.rememberMe, res.data.avatar, res.data.error))
         })
 
-        .catch((e) => {
-            console.log('you have not logged in')
-            debugger
-            console.log(e)
-            const error = e.response
-            ? e.response.data.error : (e.message + ', more details in the console');
+        .catch((err) => {
+            // console.log('you have not logged in')
+            const error = err.response
+            ? err.response.data.error : (err.message + ', more details in the console');
             dispatch(onErrorAC(error))
         })
 }

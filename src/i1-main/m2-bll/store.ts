@@ -1,4 +1,4 @@
-import {combineReducers, createStore} from 'redux'
+import {applyMiddleware, combineReducers, createStore} from 'redux'
 import {testReducer} from "./test-reducer";
 import {authReducer} from "../m1-ui/u4-components/co1-Login/auth-reducer";
 import {profileReducer} from "../m1-ui/u4-components/co3-Profile/profile-reducer";
@@ -15,6 +15,7 @@ const rootReducer = combineReducers({
     isRegistered: registrationReducer,
     recovery: recoveryReducer
 })
+
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 

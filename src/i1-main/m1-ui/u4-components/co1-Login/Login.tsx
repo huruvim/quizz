@@ -1,11 +1,10 @@
-import React, {ChangeEvent, FC, FormEvent, useEffect} from "react";
+import React, {ChangeEvent, FC} from "react";
 import s from "./Login.module.css";
 import SuperInputText from "../SuperComponents/rc1-SuperInputText/SuperInputText";
 import SuperCheckbox from "../SuperComponents/rc3-SuperCheckbox/SuperCheckbox";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../m2-bll/store";
-import {emailChangedAC, onSubmitTC, passwordChangedAC, rememberMeChangedAC} from "./auth-reducer";
-import {authAPI} from "../../../m3-dal/api";
+import {onSubmitTC} from "./auth-reducer";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../u3-routes/Routes";
 
@@ -65,11 +64,11 @@ export const Login: FC<PropsType> = (
             {newError === '' ?
             <form className={s.loginForm} onSubmit={handleSubmit}>
                 <label>
-                    <SuperInputText className={s.inputForm} onChange={loginChange} placeholder={email}
+                    <SuperInputText className={s.inputForm} onChange={loginChange} placeholder={'email'}
                                     type={'email'} value={email}/>
                 </label>
                 <label>
-                    <SuperInputText className={s.inputForm} onChange={PasswordChange} placeholder={password}
+                    <SuperInputText className={s.inputForm} onChange={PasswordChange} placeholder={'password'}
                                     type={'password'} value={password}/>
                 </label>
                 <label>

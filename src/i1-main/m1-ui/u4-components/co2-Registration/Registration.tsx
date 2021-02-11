@@ -1,22 +1,23 @@
-import React, {useEffect} from "react";
+import React from "react";
 import s from "./Registration.module.css";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../m2-bll/store";
-import {changeEmail, changePassword, createUser, InitialStateRegistrationType} from "./registration-reducer";
+import {changeEmail, changePassword, createUserTC, InitialStateRegistrationType} from "./registration-reducer";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../u3-routes/Routes";
 
 export const Registration = () => {
     const state = useSelector<AppRootStateType, InitialStateRegistrationType>(state=>state.isRegistered)
+    // const error = useSelector<AppRootStateType, string>(state=>state.isLoggedIn.error)
     const  dispatch = useDispatch()
 
     const changeValueEvent = (e:React.ChangeEvent<HTMLInputElement>,changeValue:Function) => {
         dispatch(changeValue( e.currentTarget.value))
     }
     const requestData =() => {
-        dispatch(createUser({email: state.email, password: state.password}))
+        dispatch(createUserTC({email: state.email, password: state.password}))
     }
-    console.log(state.isRegistered)
+
     if (state.isRegistered) {
        return <Redirect to={PATH.LOGIN}/>
     }

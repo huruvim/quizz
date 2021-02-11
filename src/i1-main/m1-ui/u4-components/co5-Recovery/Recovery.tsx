@@ -12,6 +12,7 @@ import {PATH} from "../../u3-routes/Routes";
 export const Recovery = () => {
 
     const isDone = useSelector<AppRootStateType, boolean | null>( state => state.recovery.isDone)
+    const error = useSelector<AppRootStateType, string>(state=>state.isLoggedIn.error)
     const dispatch  = useDispatch()
 
     const [email, setEmail] = useState("test@email.nya")
@@ -22,7 +23,7 @@ export const Recovery = () => {
     }
 
     const sendEmail = () => {
-        dispatch(recoveryPassword(email))
+        dispatch(recoveryPassword({email}))
     }
     return (
         <div className={s.recovery}>
@@ -33,7 +34,7 @@ export const Recovery = () => {
                 ? <div className={s.message}>enter you email</div> 
                 : isDone
                     ? <Redirect to={PATH.CREATE_NEW_PASSWORD}  />
-                    : <div className={s.message}>email incorrect</div>}
+                    : <div className={s.message}>email incorrect {error}</div>}
         </div>
     )
 }
