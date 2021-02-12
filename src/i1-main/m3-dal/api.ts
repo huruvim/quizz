@@ -3,7 +3,7 @@ import {AxiosResponseType, LoginType} from "../m1-ui/u4-components/co1-Login/aut
 import { RequestRecoveryType } from "../m1-ui/u4-components/co5-Recovery/Recovery-reducer";
 
 const instance  = axios.create ({
-    baseURL: 'http://localhost:7542/2.0/',
+    baseURL: 'https://neko-back.herokuapp.com/2.0/',
     withCredentials: true,
 })
 
