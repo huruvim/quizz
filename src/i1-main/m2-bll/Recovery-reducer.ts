@@ -32,13 +32,13 @@ export const responseInfo = (info: string) => ({type: "RESPONSE_INFO", info} as 
 
 export const recoveryPassword = (data: RequestRecoveryType) => (dispatch: Dispatch) => {
     authAPI.recoverPassword(data)
-        .then(res => {
+        .then((res) => {
             console.log('.then')
             dispatch(successful(true))
             dispatch(responseInfo(res.data.info))
         })
 
-        .catch(err => {
+        .catch((err) => {
             console.log('.catch')
             dispatch(successful(false))
             const error = err.response
