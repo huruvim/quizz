@@ -41,9 +41,7 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
     }
 }
 
-// const firstCase = ''
 const profileChanged = 'profileChanged'
-
 
 
 export const profileAC = (

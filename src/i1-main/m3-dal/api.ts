@@ -1,17 +1,21 @@
 import axios from "axios";
 import {AxiosResponseType, LoginType} from "../m2-bll/auth-reducer";
-import { RequestRecoveryType } from "../m2-bll/Recovery-reducer";
 
 
 //'https://neko-back.herokuapp.com/2.0/'
 //"http://localhost:7542/2.0/"
 
-// 'nya-admin@nya.nya'
-// '1qazxcvBG'
+// 'valentyn.333k@gmail.com'
+// '123123123'
 const instance  = axios.create ({
     baseURL: 'https://neko-back.herokuapp.com/2.0/',
     withCredentials: true,
 })
+export type RequestRecoveryType = {
+    email: string,
+    from?: string,
+    message?: string
+}
 
 type RecoveryResponseType = {
     info: any

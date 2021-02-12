@@ -5,6 +5,8 @@ import {AppRootStateType} from "../../i1-main/m2-bll/store";
 import {changeEmail, changePassword, createUserTC, InitialStateRegistrationType} from "../../i1-main/m2-bll/registration-reducer";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
+import SuperButton from "../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
+import SuperInputText from "../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
 
 export const Registration = () => {
     const state = useSelector<AppRootStateType, InitialStateRegistrationType>(state=>state.isRegistered)
@@ -24,19 +26,19 @@ export const Registration = () => {
     return (
         <div className={s.registration}>
             <div className={s.registrationInner}>
+                <div className={s.title}>Sing up</div>
+
                 <div className={`${s.registrationItem} ${s.email}`}>
-                    <input type='text' placeholder='Email' value={state.email} onChange={(e)=>changeValueEvent(e, changeEmail)}/>
+                    <SuperInputText type='text' placeholder='Email' value={state.email} onChange={(e)=>changeValueEvent(e, changeEmail)}/>
                 </div>
                 <div className={`${s.registrationItem} ${s.password}`}>
-                    <input type='password' placeholder='Password' value={state.password} onChange={(e)=>changeValueEvent(e, changePassword)}/>
+                    <SuperInputText type='password' placeholder='Password' value={state.password} onChange={(e)=>changeValueEvent(e, changePassword)}/>
                 </div>
-                <div className={s.registrationButton} >
-                    <button onClick={requestData}>Send</button>
-                </div>
+                    <SuperButton className={s.registrationButton} onClick={requestData}>Send</SuperButton>
             </div>
-            {state.error === ''
-                ? <div className={s.message}>enter you email and password</div>
-                : <div className={s.message}>{state.error}</div>
+            {state.error !== ''
+                ? <div className={s.message}>{state.error}</div>
+                : null
             }
         </div>
     )

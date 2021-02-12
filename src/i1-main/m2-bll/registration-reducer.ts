@@ -1,7 +1,6 @@
 import {Dispatch} from "redux";
 import {RegistrationAPI, RequestType} from "../m3-dal/api";
-import {onError, onErrorAC} from "./auth-reducer";
-import {ON_ERROR} from './auth-reducer'
+import {ON_ERROR, onError, onErrorAC} from "./auth-reducer";
 
 const CHANGE_EMAIL = 'CHANGE_EMAIL',
     CHANGE_PASSWORD = 'CHANGE_PASSWORD',
@@ -42,27 +41,12 @@ export const registrationReducer = (state: InitialStateRegistrationType = initia
     }
 }
 
-export const changeEmail = (value: string) => {
-    return {
-        type: CHANGE_EMAIL,
-        value
-    } as const
-}
-export const changePassword = (value: string) => {
-    return {
-        type: CHANGE_PASSWORD,
-        value
-    } as const
-}
+//ac
+export const changeEmail = (value: string) => ({type: CHANGE_EMAIL, value} as const)
+export const changePassword = (value: string) => ({type: CHANGE_PASSWORD, value} as const)
+const checkRegistration = (isRegistered: boolean) => ({type: IS_REGISTRATION, isRegistered} as const)
 
-const checkRegistration = (isRegistered: boolean) => {
-    return {
-        type: IS_REGISTRATION,
-        isRegistered
-    } as const
-}
-
-
+//tc
 export const createUserTC = (dataRegistration: RequestType) => (dispatch: Dispatch) => {
     RegistrationAPI.signUp({email: dataRegistration.email, password: dataRegistration.password})
         .then((res) => {

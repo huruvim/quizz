@@ -1,27 +1,30 @@
 .login {
     padding: 20px;
     margin: 20px;
-
-    /*margin: 20px 0;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1400px;
 }
 .loginForm {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
+
 }
-.inputForm {
-    margin: 20px;
-    padding: 20px;
+
+.title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    justify-content: center;
 }
 .message {
     padding: 5px;
     margin-top: 15px;
     font-size: 24px;
     color: red;
-
     border-radius: 5px;
     box-shadow: 2px 2px 4px;
-
-    background-color: #b780ff;
 }

@@ -3,7 +3,8 @@ import {testReducer} from "./test-reducer";
 import {authReducer} from "./auth-reducer";
 import {profileReducer} from "./profile-reducer";
 import {registrationReducer} from "./registration-reducer";
-import { recoveryReducer } from './Recovery-reducer';
+
+import {recoveryReducer} from "./recovery-reducer";
 import thunk from 'redux-thunk';
 
 

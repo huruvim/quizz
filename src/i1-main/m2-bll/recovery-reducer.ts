@@ -1,20 +1,18 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../m3-dal/api";
+import {authAPI, RequestRecoveryType} from "../m3-dal/api";
 import {onErrorAC} from "./auth-reducer";
 
+type RecoveryStateType = typeof initialState
+type SuccessfulActionType = ReturnType<typeof successful>
+type ResponseInfoActionType = ReturnType<typeof responseInfo>
 
-type ActionType = SuccessfulActionType
-    | ResponseInfoActionType
+type ActionType = SuccessfulActionType | ResponseInfoActionType
 
 const initialState = {
     isDone: null,
     info: ""
 }
-export type RequestRecoveryType = {
-    email: string,
-    from?: string,
-    message?: string
-}
+
 
 export const recoveryReducer = (state: RecoveryStateType = initialState, action: ActionType): RecoveryStateType => {
     switch (action.type) {
@@ -27,19 +25,19 @@ export const recoveryReducer = (state: RecoveryStateType = initialState, action:
     }
 }
 
-export const successful = (value: boolean | null) => ({type: "SUCCESSFUL", value} as const )
+export const successful = (value: boolean | null) => ({type: "SUCCESSFUL", value} as const)
 export const responseInfo = (info: string) => ({type: "RESPONSE_INFO", info} as const)
 
 export const recoveryPassword = (data: RequestRecoveryType) => (dispatch: Dispatch) => {
     authAPI.recoverPassword(data)
         .then((res) => {
-            console.log('.then')
+            // console.log('.then')
             dispatch(successful(true))
             dispatch(responseInfo(res.data.info))
         })
 
         .catch((err) => {
-            console.log('.catch')
+            // console.log('.catch')
             dispatch(successful(false))
             const error = err.response
                 ? err.response.data.error : (err.message + ', more details in the console');
@@ -48,6 +46,3 @@ export const recoveryPassword = (data: RequestRecoveryType) => (dispatch: Dispat
         })
 }
 
-type RecoveryStateType = typeof initialState
-type SuccessfulActionType = ReturnType<typeof successful>
-type ResponseInfoActionType = ReturnType<typeof responseInfo>

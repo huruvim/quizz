@@ -24,4 +24,8 @@
 }
 .title_nav:hover {
     color: orange;
+
+}
+.active {
+    color: red;
 }
