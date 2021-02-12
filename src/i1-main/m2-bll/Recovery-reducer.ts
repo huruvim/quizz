@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../../../m3-dal/api";
-import {onErrorAC} from "../co1-Login/auth-reducer";
+import {authAPI} from "../m3-dal/api";
+import {onErrorAC} from "./auth-reducer";
 
 
 type ActionType = SuccessfulActionType
@@ -33,11 +33,13 @@ export const responseInfo = (info: string) => ({type: "RESPONSE_INFO", info} as 
 export const recoveryPassword = (data: RequestRecoveryType) => (dispatch: Dispatch) => {
     authAPI.recoverPassword(data)
         .then(res => {
+            console.log('.then')
             dispatch(successful(true))
             dispatch(responseInfo(res.data.info))
         })
 
         .catch(err => {
+            console.log('.catch')
             dispatch(successful(false))
             const error = err.response
                 ? err.response.data.error : (err.message + ', more details in the console');

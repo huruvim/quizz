@@ -1,4 +1,4 @@
-import {AxiosResponseType} from "../co1-Login/auth-reducer";
+import {AxiosResponseType} from "./auth-reducer";
 
 const initialState: AxiosResponseType = {
     _id: '',

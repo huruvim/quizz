@@ -1,0 +1,76 @@
+import React, {ChangeEvent, FC, FormEvent, useState} from "react";
+import s from "./Login.module.css";
+import SuperInputText from "../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
+import SuperCheckbox from "../../i1-main/m1-ui/u4-components/SuperComponents/rc3-SuperCheckbox/SuperCheckbox";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../i1-main/m2-bll/store";
+import {emailChangedAC, InitialStateType, onSubmitTC, passwordChangedAC, rememberMeChangedAC} from "../../i1-main/m2-bll/auth-reducer";
+import {Redirect} from "react-router-dom";
+import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
+
+type PropsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    isLoggedIn?: boolean
+    onLoginChange: (value: string) => void
+    onPasswordChange: (value: string) => void
+    onRememberMeChange: (value: boolean) => void
+}
+
+
+export const Login: FC = () => {
+
+    const dispatch = useDispatch()
+    const state = useSelector<AppRootStateType, InitialStateType>(s => s.isLoggedIn)
+
+
+    const loginChange = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(emailChangedAC(e.currentTarget.value))
+    }
+
+    const PasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(passwordChangedAC(e.currentTarget.value))
+    }
+
+    const RememberMeChange = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(rememberMeChangedAC(e.currentTarget.checked))
+    }
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        dispatch(onSubmitTC({email: state.login, password: state.password, rememberMe: state.rememberMe}))
+    }
+
+
+    if (state.isLoggedIn) {
+        return <Redirect to={PATH.PROFILE}/>
+    }
+
+    return (
+        <div className={s.login}>
+
+            <form className={s.loginForm} onSubmit={handleSubmit}>
+                <label>
+                    <SuperInputText className={s.inputForm} onChange={loginChange} placeholder={'email'}
+                                    type={'email'} value={state.login} name={'login'}/>
+                </label>
+                <label>
+                    <SuperInputText className={s.inputForm} onChange={PasswordChange} placeholder={'password'}
+                                    type={'password'} value={state.password} name={'login'}/>
+                </label>
+                <label>
+                    <SuperCheckbox checked={state.rememberMe} onChange={RememberMeChange} name={'rememberMe'}>Remember me</SuperCheckbox>
+                </label>
+                <label>
+                    <SuperInputText type={'submit'} value={'Login'}/>
+                </label>
+                {state.error === ''
+                    ? <div className={s.message}>enter you email and password</div>
+                    : <div className={s.message}>{state.error}</div>
+                }
+            </form>
+
+        </div>
+    )
+}

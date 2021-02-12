@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import s from "./Recovery.module.css";
-import SuperInputText from "../SuperComponents/rc1-SuperInputText/SuperInputText";
-import SuperButton from "../SuperComponents/rc2-SuperButton/SuperButton";
+import SuperInputText from "../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
+import SuperButton from "../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
 import { ChangeEvent } from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {recoveryPassword, successful} from "./Recovery-reducer";
-import {AppRootStateType} from "../../../m2-bll/store";
+import {recoveryPassword, successful} from "../../i1-main/m2-bll/Recovery-reducer";
+import {AppRootStateType} from "../../i1-main/m2-bll/store";
 import {Redirect} from "react-router-dom";
-import {PATH} from "../../u3-routes/Routes";
+import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
 
 export const Recovery = () => {
 
@@ -16,6 +16,8 @@ export const Recovery = () => {
     const dispatch  = useDispatch()
 
     const [email, setEmail] = useState("test@email.nya")
+    const from = "ai73a@yandex.by"
+    const message = ''
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         dispatch(successful(null))
@@ -23,12 +25,13 @@ export const Recovery = () => {
     }
 
     const sendEmail = () => {
-        dispatch(recoveryPassword({email}))
+        dispatch(recoveryPassword({email, from, message}))
     }
+
     return (
         <div className={s.recovery}>
             <span className={s.title}>Forgot password ?</span>
-            <SuperInputText onChange={changeHandler} placeholder={"Enter you Email"}/>
+            <SuperInputText onChange={changeHandler} placeholder={"Enter you Email"} value={email}/>
             <SuperButton onClick={sendEmail} className={s.button}>Recover password</SuperButton>
             {isDone === null 
                 ? <div className={s.message}>enter you email</div> 

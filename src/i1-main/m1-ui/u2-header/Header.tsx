@@ -25,13 +25,6 @@ function Header() {
                     <NavLink className={s.title_nav} activeClassName={s.active} to={PATH.CREATE_NEW_PASSWORD}>Change
                         Password</NavLink>
                 </div>
-                <div className={s.nav_container}>
-                    <NavLink className={s.title_nav} activeClassName={s.active} to={PATH.TEST}>Super Buttons</NavLink>
-                </div>
-                <div className={s.nav_container}>
-                    <NavLink className={s.title_nav} activeClassName={s.active} to={'/404'}>404 Error</NavLink>
-                </div>
-
             </div>
         </div>
     )

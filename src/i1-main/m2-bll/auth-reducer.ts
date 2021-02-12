@@ -1,15 +1,15 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../../../m3-dal/api";
+import {authAPI} from "../m3-dal/api";
 import {AxiosResponse} from "axios";
-import {profileAC} from "../co3-Profile/profile-reducer";
+import {profileAC} from "./profile-reducer";
 
 type EMAIL_CHANGED = ReturnType<typeof emailChangedAC>
 type PASSWORD_CHANGED = ReturnType<typeof passwordChangedAC>
 type ON_SUBMIT = ReturnType<typeof onSubmitAC>
 type REMEMBER_ME = ReturnType<typeof rememberMeChangedAC>
-type ON_ERROR = ReturnType<typeof onErrorAC>
+export type ON_ERROR = ReturnType<typeof onErrorAC>
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 
 
 
@@ -36,8 +36,8 @@ export type AxiosResponseType = {
 }
 
 const initialState = {
-    login: '',
-    password: '',
+    login: 'nya-admin@nya.nya',
+    password: '1qazxcvBG',
     rememberMe: false,
     isLoggedIn: false,
     error: ''
@@ -67,7 +67,7 @@ const emailChanged = 'emailChanged'
 const passwordChanged = 'passwordChanged'
 const rememberMeChanged = 'rememberMeChanged'
 const onSubmit = 'onSubmit'
-const onError = 'onError'
+export const onError = 'onError'
 
 export const emailChangedAC = (value: string) => ({type: emailChanged, value} as const)
 export const passwordChangedAC = (value: string) => ({type: passwordChanged, value} as const)

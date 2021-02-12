@@ -1,10 +1,10 @@
 import React from "react";
 import s from "./Registration.module.css";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../../m2-bll/store";
-import {changeEmail, changePassword, createUserTC, InitialStateRegistrationType} from "./registration-reducer";
+import {AppRootStateType} from "../../i1-main/m2-bll/store";
+import {changeEmail, changePassword, createUserTC, InitialStateRegistrationType} from "../../i1-main/m2-bll/registration-reducer";
 import {Redirect} from "react-router-dom";
-import {PATH} from "../../u3-routes/Routes";
+import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
 
 export const Registration = () => {
     const state = useSelector<AppRootStateType, InitialStateRegistrationType>(state=>state.isRegistered)
@@ -34,6 +34,10 @@ export const Registration = () => {
                     <button onClick={requestData}>Send</button>
                 </div>
             </div>
+            {state.error === ''
+                ? <div className={s.message}>enter you email and password</div>
+                : <div className={s.message}>{state.error}</div>
+            }
         </div>
     )
 }

@@ -1,13 +1,12 @@
 import React from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
-import Error404 from "../u4-components/co4-Error404/Error404";
-import {Login} from "../u4-components/co1-Login/Login";
-import {Registration} from "../u4-components/co2-Registration/Registration";
-import {Profile} from "../u4-components/co3-Profile/Profile";
-import {Recovery} from "../u4-components/co5-Recovery/Recovery";
-import {CreateNewPassword} from "../u4-components/co5-Recovery/CreateNewPassword";
+import Error404 from "../u4-components/co2-Error404/Error404";
+import {Login} from "../../../i2-features/f1-Login/Login";
+import {Registration} from "../../../i2-features/f3-Registration/Registration";
+import {Profile} from "../u4-components/co1-Profile/Profile";
+import {Recovery} from "../../../i2-features/f2-Recovery/Recovery";
+import {CreateNewPassword} from "../../../i2-features/f2-Recovery/CreateNewPassword";
 import {Test} from "../../../i2-features/f0-test/Test";
-import LoginContainer from "../../../i2-features/f1 Login/LoginContainer";
 
 
 export const PATH = {
@@ -32,7 +31,7 @@ function Routes() {
                 {/*exact нужен чтоб указать полное совподение (что после "/" ничего не будет)*/}
                 {/*<Route path={"/"} exact render={() => <Redirect to={PATH.PROFILE}/>}/>*/}
                 <Route path={"/"} exact render={() => <Redirect to={PATH.PROFILE}/>}/>
-                <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>
+                <Route path={PATH.LOGIN} render={() => <Login/>}/>
                 <Route path={PATH.REGISTRATION} render={() => <Registration/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
                 <Route path={PATH.RECOVERY} render={() => <Recovery/>}/>
