@@ -35,19 +35,14 @@ function Routes() {
                 <Route path={PATH.REGISTRATION} render={() => <Registration/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
                 <Route path={PATH.RECOVERY} render={() => <Recovery/>}/>
-                <Route path={`${PATH.CREATE_NEW_PASSWORD}/:token`}  render={() => <CreateNewPassword/>}/>
+                <Route path={`${PATH.CREATE_NEW_PASSWORD}`}  render={() => <CreateNewPassword/>}/>
                 <Route path={PATH.RECOVERY} exact render={() => <Recovery/>}/>
                 <Route path={PATH.TEST} render={() => <Test/>}/>
 
 
                 <Route path={'/404'} render={() => <Error404/>}/>
 
-                {/*// add routes*/}
-
-                {/*у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу*/}
                 <Redirect from={'*'} to={'/404'}/>
-
-                {/*<Route render={() => <Error404/>}/>*/}
 
             </Switch>
         </div>

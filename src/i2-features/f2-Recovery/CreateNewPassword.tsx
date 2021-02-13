@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import s from "./CreateNewPassword.module.css";
 import {useDispatch, useSelector} from "react-redux";
-import {setNewPasswordTC, successful} from "../../i1-main/m2-bll/recovery-reducer";
+import {setNewPasswordTC} from "../../i1-main/m2-bll/recovery-reducer";
 import {AppRootStateType} from "../../i1-main/m2-bll/store";
 import SuperInputText from "../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
 import SuperButton from "../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
