@@ -14,7 +14,7 @@ type InfoType = {
     isNewPasswordSet: boolean
 }
 type ParamTypes = {
-    token: string
+    resetPasswordToken: string
 }
 
 export const CreateNewPassword = () => {
@@ -25,13 +25,13 @@ export const CreateNewPassword = () => {
     //зануление свойство isDone для поподания обратно на страницу восстановления пароля
     // dispatch(successful(false))
 
-    const {token} = useParams<ParamTypes>()
-    console.log(token)
+    const {resetPasswordToken} = useParams<ParamTypes>()
+    console.log(resetPasswordToken)
 
     const changePassword = () => {
         console.log('you are inside changePassword fn')
-        dispatch(setNewPasswordTC({password, token}))
-        console.log('inside the function',token)
+        dispatch(setNewPasswordTC({password, resetPasswordToken}))
+        console.log('inside the function',resetPasswordToken)
     }
     const createPassword = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.currentTarget.value)

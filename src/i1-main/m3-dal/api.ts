@@ -36,7 +36,7 @@ export type ResponseType = {
 }
 export type SetNewPasswordRequestType = {
     password: string
-    token: string
+    resetPasswordToken: string
 }
 export type SetNewPasswordResponseType = {
     info: string
