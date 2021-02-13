@@ -21,10 +21,10 @@ function Header() {
                     <NavLink className={s.title_nav} activeClassName={s.active} to={PATH.RECOVERY}>Forgot
                         Password?</NavLink>
                 </div>
-                <div className={s.nav_container}>
-                    <NavLink className={s.title_nav} activeClassName={s.active} to={PATH.CREATE_NEW_PASSWORD}>Change
-                        Password</NavLink>
-                </div>
+                {/*<div className={s.nav_container}>*/}
+                {/*    <NavLink className={s.title_nav} activeClassName={s.active} to={PATH.CREATE_NEW_PASSWORD}>Change*/}
+                {/*        Password</NavLink>*/}
+                {/*</div>*/}
             </div>
         </div>
     )

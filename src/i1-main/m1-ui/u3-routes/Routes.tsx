@@ -14,8 +14,8 @@ export const PATH = {
     REGISTRATION: '/registration',
     PROFILE: '/profile',
     RECOVERY: '/recovery',
-    CREATE_NEW_PASSWORD: '/create_new_password',
-    TEST: '/super_inputs'
+    CREATE_NEW_PASSWORD: '/create-new-password',
+    TEST: '/super-inputs'
 
 
 
