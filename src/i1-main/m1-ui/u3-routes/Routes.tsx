@@ -14,8 +14,8 @@ export const PATH = {
     REGISTRATION: '/registration',
     PROFILE: '/profile',
     RECOVERY: '/recovery',
-    CREATE_NEW_PASSWORD: '/create-new-password',
-    TEST: '/super-inputs'
+    CREATE_NEW_PASSWORD: '/create_new_password',
+    TEST: '/super_inputs'
 
 
 
@@ -34,7 +34,7 @@ function Routes() {
                 <Route path={PATH.LOGIN} render={() => <Login/>}/>
                 <Route path={PATH.REGISTRATION} render={() => <Registration/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
-                <Route path={PATH.RECOVERY} render={() => <Recovery/>}/>
+                {/*<Route path={PATH.RECOVERY} render={() => <Recovery/>}/>*/}
                 <Route path={`${PATH.CREATE_NEW_PASSWORD}/:token`}  render={() => <CreateNewPassword/>}/>
                 <Route path={PATH.RECOVERY} exact render={() => <Recovery/>}/>
                 <Route path={PATH.TEST} render={() => <Test/>}/>
