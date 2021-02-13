@@ -35,7 +35,7 @@ function Routes() {
                 <Route path={PATH.REGISTRATION} render={() => <Registration/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
                 <Route path={PATH.RECOVERY} render={() => <Recovery/>}/>
-                <Route path={PATH.CREATE_NEW_PASSWORD} render={() => <CreateNewPassword/>}/>
+                <Route path={`${PATH.CREATE_NEW_PASSWORD}/:token`} render={() => <CreateNewPassword/>}/>
                 <Route path={PATH.TEST} render={() => <Test/>}/>
 
 
