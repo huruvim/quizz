@@ -17,7 +17,7 @@ export const Recovery = () => {
     const [email, setEmail] = useState("test@email.nya")
     const from = "ai73a@yandex.by"
     let message: `<div style="background-color: lime; padding: 15px">	
-password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a></div>`
+password recovery link: <a href='http://localhost:3000/cards-fr#/create_new_password/$token$'>link</a></div>`
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         dispatch(successful(false))
