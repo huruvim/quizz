@@ -51,12 +51,8 @@ export const authAPI = {
         return instance.post<AxiosResponseType>('auth/login', data)
     },
     setNewPassword(data: SetNewPasswordRequestType) {
-        debugger
         return instance.post<SetNewPasswordResponseType>('auth/set-new-password', data)
     },
-}
-
-export const RegistrationAPI = {
     signUp(data: RequestType) {
         return instance.post<ResponseType>('auth/register', data)
     },

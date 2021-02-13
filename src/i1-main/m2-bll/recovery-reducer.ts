@@ -63,8 +63,8 @@ export const recoveryPassword = (data: RequestRecoveryType) => (dispatch: Dispat
 }
 
     export const setNewPasswordTC = (data: SetNewPasswordRequestType) => (dispatch: Dispatch) => {
-    debugger
     authAPI.setNewPassword(data)
+
         .then((res) => {
             debugger
             console.log('.then')
@@ -74,8 +74,7 @@ export const recoveryPassword = (data: RequestRecoveryType) => (dispatch: Dispat
         })
 
         .catch((err) => {
-            debugger
-            // console.log('.catch')
+            console.log('')
             dispatch(successful(false))
             const error = err.response
                 ? err.response.data.error : (err.message + ', more details in the console');

@@ -7,6 +7,7 @@ import {Profile} from "../u4-components/co1-Profile/Profile";
 import {Recovery} from "../../../i2-features/f2-Recovery/Recovery";
 import {CreateNewPassword} from "../../../i2-features/f2-Recovery/CreateNewPassword";
 import {Test} from "../../../i2-features/f0-test/Test";
+import {Logout} from "../../../i2-features/f1-Login/Logout";
 
 
 export const PATH = {
@@ -15,7 +16,8 @@ export const PATH = {
     PROFILE: '/profile',
     RECOVERY: '/recovery',
     CREATE_NEW_PASSWORD: '/create_new_password',
-    TEST: '/super_inputs'
+    TEST: '/super_inputs',
+    LOGOUT: '/logout'
 
 
 
@@ -27,7 +29,7 @@ function Routes() {
         <div>
             {/*Switch выбирает первый подходящий роут*/}
             <Switch>
-                {/*в начале мы попадаем на страницу "/" и переходим сразу на страницу PRE_JUNIOR*/}
+                 {/*в начале мы попадаем  на страницу "/" и переходим сразу на страницу PRE_JUNIOR*/}
                 {/*exact нужен чтоб указать полное совподение (что после "/" ничего не будет)*/}
                 {/*<Route path={"/"} exact render={() => <Redirect to={PATH.PROFILE}/>}/>*/}
                 <Route path={"/"} exact render={() => <Redirect to={PATH.PROFILE}/>}/>
@@ -38,6 +40,7 @@ function Routes() {
                 <Route path={`${PATH.CREATE_NEW_PASSWORD}/:resetPasswordToken`}  render={() => <CreateNewPassword/>}/>
                 <Route path={PATH.RECOVERY} exact render={() => <Recovery/>}/>
                 <Route path={PATH.TEST} render={() => <Test/>}/>
+                <Route path={PATH.LOGOUT} render={() => <Logout/>}/>
 
 
                 <Route path={'/404'} render={() => <Error404/>}/>

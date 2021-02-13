@@ -8,6 +8,7 @@ type PASSWORD_CHANGED = ReturnType<typeof passwordChangedAC>
 type ON_SUBMIT = ReturnType<typeof onSubmitAC>
 type REMEMBER_ME = ReturnType<typeof rememberMeChangedAC>
 export type ON_ERROR = ReturnType<typeof onErrorAC>
+export type ON_LOGOUT = ReturnType<typeof onLogoutAC>
 
 export type InitialStateType = typeof initialState
 
@@ -36,8 +37,8 @@ export type AxiosResponseType = {
 }
 
 const initialState = {
-    login: 'nya-admin@nya.nya',
-    password: '1qazxcvBG',
+    login: 'valentyn.333k@gmail.com',
+    password: '111qwe222',
     rememberMe: false,
     isLoggedIn: false,
     error: ''
@@ -45,6 +46,7 @@ const initialState = {
 
 
 type ActionsType = EMAIL_CHANGED | PASSWORD_CHANGED | ON_SUBMIT | REMEMBER_ME | ON_ERROR
+ | ON_LOGOUT
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
@@ -55,7 +57,9 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
         case rememberMeChanged:
             return {...state, rememberMe: action.value}
         case onSubmit:
-            return {...state, isLoggedIn: true}
+            return {...state, isLoggedIn: action.value}
+        case onLogout:
+            return {...state, isLoggedIn: action.value}
         case onError:
             return {...state, error: action.error}
         default:
@@ -68,11 +72,13 @@ const passwordChanged = 'passwordChanged'
 const rememberMeChanged = 'rememberMeChanged'
 const onSubmit = 'onSubmit'
 export const onError = 'onError'
+export const onLogout = 'onLogout'
 
 export const emailChangedAC = (value: string) => ({type: emailChanged, value} as const)
 export const passwordChangedAC = (value: string) => ({type: passwordChanged, value} as const)
 export const rememberMeChangedAC = (value: boolean) => ({type: rememberMeChanged, value} as const)
-export const onSubmitAC = () => ({type: onSubmit} as const)
+export const onSubmitAC = () => ({type: onSubmit, value: true} as const)
+export const onLogoutAC = () => ({type: onLogout, value: false} as const)
 export const onErrorAC  = (error: string) => ({type: onError, error} as const)
 
 
@@ -88,7 +94,6 @@ export const onSubmitTC = (data: LoginType) => (dispatch: Dispatch) => {
         })
 
         .catch((err) => {
-            // console.log('you have not logged in')
             const error = err.response
             ? err.response.data.error : (err.message + ', more details in the console');
             dispatch(onErrorAC(error))

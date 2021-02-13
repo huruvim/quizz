@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {RegistrationAPI, RequestType} from "../m3-dal/api";
+import {authAPI, RequestType} from "../m3-dal/api";
 import {ON_ERROR, onError, onErrorAC} from "./auth-reducer";
 
 const CHANGE_EMAIL = 'CHANGE_EMAIL',
@@ -48,7 +48,7 @@ const checkRegistration = (isRegistered: boolean) => ({type: IS_REGISTRATION, is
 
 //tc
 export const createUserTC = (dataRegistration: RequestType) => (dispatch: Dispatch) => {
-    RegistrationAPI.signUp({email: dataRegistration.email, password: dataRegistration.password})
+    authAPI.signUp({email: dataRegistration.email, password: dataRegistration.password})
         .then((res) => {
             if (res.status === 201) {
                 dispatch(checkRegistration(true))

@@ -1,8 +1,11 @@
 .recovery {
-    margin-top: 100px;
+    padding: 20px;
+    margin: 20px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    max-width: 1400px;
 }
 .title {
     font-size: 18px;
