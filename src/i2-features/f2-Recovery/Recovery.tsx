@@ -16,7 +16,7 @@ export const Recovery = () => {
 
     const [email, setEmail] = useState("valentyn.333k@gmail.com")
     const from = "neko.nyakus.cafe@gmail.com"
-    let message: `<div>password recovery link: <a href='http://localhost:3000/cards-fr#/create_new_password/$token$'>link</a></div>`
+    let message = `<div>password recovery link: <a href='http://localhost:3000/cards-fr#/create_new_password/$token$'>link</a></div>`
     //"<div>password recovery link:<a href='http://localhost:3000/#/new-password/$token$'>link</a></div>"
 
 
