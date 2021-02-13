@@ -8,7 +8,7 @@ import {AppRootStateType} from "../../i1-main/m2-bll/store";
 
 export const Recovery = () => {
 
-    const isDone = useSelector<AppRootStateType, boolean | null>( state => state.recovery.isDone)
+    // const isDone = useSelector<AppRootStateType, boolean | null>( state => state.recovery.isDone)
     const error = useSelector<AppRootStateType, string>(state=>state.isLoggedIn.error)
     const dispatch  = useDispatch()
 
@@ -35,11 +35,6 @@ password recovery link: <a href='http://localhost:3000/#/set-new-password/$token
                 ? <div className={s.message}>{error}</div>
                 : null
             }
-        {/*    {isDone === null
-            ? <div className={s.message}>enter you email</div>
-            : isDone
-                ? <Redirect to={PATH.CREATE_NEW_PASSWORD}  />
-                : <div className={s.message}>email incorrect {error}</div>}    */}
         </div>
     )
 }

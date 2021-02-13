@@ -33,7 +33,14 @@ export type ResponseType = {
     status: number
     statusText: string
     error?: string
-
+}
+export type SetNewPasswordRequestType = {
+    password: string
+    token: string
+}
+export type SetNewPasswordResponseType = {
+    info: string
+    error: string;
 }
 
 export const authAPI = {
@@ -42,6 +49,9 @@ export const authAPI = {
     },
     login(data: LoginType) {
         return instance.post<AxiosResponseType>('auth/login', data)
+    },
+    setNewPassword(data: SetNewPasswordRequestType) {
+        return instance.post<SetNewPasswordResponseType>('auth/set-new-password', data)
     },
 }
 
