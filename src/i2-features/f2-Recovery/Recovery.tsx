@@ -5,10 +5,12 @@ import SuperButton from "../../i1-main/m1-ui/u4-components/SuperComponents/rc2-S
 import {useDispatch, useSelector} from "react-redux";
 import {recoveryPassword, successful} from "../../i1-main/m2-bll/recovery-reducer";
 import {AppRootStateType} from "../../i1-main/m2-bll/store";
+import {Redirect} from "react-router-dom";
+import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
 
 export const Recovery = () => {
 
-    // const isDone = useSelector<AppRootStateType, boolean | null>( state => state.recovery.isDone)
+    const isDone = useSelector<AppRootStateType, boolean | null>( state => state.recovery.isDone)
     const error = useSelector<AppRootStateType, string>(state=>state.isLoggedIn.error)
     const dispatch  = useDispatch()
 
@@ -18,12 +20,16 @@ export const Recovery = () => {
 password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a></div>`
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(successful(null))
+        dispatch(successful(false))
         setEmail(event.currentTarget.value)
     }
 
     const sendEmail = () => {
         dispatch(recoveryPassword({email, from, message}))
+    }
+
+    if (isDone) {
+        return <Redirect to={PATH.CREATE_NEW_PASSWORD}/>
     }
 
     return (

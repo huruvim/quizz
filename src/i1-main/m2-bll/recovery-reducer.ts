@@ -12,7 +12,7 @@ type ActionType = SuccessfulActionType | ResponseRecoveryActionType | ResponseSe
 | SetNewPasswordActionType
 
 const initialState = {
-    isDone: null,
+    isDone: false,
     recoveryInfo: "",
     setNewPasswordInfo: "",
     isNewPasswordSet: false
@@ -27,7 +27,7 @@ const SET_NEW_PASSWORD = 'SET_NEW_PASSWORD'
 export const recoveryReducer = (state: RecoveryStateType = initialState, action: ActionType): RecoveryStateType => {
     switch (action.type) {
         case SUCCESSFUL:
-            return <RecoveryStateType>{...state, isDone: action.value}
+            return {...state, isDone: action.value}
         case RESPONSE_RECOVERY_INFO:
             return {...state, recoveryInfo: action.info}
         case RESPONSE_SET_NEW_PASSWORD_INFO:
@@ -39,7 +39,7 @@ export const recoveryReducer = (state: RecoveryStateType = initialState, action:
     }
 }
 
-export const successful = (value: boolean | null) => ({type: SUCCESSFUL, value} as const)
+export const successful = (value: boolean) => ({type: SUCCESSFUL, value} as const)
 export const responseRecoveryInfo = (info: string) => ({type: RESPONSE_RECOVERY_INFO, info} as const)
 export const responseSetNewPasswordInfo = (info: string) => ({type: RESPONSE_SET_NEW_PASSWORD_INFO, info} as const)
 export const setNewPassword = () => ({type: SET_NEW_PASSWORD} as const)
