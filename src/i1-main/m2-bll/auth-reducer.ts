@@ -73,7 +73,7 @@ export const emailChangedAC = (value: string) => ({type: emailChanged, value} as
 export const passwordChangedAC = (value: string) => ({type: passwordChanged, value} as const)
 export const rememberMeChangedAC = (value: boolean) => ({type: rememberMeChanged, value} as const)
 export const onSubmitAC = () => ({type: onSubmit} as const)
-export const onErrorAC = (error: string) => ({type: onError, error} as const)
+export const onErrorAC  = (error: string) => ({type: onError, error} as const)
 
 
 
