@@ -1,12 +1,12 @@
 import React from "react";
 import s from "./Registration.module.css";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../i1-main/m2-bll/store";
-import {changeEmail, changePassword, createUserTC, InitialStateRegistrationType} from "../../i1-main/m2-bll/registration-reducer";
+import {AppRootStateType} from "../../../i1-main/m2-bll/store";
+import {changeEmail, changePassword, createUserTC, InitialStateRegistrationType} from "../../../i1-main/m2-bll/registration-reducer";
 import {Redirect} from "react-router-dom";
-import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
-import SuperButton from "../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
-import SuperInputText from "../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
+import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
+import SuperButton from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
+import SuperInputText from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
 
 export const Registration = () => {
     const state = useSelector<AppRootStateType, InitialStateRegistrationType>(state=>state.isRegistered)

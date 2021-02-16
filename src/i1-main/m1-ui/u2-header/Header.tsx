@@ -31,6 +31,9 @@ function Header() {
                         <NavLink className={s.title_nav} activeClassName={s.active} to={PATH.PROFILE}>Profile</NavLink>
                     </div>
                     <div className={s.nav_container}>
+                        <NavLink className={s.title_nav} activeClassName={s.active} to={PATH.TABLE}>Table</NavLink>
+                    </div>
+                    <div className={s.nav_container}>
                         <NavLink className={s.title_nav} activeClassName={s.active} to={PATH.LOGOUT}>Logout</NavLink>
                     </div>
                 </div>

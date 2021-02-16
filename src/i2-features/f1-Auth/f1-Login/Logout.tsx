@@ -1,9 +1,9 @@
 import React, {FC, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../i1-main/m2-bll/store";
-import {onLogoutAC} from "../../i1-main/m2-bll/auth-reducer";
+import {AppRootStateType} from "../../../i1-main/m2-bll/store";
+import {onLogoutAC} from "../../../i1-main/m2-bll/auth-reducer";
 import {Redirect} from "react-router-dom";
-import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
+import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
 
 export const Logout: FC = () => {
 

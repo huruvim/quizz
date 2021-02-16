@@ -6,6 +6,7 @@ import {registrationReducer} from "./registration-reducer";
 
 import {recoveryReducer} from "./recovery-reducer";
 import thunk from 'redux-thunk';
+import {packsReducer} from "../../i2-features/f2-Table/t1-Packs/packs-reducer";
 
 
 
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     isLoggedIn: authReducer,
     profile: profileReducer,
     isRegistered: registrationReducer,
-    recovery: recoveryReducer
+    recovery: recoveryReducer,
+    packs: packsReducer
 })
 
 

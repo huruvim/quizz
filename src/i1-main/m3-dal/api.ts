@@ -6,9 +6,9 @@ import {AxiosResponseType, LoginType} from "../m2-bll/auth-reducer";
 //"http://localhost:7542/2.0/"
 
 // 'valentyn.333k@gmail.com'
-// '123123123'
+// '111qwe222'
 const instance  = axios.create ({
-    baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    baseURL: 'http://localhost:7542/2.0/',
     withCredentials: true,
 })
 export type RequestRecoveryType = {
@@ -43,6 +43,44 @@ export type SetNewPasswordResponseType = {
     error: string;
 }
 
+export type CardPacksType = {
+    "_id": string,
+    "user_id": string,
+    "user_name": string,
+    "private": boolean,
+    "name": string,
+    "path": string,
+    "grade": number,
+    "shots": number,
+    "cardsCount": number,
+    "type": string,
+    "rating": number,
+    "created": string,
+    "updated": string,
+    "more_id": string,
+    "__v": number
+}
+
+export type PacksResponseType = {
+    cardPacks: Array<CardPacksType>
+    cardPacksTotalCount: number
+    maxCardsCount: number
+    minCardsCount: number
+    page: number
+    pageCount: number
+    token: string
+    tokenDeathTime: number
+}
+
+export type PaginationType = {
+    cardPacksTotalCount: number
+    maxCardsCount: number
+    minCardsCount: number
+    page: number
+    pageCount: number
+    token: string
+}
+
 export const authAPI = {
     recoverPassword(data: RequestRecoveryType) {
         return  instance.post<RecoveryResponseType>('auth/forgot', data)
@@ -58,5 +96,18 @@ export const authAPI = {
     },
     ping() {
         return instance.get('ping')
+    }
+}
+
+export const cardsAPI = {
+    packs() {
+        // debugger
+        return instance.get(`cards/pack?pageCount=100`)
+        //?packName=english // не обязательно
+        // &min=3 // не обязательно
+        // &max=9 // не обязательно
+        // &sortPacks=0updated // не обязательно
+        // &page=1 // не обязательно
+        // &pageCount=4 // не обязательно
     }
 }

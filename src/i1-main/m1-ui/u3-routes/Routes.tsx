@@ -1,13 +1,13 @@
 import React from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
 import Error404 from "../u4-components/co2-Error404/Error404";
-import {Login} from "../../../i2-features/f1-Login/Login";
-import {Registration} from "../../../i2-features/f3-Registration/Registration";
+import {Login} from "../../../i2-features/f1-Auth/f1-Login/Login";
+import {Registration} from "../../../i2-features/f1-Auth/f3-Registration/Registration";
 import {Profile} from "../u4-components/co1-Profile/Profile";
-import {Recovery} from "../../../i2-features/f2-Recovery/Recovery";
-import {CreateNewPassword} from "../../../i2-features/f2-Recovery/CreateNewPassword";
-import {Test} from "../../../i2-features/f0-test/Test";
-import {Logout} from "../../../i2-features/f1-Login/Logout";
+import {Recovery} from "../../../i2-features/f1-Auth/f2-Recovery/Recovery";
+import {CreateNewPassword} from "../../../i2-features/f1-Auth/f2-Recovery/CreateNewPassword";
+import {Logout} from "../../../i2-features/f1-Auth/f1-Login/Logout";
+import {TableWrapper} from "../../../i2-features/f2-Table/TableWrapper";
 
 
 export const PATH = {
@@ -16,8 +16,8 @@ export const PATH = {
     PROFILE: '/profile',
     RECOVERY: '/recovery',
     CREATE_NEW_PASSWORD: '/create_new_password',
-    TEST: '/super_inputs',
-    LOGOUT: '/logout'
+    LOGOUT: '/logout',
+    TABLE: '/table'
 
 
 
@@ -39,8 +39,8 @@ function Routes() {
                 {/*<Route path={PATH.RECOVERY} render={() => <Recovery/>}/>*/}
                 <Route path={`${PATH.CREATE_NEW_PASSWORD}/:resetPasswordToken`}  render={() => <CreateNewPassword/>}/>
                 <Route path={PATH.RECOVERY} exact render={() => <Recovery/>}/>
-                <Route path={PATH.TEST} render={() => <Test/>}/>
                 <Route path={PATH.LOGOUT} render={() => <Logout/>}/>
+                <Route path={PATH.TABLE} render={() => <TableWrapper/>}/>
 
 
                 <Route path={'/404'} render={() => <Error404/>}/>

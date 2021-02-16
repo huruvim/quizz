@@ -1,12 +1,12 @@
 import React, {ChangeEvent, useState} from "react";
 import s from "./Recovery.module.css";
-import SuperInputText from "../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
-import SuperButton from "../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
+import SuperInputText from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
+import SuperButton from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
-import {recoveryPassword, successful} from "../../i1-main/m2-bll/recovery-reducer";
-import {AppRootStateType} from "../../i1-main/m2-bll/store";
+import {recoveryPassword, successful} from "../../../i1-main/m2-bll/recovery-reducer";
+import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {Redirect} from "react-router-dom";
-import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
+import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
 
 export const Recovery = () => {
 

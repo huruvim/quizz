@@ -1,19 +1,19 @@
 import React, {ChangeEvent, FC, FormEvent} from "react";
 import s from "./Login.module.css";
-import SuperInputText from "../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
-import SuperCheckbox from "../../i1-main/m1-ui/u4-components/SuperComponents/rc3-SuperCheckbox/SuperCheckbox";
+import SuperInputText from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
+import SuperCheckbox from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc3-SuperCheckbox/SuperCheckbox";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../i1-main/m2-bll/store";
+import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {
     emailChangedAC,
     InitialStateType,
     onSubmitTC,
     passwordChangedAC,
     rememberMeChangedAC
-} from "../../i1-main/m2-bll/auth-reducer";
+} from "../../../i1-main/m2-bll/auth-reducer";
 import {Redirect} from "react-router-dom";
-import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
-import SuperButton from "../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
+import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
+import SuperButton from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
 
 export const Login: FC = () => {
 
