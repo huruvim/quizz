@@ -1,21 +1,43 @@
-import React, {useEffect} from 'react';
-import {Space, Table} from "antd";
+import React, {ChangeEvent, useEffect, useState} from 'react';
+import {Modal, Button, Layout, Space, Table, Input} from "antd";
+import { Slider, Switch } from 'antd';
+import style from "./TableWrapper.module.css"
 import 'antd/dist/antd.css';
 import {CardPacksType} from "../../i1-main/m3-dal/api";
 import {useDispatch, useSelector} from "react-redux";
-import {getCardsTC} from './t1-Packs/packs-reducer';
+import {addPackTC, getCardsTC} from './t1-Packs/packs-reducer';
 import {AppRootStateType} from "../../i1-main/m2-bll/store";
+import {Content, Header} from "antd/es/layout/layout";
+import { NavLink } from 'react-router-dom';
 
 export const TableWrapper = () => {
+
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [packName, setPackName] = useState("")
 
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
 
     const dispatch = useDispatch()
 
+    const handleSetName = (event: ChangeEvent<HTMLInputElement>) => {
+      setPackName(event.currentTarget.value)
+    }
+
     useEffect(() => {
-        debugger
         dispatch(getCardsTC())
     }, [dispatch])
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+        dispatch(addPackTC({name: packName}))
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
 
     const columns = [
         //Название Колоды
@@ -24,6 +46,7 @@ export const TableWrapper = () => {
             dataIndex: 'name',
             key: 'name',
             width: '20px',
+            render: (text: string) => <NavLink to={"/pack"}>{text}</NavLink>
         },
         //Оценка колоды
         {
@@ -62,9 +85,8 @@ export const TableWrapper = () => {
             key: 'action',
             render: () => (
                 <Space size="middle">
-                    <a>Add to basket</a>
-                    <a>Update</a>
-                    <a>Delete</a>
+                    <Button>Update</Button>
+                    <Button>Delete</Button>
                 </Space>
             ),
         },
@@ -74,10 +96,9 @@ export const TableWrapper = () => {
     const data = state.map((pack) => ({
         name: pack.name,
         cardsCount: pack.cardsCount,
-        lastUpdate: pack.updated,
-        grade: pack.grade
-
-
+        lastUpdate: pack.updated.substr(0, 10).replace(/-/g, " "),
+        grade: pack.grade,
+        key: pack._id
     }))
 
 
@@ -90,14 +111,28 @@ export const TableWrapper = () => {
     // }
     return (
         <>
-            <Table
-                dataSource={data}
-                columns={columns}
-                bordered
-                pagination={{ position: ['topRight'], defaultPageSize: 10, pageSizeOptions: ['3', '5', '10', '20', '25'] }}
-                // onChange={onChange}
-
-        />
+            <Layout>
+                {/*<Header style={{backgroundColor: "#ffffff"}}>*/}
+                {/*    <Slider range defaultValue={[0, 100]}/>*/}
+                {/*</Header>*/}
+                <Button onClick={showModal} >Add Pack</Button>
+                <Modal title="Add Pack" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                    <span>Pack name: </span><Input onChange={handleSetName}/>
+                </Modal>
+                <Content>
+                <Table
+                    dataSource={data}
+                    columns={columns}
+                    bordered
+                    pagination={{
+                        position: ['topRight'],
+                        defaultPageSize: 10,
+                        pageSizeOptions: ['3', '5', '10', '20', '25']
+                    }}
+                    //onChange={onChange}
+                />
+                </Content>
+            </Layout>
         </>
     )
 }

@@ -72,13 +72,24 @@ export type PacksResponseType = {
     tokenDeathTime: number
 }
 
-export type PaginationType = {
-    cardPacksTotalCount: number
-    maxCardsCount: number
-    minCardsCount: number
-    page: number
-    pageCount: number
-    token: string
+// export type PaginationType = {
+//     cardPacksTotalCount: number
+//     maxCardsCount: number
+//     minCardsCount: number
+//     page: number
+//     pageCount: number
+//     token: string
+// }
+
+export type RequestPackType = {
+    name?: string
+    path?: string
+    grade?: number
+    shots?: number
+    rating?: number
+    deckCover?: string
+    private?: boolean
+    type?: string
 }
 
 export const authAPI = {
@@ -109,5 +120,8 @@ export const cardsAPI = {
         // &sortPacks=0updated // не обязательно
         // &page=1 // не обязательно
         // &pageCount=4 // не обязательно
+    },
+    packsAdd(data: RequestPackType) {
+        return instance.post(`cards/pack`, {cardsPack: data})
     }
 }

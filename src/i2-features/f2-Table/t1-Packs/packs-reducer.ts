@@ -1,5 +1,10 @@
-import {CardPacksType, cardsAPI, PacksResponseType} from "../../../i1-main/m3-dal/api";
-import {Dispatch} from "redux";
+import {
+    CardPacksType,
+    cardsAPI,
+    PacksResponseType,
+    RequestPackType
+} from "../../../i1-main/m3-dal/api";
+import {AnyAction, Dispatch} from "redux";
 import {AxiosResponse} from "axios";
 
 const initialState = {
@@ -46,5 +51,13 @@ export const getCardsTC = () => (dispatch: Dispatch) => {
         .catch((err) => {
             console.log('youu fucked up', err)
 
+        })
+}
+
+export const addPackTC = (data: RequestPackType) => (dispatch: Dispatch) => {
+    cardsAPI.packsAdd(data)
+        .then((res: AxiosResponse) => {
+            // @ts-ignore
+            dispatch(getCardsTC());
         })
 }
