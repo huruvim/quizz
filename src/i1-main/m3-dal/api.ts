@@ -8,7 +8,7 @@ import {AxiosResponseType, LoginType} from "../m2-bll/auth-reducer";
 // 'valentyn.333k@gmail.com'
 // '111qwe222'
 const instance  = axios.create ({
-    baseURL: 'http://localhost:7542/2.0/',
+    baseURL: 'https://neko-back.herokuapp.com/2.0/',
     withCredentials: true,
 })
 export type RequestRecoveryType = {
@@ -92,6 +92,60 @@ export type RequestPackType = {
     type?: string
 }
 
+export type RespondCardsType = {
+    cards: Array<RespondCardType>
+    cardsTotalCount: number
+    maxGrade: number
+    minGrade: number
+    page: number
+    pageCount: number
+    packUserId: string
+}
+
+export type RespondCardType = {
+    answer: string
+    question: string
+    cardsPack_id: string
+    grade: number
+    rating: number
+    shots: number
+    type: string
+    user_id: string
+    created: string
+    updated: string
+    __v: number
+    _id: string
+}
+
+type CardsSetting = {
+
+}
+
+export type RequestCardType = {
+    cardsPack_id: string
+}
+export type NewCardType = {
+    answer: string
+    cardsPack_id: string
+    comments: string
+    created: string
+    grade: number
+    more_id: string
+    question: string
+    rating: number
+    shots: number
+    type: string
+    updated: string
+    user_id: string
+    __v: number
+    _id: string
+}
+export type OnCardAddType = {
+    newCard: NewCardType
+    token: string
+    tokenDeathTime: number
+}
+
 export const authAPI = {
     recoverPassword(data: RequestRecoveryType) {
         return  instance.post<RecoveryResponseType>('auth/forgot', data)
@@ -123,5 +177,17 @@ export const cardsAPI = {
     },
     packsAdd(data: RequestPackType) {
         return instance.post(`cards/pack`, {cardsPack: data})
+    },
+    cards(data: string) {
+        debugger
+        return instance.get(`cards/card/?cardsPack_id=${data}`)
+    },
+    cardAdd(data: {}) {
+        debugger
+        return instance.post(`cards/card/`, {card: data})
+    },
+    cardDelete(data: string) {
+        debugger
+        return instance.delete(`cards/card/?id=${data}`)
     }
 }

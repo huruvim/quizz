@@ -37,8 +37,8 @@ export type AxiosResponseType = {
 }
 
 const initialState = {
-    login: 'vakriv91@testgmail.com',
-    password: '11112222',
+    login: 'valentyn.333k@gmail.com',
+    password: '111qwe222',
     rememberMe: false,
     isLoggedIn: false,
     error: ''

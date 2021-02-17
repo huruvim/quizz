@@ -3,10 +3,10 @@ import {testReducer} from "./test-reducer";
 import {authReducer} from "./auth-reducer";
 import {profileReducer} from "./profile-reducer";
 import {registrationReducer} from "./registration-reducer";
-
 import {recoveryReducer} from "./recovery-reducer";
 import thunk from 'redux-thunk';
 import {packsReducer} from "../../i2-features/f2-Table/t1-Packs/packs-reducer";
+import {cardsReducer} from "../../i2-features/f2-Table/t2-Cards/cards-reducer";
 
 
 
@@ -16,7 +16,8 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     isRegistered: registrationReducer,
     recovery: recoveryReducer,
-    packs: packsReducer
+    packs: packsReducer,
+    cards: cardsReducer
 })
 
 

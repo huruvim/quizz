@@ -39,7 +39,7 @@ const getCardPacks = 'getCardPacks'
 export const cardPacksAC = (data: Array<CardPacksType>) => ({ type: getCardPacks, data } as const )
 
 //tc
-export const getCardsTC = () => (dispatch: Dispatch) => {
+export const getPacksTC = () => (dispatch: Dispatch) => {
     cardsAPI.packs()
         .then((res:AxiosResponse<PacksResponseType>) => {
             // debugger
@@ -58,6 +58,6 @@ export const addPackTC = (data: RequestPackType) => (dispatch: Dispatch) => {
     cardsAPI.packsAdd(data)
         .then((res: AxiosResponse) => {
             // @ts-ignore
-            dispatch(getCardsTC());
+            dispatch(getPacksTC());
         })
 }
