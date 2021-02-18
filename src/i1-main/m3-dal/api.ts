@@ -121,7 +121,14 @@ export const cardsAPI = {
         // &page=1 // не обязательно
         // &pageCount=4 // не обязательно
     },
-    packsAdd(data: RequestPackType) {
+    packAdd(data: RequestPackType) {
+        debugger
         return instance.post(`cards/pack`, {cardsPack: data})
+    },
+    packDelete(id?: string) {
+        return instance.delete(`cards/pack?id=${id}`)
+    },
+    packUpdate(data: {_id: string, name?: string}) {
+        return instance.put(`cards/pack`, {cardsPack: data})
     }
 }

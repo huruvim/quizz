@@ -1,14 +1,14 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {Modal, Button, Layout, Space, Table, Input} from "antd";
-import { Slider, Switch } from 'antd';
-import style from "./TableWrapper.module.css"
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import {CardPacksType} from "../../i1-main/m3-dal/api";
 import {useDispatch, useSelector} from "react-redux";
-import {addPackTC, getCardsTC} from './t1-Packs/packs-reducer';
+import {addPackTC, currentPackIdAC, deletePackTC, getCardsTC, updatePack} from './t1-Packs/packs-reducer';
 import {AppRootStateType} from "../../i1-main/m2-bll/store";
-import {Content, Header} from "antd/es/layout/layout";
+import {Content} from "antd/es/layout/layout";
 import { NavLink } from 'react-router-dom';
+
 
 export const TableWrapper = () => {
 
@@ -16,28 +16,56 @@ export const TableWrapper = () => {
     const [packName, setPackName] = useState("")
 
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
+    const currentId = useSelector<AppRootStateType, string>(s => s.packs.cardsPack_id)
 
     const dispatch = useDispatch()
-
-    const handleSetName = (event: ChangeEvent<HTMLInputElement>) => {
-      setPackName(event.currentTarget.value)
-    }
 
     useEffect(() => {
         dispatch(getCardsTC())
     }, [dispatch])
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
 
+    //добовление имя колоды в useState
+    const handleSetName = (event: ChangeEvent<HTMLInputElement>) => {setPackName(event.currentTarget.value)}
+
+    //Показать модальное окно
+    const showModal = () => {setIsModalVisible(true);};
+
+    // При нажатии в модальном окне кнопки ок
     const handleOk = () => {
         setIsModalVisible(false);
         dispatch(addPackTC({name: packName}))
-    };
 
+    };
+    // закрытие модалки по кнопке cancel или X
     const handleCancel = () => {
         setIsModalVisible(false);
     };
+    // забирается id колоды
+    const myCallBack = (id: string) => {
+        //dispatch(getCardsTC(id))
+        dispatch(currentPackIdAC(id))
+    }
+
+    const editPackName = () => {
+        setIsModalVisible(false)
+        dispatch(updatePack({_id: currentId, name: packName}))
+        console.log(currentId, packName)
+    }
+
+    // hook для создания модалки подтвержения
+    function confirm() {
+        Modal.confirm({
+            title: "Confirm",
+            content: 'Please confirm',
+            icon: <ExclamationCircleOutlined />,
+            okText: "yes",
+            okType: 'danger',
+            onOk() {
+                dispatch(deletePackTC(currentId))
+            },
+            cancelText: "Nooo",
+        })
+    }
 
     const columns = [
         //Название Колоды
@@ -86,7 +114,7 @@ export const TableWrapper = () => {
             render: () => (
                 <Space size="middle">
                     <Button>Update</Button>
-                    <Button>Delete</Button>
+                    <Button onClick={confirm}>Delete</Button>
                 </Space>
             ),
         },
@@ -102,7 +130,6 @@ export const TableWrapper = () => {
     }))
 
 
-
     // function onChange(sorter: {}) {
     //     // console.log('params', sorter);
     // }
@@ -112,25 +139,29 @@ export const TableWrapper = () => {
     return (
         <>
             <Layout>
-                {/*<Header style={{backgroundColor: "#ffffff"}}>*/}
-                {/*    <Slider range defaultValue={[0, 100]}/>*/}
-                {/*</Header>*/}
-                <Button onClick={showModal} >Add Pack</Button>
+                <Button onClick={showModal}>Add Pack</Button>
                 <Modal title="Add Pack" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                     <span>Pack name: </span><Input onChange={handleSetName}/>
                 </Modal>
                 <Content>
-                <Table
-                    dataSource={data}
-                    columns={columns}
-                    bordered
-                    pagination={{
-                        position: ['topRight'],
-                        defaultPageSize: 10,
-                        pageSizeOptions: ['3', '5', '10', '20', '25']
-                    }}
-                    //onChange={onChange}
-                />
+                    <Table
+                        onRow={(record) => {
+                            return {
+                                onClick: (e) => {
+                                    myCallBack(record.key)
+                                },
+                            };
+                        }}
+                        dataSource={data}
+                        columns={columns}
+                        bordered
+                        pagination={{
+                            position: ['topRight'],
+                            defaultPageSize: 10,
+                            pageSizeOptions: ['3', '5', '10', '20', '25']
+                        }}
+                        //onChange={onChange}
+                    />
                 </Content>
             </Layout>
         </>
