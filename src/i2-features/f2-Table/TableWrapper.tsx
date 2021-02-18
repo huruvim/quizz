@@ -1,13 +1,24 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {Button, Input, Layout, Modal, Space, Table} from "antd";
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import {Button, Input, Layout, Modal, Popconfirm, Space, Table, Form} from "antd";
+import {ExclamationCircleOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import {CardPacksType} from "../../i1-main/m3-dal/api";
 import {useDispatch, useSelector} from "react-redux";
-import {addPackTC, getPacksTC, currentPackIdAC, deletePackTC, getCardsTC, updatePack} from './t1-Packs/packs-reducer';
+import {addPackTC, currentPackIdAC, deletePackTC, getPacksTC} from './t1-Packs/packs-reducer';
 import {AppRootStateType} from "../../i1-main/m2-bll/store";
-import {Content, Header} from "antd/es/layout/layout";
-import { NavLink } from 'react-router-dom';
+import {Content} from "antd/es/layout/layout";
+import {NavLink} from 'react-router-dom';
+import {ColumnsType} from "antd/es/table";
+import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
+
+
+interface User {
+    name: string
+    cardsCount: number
+    grade: number
+    lastUpdate: string
+    key: string
+}
 
 export const TableWrapper = () => {
 
@@ -15,28 +26,29 @@ export const TableWrapper = () => {
     const [packName, setPackName] = useState("")
 
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
-
+    const currentId = useSelector<AppRootStateType, string>(s => s.packs.cardsPack_id)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getCardsTC())
+        dispatch(getPacksTC())
     }, [dispatch])
 
+
+    //добовление имя колоды в useState
+    const handleSetName = (event: ChangeEvent<HTMLInputElement>) => {
+        setPackName(event.currentTarget.value)
+    }
+
+    //Показать модальное окно
     const showModal = () => {
         setIsModalVisible(true);
     };
 
-    //добовление имя колоды в useState
-    const handleSetName = (event: ChangeEvent<HTMLInputElement>) => {setPackName(event.currentTarget.value)}
-
-    //Показать модальное окно
-    const showModal = () => {setIsModalVisible(true);};
-
     // При нажатии в модальном окне кнопки ок
     const handleOk = () => {
+        debugger
         setIsModalVisible(false);
         dispatch(addPackTC({name: packName}))
-
     };
     // закрытие модалки по кнопке cancel или X
     const handleCancel = () => {
@@ -44,30 +56,31 @@ export const TableWrapper = () => {
     };
     // забирается id колоды
     const myCallBack = (id: string) => {
-        //dispatch(getCardsTC(id))
+        // dispatch(getCardsTC(id))
         dispatch(currentPackIdAC(id))
     }
 
-    const editPackName = () => {
-        setIsModalVisible(false)
-        dispatch(updatePack({_id: currentId, name: packName}))
-        console.log(currentId, packName)
-    }
+    // const editPackName = () => {
+    //     setIsModalVisible(false)
+    //     dispatch(updatePack({_id: currentId, name: packName}))
+    //     console.log(currentId, packName)
+    // }
 
     // hook для создания модалки подтвержения
-    function confirm() {
-        Modal.confirm({
-            title: "Confirm",
-            content: 'Please confirm',
-            icon: <ExclamationCircleOutlined />,
-            okText: "yes",
-            okType: 'danger',
-            onOk() {
-                dispatch(deletePackTC(currentId))
-            },
-            cancelText: "Nooo",
-        })
-    }
+    // function confirm() {
+    //     Modal.confirm({
+    //         title: "Confirm",
+    //         content: 'Please confirm',
+    //         icon: <ExclamationCircleOutlined/>,
+    //         okText: "Yes",
+    //         okType: 'danger',
+    //         onOk() {
+    //             debugger
+    //             dispatch(deletePackTC(currentId))
+    //         },
+    //         cancelText: "No",
+    //     })
+    // }
 
 
     const columns: ColumnsType<User> = [
@@ -118,15 +131,22 @@ export const TableWrapper = () => {
         {
             title: 'Action',
             key: 'action',
-            render: () => (
-                <Space size="middle">
-                    <Button>Update</Button>
-                    <Button onClick={confirm}>Delete</Button>
-                </Space>
+            render: (s, record: { key: React.Key }) => (
+                <div>
+                    <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+                        <a>Delete</a>
+                    </Popconfirm>
+
+                    )
+                </div>
+
             ),
         },
-        //
     ];
+    const handleDelete = (key: React.Key) => {
+        const tepm = key.toString()
+        dispatch(deletePackTC(tepm))
+    };
 
     const data: User[] = state.map((pack) => ({
         name: pack.name,
@@ -135,21 +155,6 @@ export const TableWrapper = () => {
         grade: pack.grade,
         key: pack._id
     }))
-
-
-
-    // function onChange(sorter: {}) {
-    //     // console.log('params', sorter);
-    // }
-    // function onPaginationChange(e: ChangeEvent<HTMLInputElement>) {
-    //     setRangeValue(+e.currentTarget.value)
-    // }
-
-    const myCallBack = (id: string) => {
-        debugger
-        dispatch(getCardsTC(id))
-        dispatch(currentPackIdAC(id))
-    }
 
     return (
         <>
@@ -165,7 +170,9 @@ export const TableWrapper = () => {
                         columns={columns}
                         onRow={(record) => {
                             return {
-                                onClick: () => { myCallBack(record.key) }, // click row
+                                onClick: () => {
+                                    myCallBack(record.key)
+                                }, // click row
                             };
                         }}
                         bordered
@@ -180,4 +187,3 @@ export const TableWrapper = () => {
         </>
     )
 }
-//pageSize: rangeValue

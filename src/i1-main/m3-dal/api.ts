@@ -176,24 +176,27 @@ export const cardsAPI = {
         // &pageCount=4 // не обязательно
     },
     packsAdd(data: RequestPackType) {
+        // debugger//
         return instance.post(`cards/pack`, {cardsPack: data})
     },
     packDelete(id?: string) {
+        debugger
         return instance.delete(`cards/pack?id=${id}`)
     },
     packUpdate(data: {_id: string, name?: string}) {
+        // debugger
         return instance.put(`cards/pack`, {cardsPack: data})
     },
     cards(data: string) {
-        debugger
+        // debugger
         return instance.get(`cards/card/?cardsPack_id=${data}`)
     },
     cardAdd(data: {}) {
-        debugger
+        // debugger
         return instance.post(`cards/card/`, {card: data})
     },
     cardDelete(data: string) {
-        debugger
+        // debugger
         return instance.delete(`cards/card/?id=${data}`)
     }
 }
