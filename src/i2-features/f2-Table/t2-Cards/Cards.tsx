@@ -16,6 +16,7 @@ interface User {
     grade: number
     lastUpdate: string
     key: string
+    editable: boolean,
 }
 
 
@@ -26,7 +27,7 @@ export const Cards = () => {
 
     const state = useSelector<AppRootStateType, Array<RespondCardType>>(s => s.cards.cards)
     const cardsPack_id = useSelector<AppRootStateType, string>(s => s.cards.cardsPack_id)
-    // const card_id = useSelector<AppRootStateType, RespondCardType | undefined>(s => s.cards.cards.find(f=> f._id))
+    // const card_id = useSelecor<AppRootStateType, RespondCardType | undefined>(s => s.cards.cards.find(f=> f._id))
     const dispatch = useDispatch()
 
     const [isEditable, setIsEditable] = useState(false)
@@ -40,9 +41,6 @@ export const Cards = () => {
         setAnswer(event.currentTarget.value)
     }
 
-    // const packId = state.find(cr=> cr.cardsPack_id)
-    //
-    //
     useEffect(() => {
         debugger
         const packId = state.find(cr=> cr.cardsPack_id )
@@ -82,7 +80,9 @@ export const Cards = () => {
         dispatch(updateCardTC(key))
         debugger
     }
-
+    const handleSave = (s: number) => {
+        debugger
+    }
 
     const columns: ColumnsType<User> = [
         {
@@ -99,7 +99,7 @@ export const Cards = () => {
                     return <div onBlur={switchToUneditable}>
                         <input type="text" value={title} onChange={handelTitleChange} onBlur={ () => thunkRequest(record.key)}/>
                     </div>
-            }
+            },
         },
         {
             title: 'Answer',
@@ -155,7 +155,8 @@ export const Cards = () => {
         answer: pack.answer,
         grade: pack.grade,
         lastUpdate: pack.updated.substr(0, 10).replace(/-/g, " "),
-        key: pack._id
+        key: pack._id,
+        editable: !!pack.question
     }))
 
     return (
@@ -167,7 +168,7 @@ export const Cards = () => {
                     <span>Answer: </span><Input value={answer} onChange={handleSetAnswer}/>
                 </Modal>
                 <Content>
-                    <Table<User>
+                    <Table
                         dataSource={data}
                         columns={columns}
                         bordered
@@ -176,7 +177,7 @@ export const Cards = () => {
                             defaultPageSize: 10,
                             pageSizeOptions: ['3', '5', '10', '20', '25']
                         }}
-                        //onChange={onChange}
+
                     />
                 </Content>
             </Layout>
