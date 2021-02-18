@@ -178,6 +178,12 @@ export const cardsAPI = {
     packsAdd(data: RequestPackType) {
         return instance.post(`cards/pack`, {cardsPack: data})
     },
+    packDelete(id?: string) {
+        return instance.delete(`cards/pack?id=${id}`)
+    },
+    packUpdate(data: {_id: string, name?: string}) {
+        return instance.put(`cards/pack`, {cardsPack: data})
+    },
     cards(data: string) {
         debugger
         return instance.get(`cards/card/?cardsPack_id=${data}`)
