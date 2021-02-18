@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {Button, Input, Layout, Modal, Popconfirm, Space, Table} from "antd";
+import {Button, Input, Layout, Modal, Popconfirm, Space, Table, Form} from "antd";
 import {ExclamationCircleOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import {CardPacksType} from "../../i1-main/m3-dal/api";
@@ -10,7 +10,6 @@ import {Content} from "antd/es/layout/layout";
 import {NavLink} from 'react-router-dom';
 import {ColumnsType} from "antd/es/table";
 import {PATH} from "../../i1-main/m1-ui/u3-routes/Routes";
-import { getCardsTC } from './t2-Cards/cards-reducer';
 
 
 interface User {
@@ -28,8 +27,6 @@ export const TableWrapper = () => {
 
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
     const currentId = useSelector<AppRootStateType, string>(s => s.packs.cardsPack_id)
-
-
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -59,7 +56,7 @@ export const TableWrapper = () => {
     };
     // забирается id колоды
     const myCallBack = (id: string) => {
-        dispatch(getCardsTC(id))
+        // dispatch(getCardsTC(id))
         dispatch(currentPackIdAC(id))
     }
 
@@ -70,20 +67,21 @@ export const TableWrapper = () => {
     // }
 
     // hook для создания модалки подтвержения
-    function confirm() {
-        Modal.confirm({
-            title: "Confirm",
-            content: 'Please confirm',
-            icon: <ExclamationCircleOutlined/>,
-            okText: "Yes",
-            okType: 'danger',
-            onOk() {
-                debugger
-                dispatch(deletePackTC(currentId))
-            },
-            cancelText: "No",
-        })
-    }
+    // function confirm() {
+    //     Modal.confirm({
+    //         title: "Confirm",
+    //         content: 'Please confirm',
+    //         icon: <ExclamationCircleOutlined/>,
+    //         okText: "Yes",
+    //         okType: 'danger',
+    //         onOk() {
+    //             debugger
+    //             dispatch(deletePackTC(currentId))
+    //         },
+    //         cancelText: "No",
+    //     })
+    // }
+
 
     const columns: ColumnsType<User> = [
         //Название Колоды
@@ -104,7 +102,7 @@ export const TableWrapper = () => {
             dataIndex: 'grade',
             key: 'grade',
             sorter: {
-                compare: (a, b) => a.grade - b.grade,
+                compare: (a: any, b: any) => a.grade - b.grade,
                 multiple: 2
             },
             render: (grade: React.ReactNode) => (
@@ -119,7 +117,7 @@ export const TableWrapper = () => {
             dataIndex: 'cardsCount',
             key: 'cardsCount',
             sorter: {
-                compare: (a, b) => a.cardsCount - b.cardsCount,
+                compare: (a: any, b: any) => a.cardsCount - b.cardsCount,
                 multiple: 1
             },
         },
@@ -135,26 +133,20 @@ export const TableWrapper = () => {
             key: 'action',
             render: (s, record: { key: React.Key }) => (
                 <div>
-                    <Space size={'middle'}>
-                        <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-                            <a>Delete</a>
-                        </Popconfirm>
-                        <Popconfirm title="Sure to update?" onConfirm={() => handleDelete(record.key)}>
-                            <a>Update</a>
-                        </Popconfirm>
-                    </Space>
+                    <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+                        <a>Delete</a>
+                    </Popconfirm>
 
+                    )
                 </div>
 
             ),
         },
     ];
     const handleDelete = (key: React.Key) => {
-        const packId = key.toString()
-        dispatch(deletePackTC(packId))
-        dispatch(currentPackIdAC(packId))
+        const tepm = key.toString()
+        dispatch(deletePackTC(tepm))
     };
-
 
     const data: User[] = state.map((pack) => ({
         name: pack.name,
@@ -195,3 +187,4 @@ export const TableWrapper = () => {
         </>
     )
 }
+//pageSize: rangeValue
