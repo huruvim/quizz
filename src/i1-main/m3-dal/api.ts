@@ -117,6 +117,32 @@ export type RespondCardType = {
     _id: string
 }
 
+export type UpdatedRespondCardType = {
+    answer: string
+    answerImg: string
+    answerVideo: string
+    cardsPack_id: string
+    comments: string
+    created: string
+    grade: number
+    more_id: string
+    question: string
+    questionImg: string
+    questionVideo: string
+    rating: number
+    shots: number
+    type: "card"
+    updated: string
+    user_id: string
+    __v: number
+    _id: string
+}
+export type UpdatedRespondDataCardType = {
+    token: string
+    tokenDeathTime: number
+    updatedCard: UpdatedRespondCardType
+}
+
 type CardsSetting = {
 
 }
@@ -176,20 +202,24 @@ export const cardsAPI = {
         // &pageCount=4 // не обязательно
     },
     packsAdd(data: RequestPackType) {
+        // debugger//
         return instance.post(`cards/pack`, {cardsPack: data})
     },
     packDelete(id?: string) {
+        debugger
         return instance.delete(`cards/pack?id=${id}`)
     },
     packUpdate(data: {_id: string, name?: string}) {
+        // debugger
         return instance.put(`cards/pack`, {cardsPack: data})
     },
-    cards(data: string) {
 
-        return instance.get(`cards/card/?cardsPack_id=${data}`)
+    cards(data: string) {
+        // debugger
+        return instance.get(`cards/card/?cardsPack_id=${data}&pageCount=20`)
     },
     cardAdd(data: {}) {
-
+        // debugger
         return instance.post(`cards/card/`, {card: data})
     },
     cardDelete(data: string) {

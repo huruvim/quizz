@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useContext, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {CardPacksType, RespondCardType} from "../../../i1-main/m3-dal/api";
 import {addPackTC, getPacksTC} from "../t1-Packs/packs-reducer";
 import {NavLink, Redirect} from "react-router-dom";
-import {Button, Input, Layout, Modal, Popconfirm, Space, Table} from "antd";
+import {Button, Form, FormInstance, Input, Layout, Modal, Popconfirm, Space, Table} from "antd";
 import {Content} from "antd/es/layout/layout";
 import {addCardTC, currentPackIdAC, deleteCardTC, getCardsTC, InitialStateType, updateCardTC} from "./cards-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
@@ -16,7 +16,6 @@ interface User {
     grade: number
     lastUpdate: string
     key: string
-    editable: boolean,
 }
 
 
@@ -27,7 +26,7 @@ export const Cards = () => {
 
     const state = useSelector<AppRootStateType, Array<RespondCardType>>(s => s.cards.cards)
     const cardsPack_id = useSelector<AppRootStateType, string>(s => s.cards.cardsPack_id)
-    // const card_id = useSelecor<AppRootStateType, RespondCardType | undefined>(s => s.cards.cards.find(f=> f._id))
+    // const card_id = useSelector<AppRootStateType, RespondCardType | undefined>(s => s.cards.cards.find(f=> f._id))
     const dispatch = useDispatch()
 
     const [isEditable, setIsEditable] = useState(false)
@@ -41,6 +40,9 @@ export const Cards = () => {
         setAnswer(event.currentTarget.value)
     }
 
+    // const packId = state.find(cr=> cr.cardsPack_id)
+    //
+    //
     useEffect(() => {
         debugger
         const packId = state.find(cr=> cr.cardsPack_id )
@@ -80,9 +82,104 @@ export const Cards = () => {
         dispatch(updateCardTC(key))
         debugger
     }
-    const handleSave = (s: number) => {
-        debugger
+
+
+
+    const EditableContext = React.createContext<FormInstance<any> | null>(null);
+
+    interface Item {
+        key: string;
+        name: string;
+        age: string;
+        address: string;
     }
+
+    interface EditableRowProps {
+        index: number;
+    }
+
+    const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
+        const [form] = Form.useForm();
+        return (
+            <Form form={form} component={false}>
+                <EditableContext.Provider value={form}>
+                    <tr {...props} />
+                </EditableContext.Provider>
+            </Form>
+        );
+    };
+
+    interface EditableCellProps {
+        title: React.ReactNode;
+        editable: boolean;
+        children: React.ReactNode;
+        dataIndex: keyof Item;
+        record: Item;
+        handleSave: (record: Item) => void;
+    }
+
+    const EditableCell: React.FC<EditableCellProps> = ({
+                                                           title,
+                                                           editable,
+                                                           children,
+                                                           dataIndex,
+                                                           record,
+                                                           handleSave,
+                                                           ...restProps
+                                                       }) => {
+        const [editing, setEditing] = useState(false);
+        const inputRef = useRef<Input>(null);
+        const form = useContext(EditableContext)!;
+
+        useEffect(() => {
+            if (editing) {
+                inputRef.current!.focus();
+            }
+        }, [editing]);
+
+        const toggleEdit = () => {
+            setEditing(!editing);
+            form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+        };
+
+        const save = async () => {
+            try {
+                const values = await form.validateFields();
+
+                toggleEdit();
+                handleSave({ ...record, ...values });
+            } catch (errInfo) {
+                console.log('Save failed:', errInfo);
+            }
+        };
+
+        let childNode = children;
+
+        if (editable) {
+            childNode = editing ? (
+                <Form.Item
+                    style={{ margin: 0 }}
+                    name={dataIndex}
+                    rules={[
+                        {
+                            required: true,
+                            message: `${title} is required.`,
+                        },
+                    ]}
+                >
+                    <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+                </Form.Item>
+            ) : (
+                <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }} onClick={toggleEdit}>
+                    {children}
+                </div>
+            );
+        }
+
+        return <td {...restProps}>{childNode}</td>;
+    };
+
+    type EditableTableProps = Parameters<typeof Table>[0]
 
     const columns: ColumnsType<User> = [
         {
@@ -99,7 +196,7 @@ export const Cards = () => {
                     return <div onBlur={switchToUneditable}>
                         <input type="text" value={title} onChange={handelTitleChange} onBlur={ () => thunkRequest(record.key)}/>
                     </div>
-            },
+            }
         },
         {
             title: 'Answer',
@@ -155,8 +252,7 @@ export const Cards = () => {
         answer: pack.answer,
         grade: pack.grade,
         lastUpdate: pack.updated.substr(0, 10).replace(/-/g, " "),
-        key: pack._id,
-        editable: !!pack.question
+        key: pack._id
     }))
 
     return (
@@ -168,7 +264,7 @@ export const Cards = () => {
                     <span>Answer: </span><Input value={answer} onChange={handleSetAnswer}/>
                 </Modal>
                 <Content>
-                    <Table
+                    <Table<User>
                         dataSource={data}
                         columns={columns}
                         bordered
@@ -177,7 +273,7 @@ export const Cards = () => {
                             defaultPageSize: 10,
                             pageSizeOptions: ['3', '5', '10', '20', '25']
                         }}
-
+                        //onChange={onChange}
                     />
                 </Content>
             </Layout>
