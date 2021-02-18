@@ -73,7 +73,7 @@ export const updatedCardAC = (data: Array<UpdatedRespondCardType>) => ({ type: u
 export const getCardsTC = (data: string) => (dispatch: Dispatch) => {
     cardsAPI.cards(data)
         .then((res: AxiosResponse<RespondCardsType>) => {
-            debugger
+            // debugger
             console.log('krasava!!!')
             dispatch(cardsAC(res.data.cards))
         })
@@ -84,7 +84,7 @@ export const getCardsTC = (data: string) => (dispatch: Dispatch) => {
 export const addCardTC = (data: {}) => (dispatch: Dispatch) => {
     cardsAPI.cardAdd(data)
         .then((res: AxiosResponse<OnCardAddType>) => {
-            debugger
+            // debugger
             // @ts-ignore
             dispatch(getCardsTC(res.data.newCard.cardsPack_id));
         })
@@ -95,25 +95,25 @@ export const addCardTC = (data: {}) => (dispatch: Dispatch) => {
 export const deleteCardTC = (data: string) => (dispatch: Dispatch) => {
     cardsAPI.cardDelete(data)
         .then((res: AxiosResponse<any>) => {
-            debugger
+            // debugger
             // @ts-ignore
             dispatch(getCardsTC(res.data.deletedCard.cardsPack_id));
         })
         .catch(err => {
-            debugger
+            // debugger
             console.log('ups bro', err)
         })
 }
 export const updateCardTC = (data: {}) => (dispatch: Dispatch) => {
     cardsAPI.cardUpdate(data)
         .then((res: AxiosResponse<UpdatedRespondDataCardType>) => {
-            debugger
+            // debugger
             // dispatch(updatedCardAC(res.data.updatedCard))
             // @ts-ignore
             dispatch(getCardsTC(res.data.updatedCard.cardsPack_id));
         })
         .catch(err => {
-            debugger
+            // debugger
             console.log('ups bro', err)
         })
 }

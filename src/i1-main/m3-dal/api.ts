@@ -206,7 +206,7 @@ export const cardsAPI = {
         return instance.post(`cards/pack`, {cardsPack: data})
     },
     packDelete(id?: string) {
-        debugger
+        // debugger
         return instance.delete(`cards/pack?id=${id}`)
     },
     packUpdate(data: {_id: string, name?: string}) {
@@ -223,11 +223,11 @@ export const cardsAPI = {
         return instance.post(`cards/card/`, {card: data})
     },
     cardDelete(data: string) {
-        debugger
+        // debugger
         return instance.delete(`cards/card?id=${data}`)
     },
     cardUpdate(data: {}) {
-        debugger
+        // debugger
         return instance.put(`cards/card`,{
             card: {
                 _id: data,

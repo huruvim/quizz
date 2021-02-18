@@ -58,17 +58,17 @@ export const getPacksTC = () => (dispatch: Dispatch) => {
 }
 
 export const addPackTC = (data: RequestPackType) => (dispatch: Dispatch) => {
-    debugger
+    // debugger
     cardsAPI.packsAdd(data)
         .then((res: AxiosResponse) => {
-            debugger
+            // debugger
             console.log('lox')
           // @ts-ignore
             dispatch(getPacksTC())
         })
         .catch(err => {
             console.log('boss')
-            debugger
+            // debugger
             console.log(err)
         })
 }
@@ -81,15 +81,15 @@ export const updatePack = (data: any) => (dispatch: Dispatch) => {
         })
 }
 export const deletePackTC = (id?: string) => (dispatch: Dispatch) => {
-    debugger
+    // debugger
     cardsAPI.packDelete(id)
         .then( res => {
-            debugger
+            // debugger
             // @ts-ignore
             dispatch(getPacksTC())
         })
         .catch(err => {
-            debugger
+            // debugger
             console.log('fucked up', err)
         })
 }

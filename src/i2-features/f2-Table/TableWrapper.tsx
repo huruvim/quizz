@@ -49,7 +49,7 @@ export const TableWrapper = () => {
 
     // При нажатии в модальном окне кнопки ок
     const handleOk = () => {
-        debugger
+        // debugger
         setIsModalVisible(false);
         dispatch(addPackTC({name: packName}))
     };
@@ -78,7 +78,7 @@ export const TableWrapper = () => {
             okText: "Yes",
             okType: 'danger',
             onOk() {
-                debugger
+                // debugger
                 dispatch(deletePackTC(currentId))
             },
             cancelText: "No",

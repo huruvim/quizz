@@ -1,12 +1,11 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
-import {CardPacksType, RespondCardType} from "../../../i1-main/m3-dal/api";
-import {addPackTC, getPacksTC} from "../t1-Packs/packs-reducer";
-import {NavLink, Redirect} from "react-router-dom";
+import {RespondCardType} from "../../../i1-main/m3-dal/api";
+import {Redirect} from "react-router-dom";
 import {Button, Input, Layout, Modal, Popconfirm, Space, Table} from "antd";
 import {Content} from "antd/es/layout/layout";
-import {addCardTC, currentPackIdAC, deleteCardTC, getCardsTC, InitialStateType, updateCardTC} from "./cards-reducer";
+import {addCardTC, currentPackIdAC, deleteCardTC, getCardsTC, updateCardTC} from "./cards-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
 import {ColumnsType} from "antd/es/table";
 
@@ -16,7 +15,6 @@ interface User {
     grade: number
     lastUpdate: string
     key: string
-    editable: boolean,
 }
 
 
@@ -42,7 +40,7 @@ export const Cards = () => {
     }
 
     useEffect(() => {
-        debugger
+        // debugger
         const packId = state.find(cr=> cr.cardsPack_id )
         if (packId) {
         dispatch(getCardsTC(cardsPack_id))
@@ -78,10 +76,10 @@ export const Cards = () => {
     }
     const thunkRequest = (key: React.Key) => {
         dispatch(updateCardTC(key))
-        debugger
+        // debugger
     }
     const handleSave = (s: number) => {
-        debugger
+        // debugger
     }
 
     const columns: ColumnsType<User> = [
@@ -143,20 +141,19 @@ export const Cards = () => {
         },
     ];
     const handleDelete = (key: React.Key) => {
-        debugger
+        // debugger
         const packId = key.toString()
         dispatch(deleteCardTC(packId))
         dispatch(currentPackIdAC(packId))
 
     };
-    debugger
+    // debugger
     const data: User[] = state.map((pack) => ({
         question: pack.question,
         answer: pack.answer,
         grade: pack.grade,
         lastUpdate: pack.updated.substr(0, 10).replace(/-/g, " "),
         key: pack._id,
-        editable: !!pack.question
     }))
 
     return (
