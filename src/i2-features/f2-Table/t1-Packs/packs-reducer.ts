@@ -6,6 +6,8 @@ import {
 } from "../../../i1-main/m3-dal/api";
 import {AnyAction, Dispatch} from "redux";
 import {AxiosResponse} from "axios";
+import {AppRootStateType} from "../../../i1-main/m2-bll/store";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 const initialState = {
     cardPacks: [] as Array<CardPacksType>,
@@ -22,7 +24,7 @@ type CARD_PACKS = ReturnType<typeof cardPacksAC>
 type CURRENT_PACK = ReturnType<typeof currentPackIdAC>
 
 type ActionsType = CARD_PACKS | CURRENT_PACK
-
+type ThunkType = ThunkAction<void, AppRootStateType, unknown, ActionsType>
 
 export const packsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
@@ -42,54 +44,40 @@ const cardsPack_id = 'cardsPack_id'
 export const cardPacksAC = (data: Array<CardPacksType>) => ({ type: getCardPacks, data } as const )
 export const currentPackIdAC = (value: string) => ({ type: cardsPack_id, value } as const )
 //tc
-export const getPacksTC = () => (dispatch: Dispatch) => {
+export const getPacksTC = ():ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
     cardsAPI.packs()
         .then((res:AxiosResponse<PacksResponseType>) => {
-            // debugger
-            console.log('.then')
             dispatch(cardPacksAC(res.data.cardPacks))
-            // dispatch(responseRecoveryInfo(res.data.info))
         })
-
         .catch((err) => {
-            console.log('youu fucked up', err)
-
-        })
-}
-
-export const addPackTC = (data: RequestPackType) => (dispatch: Dispatch) => {
-    // debugger
-    cardsAPI.packsAdd(data)
-        .then((res: AxiosResponse) => {
-            // debugger
-            console.log('lox')
-          // @ts-ignore
-            dispatch(getPacksTC())
-        })
-        .catch(err => {
-            console.log('boss')
-            // debugger
             console.log(err)
         })
 }
 
-export const updatePack = (data: any) => (dispatch: Dispatch) => {
-    cardsAPI.packUpdate(data)
-        .then( res => {
-            // @ts-ignore
-            dispatch(getPacksTC());
-        })
-}
-export const deletePackTC = (id?: string) => (dispatch: Dispatch) => {
-    // debugger
-    cardsAPI.packDelete(id)
-        .then( res => {
-            // debugger
-            // @ts-ignore
+export const addPackTC = (data: RequestPackType):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
+    cardsAPI.packsAdd(data)
+        .then((res: AxiosResponse) => {
             dispatch(getPacksTC())
         })
         .catch(err => {
-            // debugger
-            console.log('fucked up', err)
+            console.log(err)
+        })
+}
+export const updatePack = (data: {_id: string, name: string}):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
+    cardsAPI.packUpdate(data)
+        .then( res => {
+            dispatch(getPacksTC());
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+export const deletePackTC = (id?: string):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
+    cardsAPI.packDelete(id)
+        .then( res => {
+            dispatch(getPacksTC())
+        })
+        .catch(err => {
+            console.log(err)
         })
 }

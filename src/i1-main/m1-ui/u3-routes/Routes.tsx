@@ -7,8 +7,8 @@ import {Profile} from "../u4-components/co1-Profile/Profile";
 import {Recovery} from "../../../i2-features/f1-Auth/f2-Recovery/Recovery";
 import {CreateNewPassword} from "../../../i2-features/f1-Auth/f2-Recovery/CreateNewPassword";
 import {Logout} from "../../../i2-features/f1-Auth/f1-Login/Logout";
-import {TableWrapper} from "../../../i2-features/f2-Table/TableWrapper";
 import {Cards} from "../../../i2-features/f2-Table/t2-Cards/Cards";
+import {Packs} from "../../../i2-features/f2-Table/t1-Packs/Packs";
 
 
 export const PATH = {
@@ -18,7 +18,7 @@ export const PATH = {
     RECOVERY: '/recovery',
     CREATE_NEW_PASSWORD: '/create_new_password',
     LOGOUT: '/logout',
-    TABLE: '/table',
+    PACKS: '/packs',
     CARDS: '/cards'
 
 
@@ -42,7 +42,7 @@ function Routes() {
                 <Route path={`${PATH.CREATE_NEW_PASSWORD}/:resetPasswordToken`}  render={() => <CreateNewPassword/>}/>
                 <Route path={PATH.RECOVERY} exact render={() => <Recovery/>}/>
                 <Route path={PATH.LOGOUT} render={() => <Logout/>}/>
-                <Route path={PATH.TABLE} render={() => <TableWrapper/>}/>
+                <Route path={PATH.PACKS} render={() => <Packs/>}/>
 
                 <Route path={`${PATH.CARDS}/:packToken`} render={() => <Cards/>}/>
                 <Route path={`${PATH.CARDS}`} exact render={() => <Cards/>}/>

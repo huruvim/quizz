@@ -25,7 +25,6 @@ export const Cards = () => {
 
     const state = useSelector<AppRootStateType, Array<RespondCardType>>(s => s.cards.cards)
     const cardsPack_id = useSelector<AppRootStateType, string>(s => s.cards.cardsPack_id)
-    // const card_id = useSelecor<AppRootStateType, RespondCardType | undefined>(s => s.cards.cards.find(f=> f._id))
     const dispatch = useDispatch()
 
     const [isEditable, setIsEditable] = useState(false)
@@ -40,7 +39,6 @@ export const Cards = () => {
     }
 
     useEffect(() => {
-        // debugger
         const packId = state.find(cr=> cr.cardsPack_id )
         if (packId) {
         dispatch(getCardsTC(cardsPack_id))
@@ -61,7 +59,7 @@ export const Cards = () => {
     };
 
     if (cardsPack_id === '') {
-        return <Redirect to={PATH.TABLE}/>
+        return <Redirect to={PATH.PACKS}/>
     }
 
     const handelTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,11 +74,10 @@ export const Cards = () => {
     }
     const thunkRequest = (key: React.Key) => {
         dispatch(updateCardTC(key))
-        // debugger
     }
-    const handleSave = (s: number) => {
-        // debugger
-    }
+    // const handleSave = (s: number) => {
+    //     // debugger
+    // }
 
     const columns: ColumnsType<User> = [
         {
@@ -141,13 +138,11 @@ export const Cards = () => {
         },
     ];
     const handleDelete = (key: React.Key) => {
-        // debugger
         const packId = key.toString()
         dispatch(deleteCardTC(packId))
         dispatch(currentPackIdAC(packId))
 
     };
-    // debugger
     const data: User[] = state.map((pack) => ({
         question: pack.question,
         answer: pack.answer,
