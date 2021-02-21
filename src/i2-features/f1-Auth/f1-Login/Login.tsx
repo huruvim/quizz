@@ -1,7 +1,5 @@
-import React, {ChangeEvent, FC, FormEvent} from "react";
+import React, {FC} from "react";
 import s from "./Login.module.css";
-import SuperInputText from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
-import SuperCheckbox from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc3-SuperCheckbox/SuperCheckbox";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {
@@ -13,7 +11,8 @@ import {
 } from "../../../i1-main/m2-bll/auth-reducer";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
-import SuperButton from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
+import {Form, Input, Button, Checkbox, message} from 'antd';
+
 
 export const Login: FC = () => {
 
@@ -21,23 +20,18 @@ export const Login: FC = () => {
     const state = useSelector<AppRootStateType, InitialStateType>(s => s.isLoggedIn)
 
 
-    const loginChange = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(emailChangedAC(e.currentTarget.value))
+    type ValuesType= {
+        password: string
+        email: string
+        rememberMe: boolean
     }
 
-    const PasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(passwordChangedAC(e.currentTarget.value))
-    }
-
-    const RememberMeChange = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(rememberMeChangedAC(e.currentTarget.checked))
-    }
-
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        dispatch(onSubmitTC({email: state.login, password: state.password, rememberMe: state.rememberMe}))
-    }
-
+    const onFinish = (values: ValuesType) => {
+        dispatch(emailChangedAC(values.email))
+        dispatch(passwordChangedAC(values.password))
+        dispatch(rememberMeChangedAC(values.rememberMe))
+        dispatch(onSubmitTC({email: values.email, password: values.password, rememberMe: values.rememberMe}))
+    };
 
     if (state.isLoggedIn) {
         return <Redirect to={PATH.PROFILE}/>
@@ -46,27 +40,38 @@ export const Login: FC = () => {
     return (
         <div className={s.login}>
 
-            <form className={s.loginForm} onSubmit={handleSubmit}>
-                <div className={s.title}>Login</div>
-                <label className={s.inputItem}>
-                    <SuperInputText className={s.inputForm} onChange={loginChange} placeholder={'email'}
-                                    type={'email'} value={state.login} name={'login'}/>
-                </label >
-                <label className={s.inputItem}>
-                    <SuperInputText className={s.inputForm} onChange={PasswordChange} placeholder={'password'}
-                                    type={'password'} value={state.password} name={'login'}/>
-                </label>
-                <label className={s.inputItem}>
-                    <SuperCheckbox checked={state.rememberMe} onChange={RememberMeChange} name={'rememberMe'}>Remember me</SuperCheckbox>
-                </label>
-                <label>
-                    <SuperButton className={s.superButton} type={'submit'} value={'Login'}>Send</SuperButton>
-                </label>
-                {state.error !== ''
-                    ? <div className={s.message}>{state.error}</div>
-                    : null
-                }
-            </form>
+            <Form
+                { ...{labelCol: { span: 8 }, wrapperCol: { span: 16 } }}
+                name="basic"
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+            >
+                <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[{ required: true, message: 'Please input your username!' }]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                >
+                    <Input.Password />
+                </Form.Item>
+
+                <Form.Item { ...{wrapperCol: { offset: 8, span: 16 }}} name="rememberMe" valuePropName="checked">
+                    <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+
+                <Form.Item {...{wrapperCol: { offset: 8, span: 16 }}}>
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+                </Form.Item>
+            </Form>
 
         </div>
     )

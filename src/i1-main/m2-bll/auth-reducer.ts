@@ -2,6 +2,8 @@ import {Dispatch} from "redux";
 import {authAPI} from "../m3-dal/api";
 import {AxiosResponse} from "axios";
 import {profileAC} from "./profile-reducer";
+import {message} from "antd";
+
 
 type EMAIL_CHANGED = ReturnType<typeof emailChangedAC>
 type PASSWORD_CHANGED = ReturnType<typeof passwordChangedAC>
@@ -37,8 +39,8 @@ export type AxiosResponseType = {
 }
 
 const initialState = {
-    login: 'valentyn.333k@gmail.com',
-    password: '111qwe222',
+    login: '',
+    password: '',
     rememberMe: false,
     isLoggedIn: false,
     error: ''
@@ -97,6 +99,7 @@ export const onSubmitTC = (data: LoginType) => (dispatch: Dispatch) => {
             const error = err.response
             ? err.response.data.error : (err.message + ', more details in the console');
             dispatch(onErrorAC(error))
+            message.error(error)
         })
 }
 
