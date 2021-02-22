@@ -89,7 +89,7 @@ export const Packs = () => {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            width: '20px',
+            width: '200px',
             render: (value: React.ReactNode) => {
                 return <div>
                     <NavLink to={PATH.CARDS}>{value}</NavLink>

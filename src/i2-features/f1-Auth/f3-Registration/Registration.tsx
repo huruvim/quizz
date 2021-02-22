@@ -2,44 +2,55 @@ import React from "react";
 import s from "./Registration.module.css";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
-import {changeEmail, changePassword, createUserTC, InitialStateRegistrationType} from "../../../i1-main/m2-bll/registration-reducer";
+import {createUserTC, InitialStateRegistrationType} from "../../../i1-main/m2-bll/registration-reducer";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
-import SuperButton from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
-import SuperInputText from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
+import {Button, Form, Input} from "antd";
+
 
 export const Registration = () => {
     const state = useSelector<AppRootStateType, InitialStateRegistrationType>(state=>state.isRegistered)
-    // const error = useSelector<AppRootStateType, string>(state=>state.isLoggedIn.error)
     const  dispatch = useDispatch()
 
-    const changeValueEvent = (e:React.ChangeEvent<HTMLInputElement>,changeValue:Function) => {
-        dispatch(changeValue( e.currentTarget.value))
+    type ValuesType= {
+        password: string
+        email: string
     }
-    const requestData =() => {
-        dispatch(createUserTC({email: state.email, password: state.password}))
-    }
-
+    const onFinish = (values: ValuesType) => {
+        dispatch(createUserTC({email: values.email, password: values.password}))
+    };
     if (state.isRegistered) {
        return <Redirect to={PATH.LOGIN}/>
     }
     return (
         <div className={s.registration}>
-            <div className={s.registrationInner}>
-                <div className={s.title}>Sing up</div>
+            <Form
+                { ...{labelCol: { span: 8 }, wrapperCol: { span: 16 } }}
+                name="basic"
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+            >
+                <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[{ required: true, message: 'Please input your email!' }]}
+                >
+                    <Input />
+                </Form.Item>
 
-                <div className={`${s.registrationItem} ${s.email}`}>
-                    <SuperInputText type='text' placeholder='Email' value={state.email} onChange={(e)=>changeValueEvent(e, changeEmail)}/>
-                </div>
-                <div className={`${s.registrationItem} ${s.password}`}>
-                    <SuperInputText type='password' placeholder='Password' value={state.password} onChange={(e)=>changeValueEvent(e, changePassword)}/>
-                </div>
-                    <SuperButton className={s.registrationButton} onClick={requestData}>Send</SuperButton>
-            </div>
-            {state.error !== ''
-                ? <div className={s.message}>{state.error}</div>
-                : null
-            }
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                >
+                    <Input.Password />
+                </Form.Item>
+                <Form.Item {...{wrapperCol: { offset: 8, span: 16 }}}>
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+                </Form.Item>
+            </Form>
         </div>
     )
 }

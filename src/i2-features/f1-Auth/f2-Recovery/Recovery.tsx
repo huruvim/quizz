@@ -7,6 +7,8 @@ import {recoveryPassword, successful} from "../../../i1-main/m2-bll/recovery-red
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
+import {Button, Form, Input} from "antd";
+import {createUserTC} from "../../../i1-main/m2-bll/registration-reducer";
 
 export const Recovery = () => {
 
@@ -19,29 +21,47 @@ export const Recovery = () => {
     let message = `<div>password recovery link: <a href='https://valentyn-999.github.io/cards-fr#/create_new_password/$token$'>link</a></div>`
 
 
-    const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    // const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    //     dispatch(successful(false))
+    //     setEmail(event.currentTarget.value)
+    // }
+    //
+    // const sendEmail = () => {
+    //     debugger
+    //     dispatch(recoveryPassword({email, from, message}))
+    // }
+    type ValuesType = {
+        email: string
+    }
+    const onFinish = (values: ValuesType) => {
         dispatch(successful(false))
-        setEmail(event.currentTarget.value)
-    }
-
-    const sendEmail = () => {
-        debugger
-        dispatch(recoveryPassword({email, from, message}))
-    }
-
+        dispatch(recoveryPassword({email: values.email,from, message}))
+    };
     if (isDone) {
         return <Redirect to={PATH.CREATE_NEW_PASSWORD}/>
     }
 
     return (
         <div className={s.recovery}>
-            <span className={s.title}>Forgot password ?</span>
-            <SuperInputText onChange={changeHandler} placeholder={"Enter you Email"} value={email}/>
-            <SuperButton onClick={sendEmail} className={s.button}>Recover password</SuperButton>
-            {error !== ''
-                ? <div className={s.message}>{error}</div>
-                : null
-            }
+            <Form
+                { ...{labelCol: { span: 8 }, wrapperCol: { span: 16 } }}
+                name="basic"
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+            >
+                <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[{ required: true, message: 'Please input your email!' }]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item {...{wrapperCol: { offset: 8, span: 16 }}}>
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+                </Form.Item>
+            </Form>
         </div>
     )
 }

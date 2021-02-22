@@ -39,7 +39,6 @@ export const Login: FC = () => {
 
     return (
         <div className={s.login}>
-
             <Form
                 { ...{labelCol: { span: 8 }, wrapperCol: { span: 16 } }}
                 name="basic"
@@ -49,7 +48,7 @@ export const Login: FC = () => {
                 <Form.Item
                     label="Email"
                     name="email"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
+                    rules={[{ required: true, message: 'Please input your email!' }]}
                 >
                     <Input />
                 </Form.Item>

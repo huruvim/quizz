@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {authAPI, RequestType} from "../m3-dal/api";
 import {ON_ERROR, onError, onErrorAC} from "./auth-reducer";
+import {message} from "antd";
 
 const CHANGE_EMAIL = 'CHANGE_EMAIL',
     CHANGE_PASSWORD = 'CHANGE_PASSWORD',
@@ -59,6 +60,7 @@ export const createUserTC = (dataRegistration: RequestType) => (dispatch: Dispat
         .catch(err => {
             const error = err.response ? err.response.data.error : (err.message + ', more details in the console');
             dispatch(onErrorAC(error))
+            message.error(error)
         })
 }
 

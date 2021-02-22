@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {authAPI, RequestRecoveryType, SetNewPasswordRequestType} from "../m3-dal/api";
 import {onErrorAC} from "./auth-reducer";
+import {message} from "antd";
 
 type RecoveryStateType = typeof initialState
 type SuccessfulActionType = ReturnType<typeof successful>
@@ -9,10 +10,10 @@ type ResponseSetNewPasswordActionType = ReturnType<typeof responseSetNewPassword
 type SetNewPasswordActionType = ReturnType<typeof setNewPassword>
 
 type ActionType = SuccessfulActionType | ResponseRecoveryActionType | ResponseSetNewPasswordActionType
-| SetNewPasswordActionType
+    | SetNewPasswordActionType
 
 const initialState = {
-    isDone: false,
+    isDone: true,
     recoveryInfo: "",
     setNewPasswordInfo: "",
     isNewPasswordSet: false
@@ -50,6 +51,7 @@ export const recoveryPassword = (data: RequestRecoveryType) => (dispatch: Dispat
             // console.log('.then')
             dispatch(successful(true))
             dispatch(responseRecoveryInfo(res.data.info))
+            message.success("All ok")
         })
 
         .catch((err) => {
@@ -58,28 +60,26 @@ export const recoveryPassword = (data: RequestRecoveryType) => (dispatch: Dispat
             const error = err.response
                 ? err.response.data.error : (err.message + ', more details in the console');
             dispatch(onErrorAC(error))
-
+            message.error(error)
         })
 }
 
-    export const setNewPasswordTC = (data: SetNewPasswordRequestType) => (dispatch: Dispatch) => {
+export const setNewPasswordTC = (data: SetNewPasswordRequestType) => (dispatch: Dispatch) => {
     authAPI.setNewPassword(data)
 
         .then((res) => {
-            debugger
-            console.log('.then')
             dispatch(successful(true))
             dispatch(setNewPassword())
-            dispatch(responseSetNewPasswordInfo (res.data.info))
+            dispatch(responseSetNewPasswordInfo(res.data.info))
+            message.success("All ok")
         })
 
         .catch((err) => {
-            console.log('')
             dispatch(successful(false))
             const error = err.response
                 ? err.response.data.error : (err.message + ', more details in the console');
             dispatch(onErrorAC(error))
-
+            message.error(error)
         })
 }
 

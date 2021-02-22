@@ -1,11 +1,10 @@
-import React, {ChangeEvent, useState} from "react";
+import React, { useState} from "react";
 import s from "./CreateNewPassword.module.css";
 import {useDispatch, useSelector} from "react-redux";
 import {setNewPasswordTC} from "../../../i1-main/m2-bll/recovery-reducer";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
-import SuperInputText from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc1-SuperInputText/SuperInputText";
-import SuperButton from "../../../i1-main/m1-ui/u4-components/SuperComponents/rc2-SuperButton/SuperButton";
 import {Redirect, useParams} from "react-router-dom";
+import {Button, Form, Input} from "antd";
 
 type InfoType = {
     isDone: boolean
@@ -28,25 +27,45 @@ export const CreateNewPassword = () => {
     const {resetPasswordToken} = useParams<ParamTypes>()
     console.log(resetPasswordToken)
 
-    const changePassword = () => {
-        console.log('you are inside changePassword fn')
-        dispatch(setNewPasswordTC({password, resetPasswordToken}))
-        console.log('inside the function',resetPasswordToken)
+    // const changePassword = () => {
+    //     console.log('you are inside changePassword fn')
+    //     dispatch(setNewPasswordTC({password, resetPasswordToken}))
+    //     console.log('inside the function',resetPasswordToken)
+    // }
+    // const createPassword = (e: ChangeEvent<HTMLInputElement>) => {
+    //     setPassword(e.currentTarget.value)
+    // }
+    type ValuesType = {
+        password: string
     }
-    const createPassword = (e: ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.currentTarget.value)
-    }
-
+    const onFinish = (values: ValuesType) => {
+        dispatch(setNewPasswordTC({password: values.password,resetPasswordToken}))
+    };
     if (info.isNewPasswordSet) {
         return <Redirect to={'/login'}/>
     }
 
     return (
         <div className={s.createNewPassword}>
-            <h4 className={s.title}>change password</h4>
-            <SuperInputText className={s.input} onChange={createPassword} value={password}/>
-            <SuperButton className={s.button} onClick={changePassword}>confirm</SuperButton>
-            {info && <div className={s.message}>{info.setNewPasswordInfo}</div>}
+            <Form
+                { ...{labelCol: { span: 8 }, wrapperCol: { span: 16 } }}
+                name="basic"
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+            >
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item {...{wrapperCol: { offset: 8, span: 16 }}}>
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+                </Form.Item>
+            </Form>
         </div>
     )
 }

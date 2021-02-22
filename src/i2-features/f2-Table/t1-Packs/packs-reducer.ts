@@ -4,7 +4,6 @@ import {
     PacksResponseType,
     RequestPackType
 } from "../../../i1-main/m3-dal/api";
-import {AnyAction, Dispatch} from "redux";
 import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
