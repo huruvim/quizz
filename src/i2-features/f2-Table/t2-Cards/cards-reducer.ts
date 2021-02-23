@@ -35,8 +35,8 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
             return {...state, cards: action.data}
         case cardsPack_id:
             return {...state, cardsPack_id: action.value}
-        case updatedCard:
-            return {...state, cards: action.data}
+        // case updatedCard:
+        //     return {...state, cards: action.data}
             //     answer: action.
             //     }
             // question: string
@@ -69,6 +69,7 @@ export const updatedCardAC = (data: Array<UpdatedRespondCardType>) => ({ type: u
 export const getCardsTC = (data: string):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
     cardsAPI.cards(data)
         .then((res: AxiosResponse<RespondCardsType>) => {
+            debugger
             dispatch(cardsAC(res.data.cards))
         })
         .catch(err => {

@@ -7,6 +7,7 @@ import {recoveryReducer} from "./recovery-reducer";
 import thunk from 'redux-thunk';
 import {packsReducer} from "../../i2-features/f2-Table/t1-Packs/packs-reducer";
 import {cardsReducer} from "../../i2-features/f2-Table/t2-Cards/cards-reducer";
+import {learnReducer} from "../../i2-features/f2-Table/t3-Learn/learn-reducer";
 
 
 
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     isRegistered: registrationReducer,
     recovery: recoveryReducer,
     packs: packsReducer,
-    cards: cardsReducer
+    cards: cardsReducer,
+    learn: learnReducer
 })
 
 

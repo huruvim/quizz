@@ -9,6 +9,7 @@ import {CreateNewPassword} from "../../../i2-features/f1-Auth/f2-Recovery/Create
 import {Logout} from "../../../i2-features/f1-Auth/f1-Login/Logout";
 import {Cards} from "../../../i2-features/f2-Table/t2-Cards/Cards";
 import {Packs} from "../../../i2-features/f2-Table/t1-Packs/Packs";
+import {Learn} from "../../../i2-features/f2-Table/t3-Learn/Learn";
 
 
 export const PATH = {
@@ -19,7 +20,8 @@ export const PATH = {
     CREATE_NEW_PASSWORD: '/create_new_password',
     LOGOUT: '/logout',
     PACKS: '/packs',
-    CARDS: '/cards'
+    CARDS: '/cards',
+    LEARN: '/learn'
 
 
 
@@ -46,6 +48,7 @@ function Routes() {
 
                 <Route path={`${PATH.CARDS}/:packToken`} render={() => <Cards/>}/>
                 <Route path={`${PATH.CARDS}`} exact render={() => <Cards/>}/>
+                <Route path={`${PATH.LEARN}`} exact render={() => <Learn/>}/>
 
 
 

@@ -137,7 +137,7 @@ export const Packs = () => {
                         <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
                             <a>Delete</a>
                         </Popconfirm>
-                        <a>Update</a>
+                        <NavLink to={PATH.LEARN} onClick={() => learnThisPack}>Learn</NavLink>
                     </Space>
 
                 </div>
@@ -150,6 +150,12 @@ export const Packs = () => {
         dispatch(deletePackTC(packId))
         dispatch(currentPackIdAC(packId))
     };
+
+    const learnThisPack = (key: React.Key) => {
+        const packId = key.toString()
+        dispatch(currentPackIdAC(packId))
+        dispatch(getCardsTC(packId))
+    }
 
 
     const data: User[] = state.map((pack) => ({
