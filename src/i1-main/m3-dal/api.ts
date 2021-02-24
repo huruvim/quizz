@@ -8,9 +8,10 @@ import {AxiosResponseType, LoginType} from "../m2-bll/auth-reducer";
 // 'valentyn.333k@gmail.com'
 // '111qwe222'
 const instance  = axios.create ({
-    baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    baseURL: 'http://localhost:7542/2.0/',
     withCredentials: true,
 })
+
 export type RequestRecoveryType = {
     email: string,
     from?: string,
@@ -115,6 +116,7 @@ export type RespondCardType = {
     updated: string
     __v: number
     _id: string
+    more_id: string
 }
 
 export type UpdatedRespondCardType = {
@@ -143,10 +145,6 @@ export type UpdatedRespondDataCardType = {
     updatedCard: UpdatedRespondCardType
 }
 
-type CardsSetting = {
-
-}
-
 export type RequestCardType = {
     cardsPack_id: string
 }
@@ -170,6 +168,23 @@ export type OnCardAddType = {
     newCard: NewCardType
     token: string
     tokenDeathTime: number
+}
+export type ThunkLearnPutType = {
+    grade: number,
+    card_id: string
+}
+
+export type LearnCardType = {
+    card_id: string
+    cardsPack_id: string
+    created: string
+    grade: number
+    more_id: string
+    shots: number
+    updated: string
+    user_id: string
+    __v: number
+    _id: string
 }
 
 export const authAPI = {
@@ -234,5 +249,9 @@ export const cardsAPI = {
                 question: 'updated message'
             }
         })
+    },
+    evaluationCard(data: {}) {
+        // debugger
+        return instance.put('cards/grade', data)
     }
 }
