@@ -101,6 +101,8 @@ export type RespondCardsType = {
     page: number
     pageCount: number
     packUserId: string
+    more_id: string
+
 }
 
 export type RespondCardType = {
@@ -230,7 +232,7 @@ export const cardsAPI = {
     },
 
     cards(data: string) {
-        // debugger
+        debugger
         return instance.get(`cards/card/?cardsPack_id=${data}&pageCount=20`)
     },
     cardAdd(data: {}) {

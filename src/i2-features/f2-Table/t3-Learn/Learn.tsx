@@ -21,7 +21,7 @@ export type CardType = {
 
     type: string;
     rating: number;
-    more_id: string;
+    // more_id: string;
 
     created: string;
     updated: string;
@@ -52,6 +52,7 @@ const getCard = (cards: Array<CardType>) => {
 
 export const Learn = () => {
     const {cards} = useSelector((store: AppRootStateType) => store.cards);
+    // const {cards} = useSelector<AppRootStateType, CardType>(store => store.cards);
     const cardsPack_id = useSelector<AppRootStateType, string>(s => s.cards.cardsPack_id)
     const dispatch = useDispatch()
 
@@ -69,7 +70,7 @@ export const Learn = () => {
 
         type: '',
         rating: 0,
-        more_id: '',
+        // more_id: '',
 
         created: '',
         updated: '',
@@ -83,6 +84,7 @@ export const Learn = () => {
     }, [setIsDisable, dispatch])
 
     const checkButton = useCallback((check: boolean) => {
+        // debugger
         setCheck(check)
         if (cards.length > 0 && !check) {
             // dispatch

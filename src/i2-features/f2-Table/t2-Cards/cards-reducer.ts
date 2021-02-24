@@ -67,7 +67,9 @@ export const updatedCardAC = (data: Array<UpdatedRespondCardType>) => ({ type: u
 
 //tc
 export const getCardsTC = (data: string):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
+    debugger
     cardsAPI.cards(data)
+
         .then((res: AxiosResponse<RespondCardsType>) => {
             debugger
             dispatch(cardsAC(res.data.cards))
