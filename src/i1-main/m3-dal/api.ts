@@ -230,7 +230,7 @@ export const cardsAPI = {
     },
 
     cards(data: string) {
-        debugger
+        // debugger
         return instance.get(`cards/card/?cardsPack_id=${data}&pageCount=20`)
     },
     cardAdd(data: {}) {
@@ -251,7 +251,7 @@ export const cardsAPI = {
         })
     },
     evaluationCard(data: {}) {
-        debugger
+        // debugger
         return instance.put('cards/grade', data)
     }
 }

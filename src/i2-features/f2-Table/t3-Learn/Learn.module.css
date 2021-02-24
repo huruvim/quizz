@@ -15,8 +15,6 @@
     margin: 16px 0 16px 24px;
 }
 .content {
-    padding: 50px;
-    border: 1px solid red;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,7 +27,6 @@
 }
 .layout {
     padding: 50px;
-    border: 1px solid red
 }
 .buttons {
     display: flex;

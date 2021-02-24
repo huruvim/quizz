@@ -20,7 +20,6 @@ const initialState = {
 export type InitialStateType = typeof initialState
 //AC type
 
-// type PACK = ReturnType<typeof getPackAC>
 type CARD = ReturnType<typeof updateCardAC>
 type ActionsType = CARD
 //TC type
@@ -47,26 +46,22 @@ export const learnReducer = (state: InitialStateType = initialState, action: Act
     }
 }
 //const
-// const getPack = 'getPack'
 const updatedCard = 'updatedCard'
 
 
 
 //ac
-// export const getPackAC = (data: RespondCardType) => ({ type: getPack, data } as const )
 export const updateCardAC = (data: LearnCardType) => ({ type: updatedCard, data } as const )
 
 //tc
 export const cardsEvaluation = (data: ThunkLearnPutType):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
     cardsAPI.evaluationCard(data)
         .then((res:AxiosResponse<LearnCardType>) => {
-            debugger
             console.log('cool')
             dispatch(updateCardAC(res.data))
 
         })
         .catch((err) => {
-            debugger
             console.log('lox')
         })
     }

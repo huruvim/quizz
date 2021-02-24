@@ -1,12 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
-import {RespondCardType} from "../../../i1-main/m3-dal/api";
 import {Redirect} from "react-router-dom";
-import {Button, Divider, Layout} from "antd";
+import {Button, Divider, Layout, message} from "antd";
 import {Content} from "antd/es/layout/layout";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
-import {cardsAC, getCardsTC} from "../t2-Cards/cards-reducer";
+import {getCardsTC} from "../t2-Cards/cards-reducer";
 import 'antd/dist/antd.css';
 import s from './Learn.module.css'
 import {cardsEvaluation} from "./learn-reducer";
@@ -28,10 +27,19 @@ export type CardType = {
     updated: string;
 }
 
+const messages = [
+    'Не переживай ты всё равно красавчик',
+    'Да ты всё и так знаешь, просто гонишь',
+    'Ну ты красавчик',
+    'Самурай, лети на собес!',
+    'Ты стопудовый мидл не меньше!'
+]
+
+
 const getCard = (cards: Array<CardType>) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
     const rand = Math.random() * sum;
-    const res = cards.reduce((acc: { sum: number, id: number}, card, i) => {
+    const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
             const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
             return {sum: newSum, id: newSum < rand ? i : acc.id}
         }
@@ -42,9 +50,7 @@ const getCard = (cards: Array<CardType>) => {
 }
 
 
-
 export const Learn = () => {
-    // const state = useSelector<AppRootStateType, Array<RespondCardType>>(s => s.cards.cards)
     const {cards} = useSelector((store: AppRootStateType) => store.cards);
     const cardsPack_id = useSelector<AppRootStateType, string>(s => s.cards.cardsPack_id)
     const dispatch = useDispatch()
@@ -52,13 +58,12 @@ export const Learn = () => {
     const [first, setFirst] = useState<boolean>(true);
     const [check, setCheck] = useState(false)
     const [isDisable, setIsDisable] = useState(true)
-
     const [card, setCard] = useState<CardType>({
         _id: 'fake',
         cardsPack_id: '',
 
-        answer: 'answer fake',
-        question: 'question fake',
+        answer: '',
+        question: '',
         grade: 0,
         shots: 0,
 
@@ -71,37 +76,27 @@ export const Learn = () => {
     });
 
     const myCallBack = useCallback((grade: number, card_id: string) => {
-        debugger
+        message.info(messages[grade - 1], 2)
         dispatch(cardsEvaluation({grade, card_id}))
         setIsDisable(false)
 
-    },[setIsDisable, dispatch])
+    }, [setIsDisable, dispatch])
 
     const checkButton = useCallback((check: boolean) => {
-        debugger
         setCheck(check)
         if (cards.length > 0 && !check) {
             // dispatch
             setCard(getCard(cards));
         }
-    },[setCheck])
-
-    // const random = useCallback(() => {
-    //     console.log('here')
-    //     return state[Math.floor(Math.random() * state.length)]
-    // },[state])
+    }, [setCheck])
 
 
     useEffect(() => {
-        debugger
-        const packId = cards.find(cr => cr.cardsPack_id)
         if (first) {
-            if (packId) {
-                dispatch(getCardsTC(cardsPack_id))
-            }
+            dispatch(getCardsTC(cardsPack_id))
             setFirst(false);
-
         }
+
         if (cards.length > 0) setCard(getCard(cards));
         return () => {
             console.log('LearnContainer useEffect off');
@@ -118,43 +113,42 @@ export const Learn = () => {
 
     return (
         <> {card &&
-            <Layout className={s.layout}>
-                <Content className={s.content}>
+        <Layout className={s.layout}>
+            <Content className={s.content}>
+                <div>
+                    <div className={s.question}>
+                        <div className={s.question}>{card.question}</div>
+                        <Button onClick={() => checkButton(true)}>CHECK</Button></div>
+                    {check &&
                     <div>
-                        <div className={s.question}>
-                            <div className={s.question}>{card.question}</div>
-                            <Divider/>
-                            <Button onClick={() => checkButton(true)}>CHECK</Button></div>
-                        {check &&
-                        <div>
-                            <div className={s.answer}>{card.answer}</div>
-                            <div className={s.buttons}>
-                                <div className={s.button}>
-                                    <Button onClick={() => myCallBack(1, card._id)}>I know it about 20%</Button>
-                                </div>
-                                <div className={s.button}>
-                                    <Button onClick={() => myCallBack(2, card._id)}>I know it about 40%</Button>
-                                </div>
-                                <div className={s.button}>
-                                    <Button onClick={() => myCallBack(3, card._id)}>I know it about 60%</Button>
-                                </div>
-                                <div className={s.button}>
-                                    <Button onClick={() => myCallBack(4, card._id)}>I know it about 80%</Button>
-                                </div>
-                                <div className={s.button}>
-                                    <Button onClick={() => myCallBack(5, card._id)}>I know it about 100%</Button>
-                                </div>
+                        <Divider/>
+                        <div className={s.answer}>{card.answer}</div>
+                        <div className={s.buttons}>
+                            <div className={s.button}>
+                                <Button onClick={() => myCallBack(1, card._id)}>I do not know it</Button>
                             </div>
-                            <Divider/>
-                            <div className={s.nextButton}>
-                                <Button disabled={isDisable} onClick={() => checkButton(false)}>NEXT</Button>
+                            <div className={s.button}>
+                                <Button onClick={() => myCallBack(2, card._id)}>I am not sure</Button>
                             </div>
-
+                            <div className={s.button}>
+                                <Button onClick={() => myCallBack(3, card._id)}>I feel I knew it</Button>
+                            </div>
+                            <div className={s.button}>
+                                <Button onClick={() => myCallBack(4, card._id)}>I know it</Button>
+                            </div>
+                            <div className={s.button}>
+                                <Button onClick={() => myCallBack(5, card._id)}>I know well</Button>
+                            </div>
                         </div>
-                        }
+                        <div className={s.nextButton}>
+                            <Button disabled={isDisable} onClick={() => checkButton(false)}>NEXT</Button>
+                        </div>
+                        <Divider/>
                     </div>
-                </Content>
-            </Layout>
+                    }
+                </div>
+            </Content>
+        </Layout>
         }
         </>
     )
