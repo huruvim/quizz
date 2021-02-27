@@ -75,9 +75,6 @@ export const Cards = () => {
     const thunkRequest = (key: React.Key) => {
         dispatch(updateCardTC(key))
     }
-    // const handleSave = (s: number) => {
-    //     // debugger
-    // }
 
     const columns: ColumnsType<User> = [
         {
@@ -141,7 +138,6 @@ export const Cards = () => {
         const packId = key.toString()
         dispatch(deleteCardTC(packId))
         dispatch(currentPackIdAC(packId))
-
     };
     const data: User[] = state.map((pack) => ({
         question: pack.question,

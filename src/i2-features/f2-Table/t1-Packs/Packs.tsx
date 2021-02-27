@@ -1,16 +1,15 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {Button, Input, Layout, Modal, Popconfirm, Space, Table} from "antd";
-import {ExclamationCircleOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {Content} from "antd/es/layout/layout";
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 import {ColumnsType} from "antd/es/table";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {CardPacksType} from "../../../i1-main/m3-dal/api";
 import {addPackTC, currentPackIdAC, deletePackTC, getPacksTC} from "./packs-reducer";
-import {getCardsTC} from "../t2-Cards/cards-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
+import {authMe} from "../../../i1-main/m2-bll/auth-reducer";
 
 
 interface User {
@@ -25,16 +24,21 @@ export const Packs = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [packName, setPackName] = useState("")
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
+    const [first, setFirst] = useState<boolean>(true);
+
 
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
-    const currentId = useSelector<AppRootStateType, string>(s => s.packs.cardsPack_id)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getPacksTC())
-    }, [dispatch])
-
+        if(first) {
+            dispatch(authMe())
+            dispatch(getPacksTC())
+            setFirst(false)
+        }
+    }, [dispatch, first])
 
     //добовление имя колоды в useState
     const handleSetName = (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,29 +62,7 @@ export const Packs = () => {
     };
     // забирается id колоды
     const myCallBack = (id: string) => {
-        dispatch(getCardsTC(id))
         dispatch(currentPackIdAC(id))
-    }
-    // const editPackName = () => {
-    //     setIsModalVisible(false)
-    //     dispatch(updatePack({_id: currentId, name: packName}))
-    //     console.log(currentId, packName)
-    // }
-
-    //  для создания модалки
-    function confirm() {
-        Modal.confirm({
-            title: "Confirm",
-            content: 'Please confirm',
-            icon: <ExclamationCircleOutlined/>,
-            okText: "Yes",
-            okType: 'danger',
-            onOk() {
-                // debugger
-                dispatch(deletePackTC(currentId))
-            },
-            cancelText: "No",
-        })
     }
 
     const columns: ColumnsType<User> = [
@@ -137,7 +119,7 @@ export const Packs = () => {
                         <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
                             <a>Delete</a>
                         </Popconfirm>
-                        <NavLink to={PATH.LEARN} onClick={() => learnThisPack}>Learn</NavLink>
+                        <NavLink to={PATH.LEARN} >Learn</NavLink>
                     </Space>
 
                 </div>
@@ -151,12 +133,6 @@ export const Packs = () => {
         dispatch(currentPackIdAC(packId))
     };
 
-    const learnThisPack = (key: React.Key) => {
-        const packId = key.toString()
-        dispatch(currentPackIdAC(packId))
-        dispatch(getCardsTC(packId))
-    }
-
 
     const data: User[] = state.map((pack) => ({
         name: pack.name,
@@ -165,6 +141,10 @@ export const Packs = () => {
         grade: pack.grade,
         key: pack._id
     }))
+
+    if (!isLoggedIn) {
+        return <Redirect to={PATH.LOGIN}/>
+    }
 
     return (
         <>
@@ -175,7 +155,6 @@ export const Packs = () => {
                 </Modal>
                 <Content>
                     <Table<User>
-                        rowKey="uid"
                         dataSource={data}
                         columns={columns}
                         onRow={(record) => {

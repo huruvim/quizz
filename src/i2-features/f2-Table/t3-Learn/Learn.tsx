@@ -9,6 +9,7 @@ import {getCardsTC} from "../t2-Cards/cards-reducer";
 import 'antd/dist/antd.css';
 import s from './Learn.module.css'
 import {cardsEvaluation} from "./learn-reducer";
+import {authMe} from "../../../i1-main/m2-bll/auth-reducer";
 
 export type CardType = {
     _id: string;
@@ -109,9 +110,6 @@ export const Learn = () => {
     if (cardsPack_id === '') {
         return <Redirect to={PATH.PACKS}/>
     }
-
-
-    debugger
 
     return (
         <> {card &&

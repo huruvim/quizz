@@ -8,7 +8,7 @@ import {AxiosResponseType, LoginType} from "../m2-bll/auth-reducer";
 // 'valentyn.333k@gmail.com'
 // '111qwe222'
 const instance  = axios.create ({
-    baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    baseURL: 'http://localhost:7542/2.0/',
     withCredentials: true,
 })
 
@@ -202,6 +202,9 @@ export const authAPI = {
     signUp(data: RequestType) {
         return instance.post<ResponseType>('auth/register', data)
     },
+    authMe() {
+      return instance.post(`/auth/me`, {})
+    },
     ping() {
         return instance.get('ping')
     }
@@ -232,7 +235,6 @@ export const cardsAPI = {
     },
 
     cards(data: string) {
-        debugger
         return instance.get(`cards/card/?cardsPack_id=${data}&pageCount=20`)
     },
     cardAdd(data: {}) {
