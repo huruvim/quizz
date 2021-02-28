@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../m2-bll/store";
 import React, {DetailedHTMLProps, HTMLAttributes, useEffect, useState} from "react";
 import {authMe} from "../../m2-bll/auth-reducer";
+import {Spin} from "antd";
 
 type DivPropsType = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
@@ -39,7 +40,7 @@ const AuthRedirectPage: React.FC<AuthRedirectPagePropsType> = React.memo((
         dispatch, redirect, spin, setSpin]);
 
     if (redirect) return <Redirect to={PATH.LOGIN}/>;
-    if (spin) return <div>spin...</div>;
+    if (spin) return <Spin spinning={true}/>;
 
     return (
         <>

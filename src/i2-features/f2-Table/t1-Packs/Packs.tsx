@@ -9,7 +9,6 @@ import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {CardPacksType} from "../../../i1-main/m3-dal/api";
 import {addPackTC, currentPackIdAC, deletePackTC, getPacksTC, updatePack} from "./packs-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
-import {authMe} from "../../../i1-main/m2-bll/auth-reducer";
 
 
 interface User {
@@ -36,11 +35,13 @@ export const Packs = () => {
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
     const currentId = useSelector<AppRootStateType, string>(s => s.packs.cardsPack_id)
     const isLoading = useSelector<AppRootStateType, boolean>(s => s.packs.isLoading)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
+
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if(first) {
+        if (first) {
             dispatch(getPacksTC())
             setFirst(false)
         }
@@ -91,7 +92,9 @@ export const Packs = () => {
         dispatch(currentPackIdAC(id))
     }
     // }
-
+    if (!isLoggedIn) {
+        return <Redirect to={PATH.LOGIN}/>
+    }
 
     const columns: ColumnsType<User> = [
         //Название Колоды
@@ -178,37 +181,37 @@ export const Packs = () => {
 
     return (
         <>
-        <Spin spinning={isLoading}>
-            <Layout>
+            <Spin spinning={isLoading}>
+                <Layout>
 
-                <Button onClick={showModal} >Add Pack</Button>
-                <Modal title="Add Pack" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                    <span>Pack name: </span><Input onChange={handleSetName}/>
-                </Modal>
-                <Modal title="Update pack name" visible={updateModalVisible} onOk={onOk} onCancel={onCancel}>
-                    <span>Update pack name: </span><Input onChange={onUpdateName}/>
-                </Modal>
-                <Content>
-                    <Table<User>
-                        dataSource={data}
-                        columns={columns}
-                        onRow={(record) => {
-                            return {
-                                onClick: () => {
-                                    myCallBack(record.key)
-                                }, // click row
-                            };
-                        }}
-                        // bordered
-                        pagination={{
-                            position: ['topRight'],
-                            defaultPageSize: 10,
-                            pageSizeOptions: ['3', '5', '10', '20', '25']
-                        }}
-                    />
-                </Content>
-            </Layout>
-        </Spin>
+                    <Button onClick={showModal}>Add Pack</Button>
+                    <Modal title="Add Pack" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                        <span>Pack name: </span><Input onChange={handleSetName}/>
+                    </Modal>
+                    <Modal title="Update pack name" visible={updateModalVisible} onOk={onOk} onCancel={onCancel}>
+                        <span>Update pack name: </span><Input onChange={onUpdateName}/>
+                    </Modal>
+                    <Content>
+                        <Table<User>
+                            dataSource={data}
+                            columns={columns}
+                            onRow={(record) => {
+                                return {
+                                    onClick: () => {
+                                        myCallBack(record.key)
+                                    }, // click row
+                                };
+                            }}
+                            // bordered
+                            pagination={{
+                                position: ['topRight'],
+                                defaultPageSize: 10,
+                                pageSizeOptions: ['3', '5', '10', '20', '25']
+                            }}
+                        />
+                    </Content>
+                </Layout>
+            </Spin>
         </>
     )
 }

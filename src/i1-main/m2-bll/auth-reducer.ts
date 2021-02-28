@@ -113,6 +113,18 @@ export const authMe = () => (dispatch: Dispatch) => {
             message.error(error)
         })
 }
+export const logoutTC = () => (dispatch: Dispatch) => {
+    authAPI.logout()
+        .then( () => {
+            message.info(`You've been logged out`)
+        })
+        .catch((err) => {
+            const error = err.response
+                ? err.response.data.error : (err.message + ', more details in the console');
+            dispatch(onErrorAC(error))
+            message.error(error)
+        })
+}
 
 
 

@@ -26,6 +26,8 @@ export const Cards = () => {
     const state = useSelector<AppRootStateType, Array<RespondCardType>>(s => s.cards.cards)
     const cardsPack_id = useSelector<AppRootStateType, string>(s => s.cards.cardsPack_id)
     const isLoading = useSelector<AppRootStateType, boolean>(s => s.cards.isLoading)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
+
     const dispatch = useDispatch()
 
 
@@ -37,12 +39,10 @@ export const Cards = () => {
     }
 
     useEffect(() => {
-        // debugger
-        const packId = state.find(cr=> cr.cardsPack_id )
         if (cardsPack_id) {
         dispatch(getCardsTC(cardsPack_id))
         }
-    }, [dispatch])
+    }, [dispatch, cardsPack_id])
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -68,7 +68,7 @@ export const Cards = () => {
             dataIndex: 'question',
             key: 'question',
             width: '300px',
-            render: (text: string, record) => {
+            render: (text: string) => {
                 return <div>{text}</div>
             }
         },
@@ -127,6 +127,10 @@ export const Cards = () => {
         lastUpdate: pack.updated.substr(0, 10).replace(/-/g, " "),
         key: pack._id,
     }))
+
+    if (!isLoggedIn) {
+        return <Redirect to={PATH.LOGIN}/>
+    }
 
     return (
         <>

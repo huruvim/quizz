@@ -9,7 +9,6 @@ import {getCardsTC} from "../t2-Cards/cards-reducer";
 import 'antd/dist/antd.css';
 import s from './Learn.module.css'
 import {cardsEvaluation} from "./learn-reducer";
-import {authMe} from "../../../i1-main/m2-bll/auth-reducer";
 
 export type CardType = {
     _id: string;
@@ -55,6 +54,7 @@ export const Learn = () => {
     const {cards} = useSelector((store: AppRootStateType) => store.cards);
     // const {cards} = useSelector<AppRootStateType, CardType>(store => store.cards);
     const cardsPack_id = useSelector<AppRootStateType, string>(s => s.cards.cardsPack_id)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
     const dispatch = useDispatch()
 
     const [first, setFirst] = useState<boolean>(true);
@@ -93,7 +93,7 @@ export const Learn = () => {
             setCard(getCard(cards));
         }
         setIsDisabledButton(false)
-    }, [setCheck])
+    }, [setCheck, cards])
 
     useEffect(() => {
         if (first) {
@@ -105,10 +105,14 @@ export const Learn = () => {
         return () => {
             // console.log('LearnContainer useEffect off');
         }
-    }, [dispatch, cards, first])
+    }, [dispatch, cards, first, cardsPack_id])
 
     if (cardsPack_id === '') {
         return <Redirect to={PATH.PACKS}/>
+    }
+
+    if (!isLoggedIn) {
+        return <Redirect to={PATH.LOGIN}/>
     }
 
     return (

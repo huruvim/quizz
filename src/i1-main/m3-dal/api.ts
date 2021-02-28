@@ -8,7 +8,7 @@ import {AxiosResponseType, LoginType} from "../m2-bll/auth-reducer";
 // 'valentyn.333k@gmail.com'
 // '111qwe222'
 const instance  = axios.create ({
-    baseURL: 'http://localhost:7542/2.0/',
+    baseURL: 'https://neko-back.herokuapp.com/2.0/',
     withCredentials: true,
 })
 
@@ -207,6 +207,9 @@ export const authAPI = {
     },
     ping() {
         return instance.get('ping')
+    },
+    logout() {
+        return instance.delete(`/auth/me`, {})
     }
 }
 

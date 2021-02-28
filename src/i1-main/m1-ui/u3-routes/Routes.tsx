@@ -11,7 +11,6 @@ import {Cards} from "../../../i2-features/f2-Table/t2-Cards/Cards";
 import {Packs} from "../../../i2-features/f2-Table/t1-Packs/Packs";
 import {Learn} from "../../../i2-features/f2-Table/t3-Learn/Learn";
 import AuthRedirectPage from "../u1-redirect/RedirectComponent";
-import {Progress} from "antd";
 
 
 export const PATH = {
