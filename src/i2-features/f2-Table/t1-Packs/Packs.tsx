@@ -24,14 +24,13 @@ export const Packs = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [packName, setPackName] = useState("")
-
     const [first, setFirst] = useState<boolean>(true);
 
     const [updateModalVisible, setUpdateModalVisible] = useState(false)
     const [updatePackName, setUpdatePackName] = useState("")
 
 
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
+    // const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
 
 
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
@@ -41,8 +40,7 @@ export const Packs = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (first) {
-            dispatch(authMe())
+        if(first) {
             dispatch(getPacksTC())
             setFirst(false)
         }
@@ -178,10 +176,6 @@ export const Packs = () => {
         key: pack._id
     }))
 
-    if (!isLoggedIn) {
-        return <Redirect to={PATH.LOGIN}/>
-    }
-
     return (
         <>
         <Spin spinning={isLoading}>
@@ -196,7 +190,6 @@ export const Packs = () => {
                 </Modal>
                 <Content>
                     <Table<User>
-                        // rowKey="uid"
                         dataSource={data}
                         columns={columns}
                         onRow={(record) => {

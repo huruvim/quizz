@@ -16,17 +16,16 @@ export const Profile = () => {
     const dispatch = useDispatch()
     const [first, setFirst] = useState<boolean>(true);
 
-    useEffect(() => {
-        if (first) {
-            dispatch(authMe())
-            setFirst(false);
-        }
-    }, [first, dispatch])
-
-    if (!isLoggedIn) {
-        return <Redirect to={PATH.LOGIN}/>
-    }
-
+    // useEffect(() => {
+    //     if (first) {
+    //         dispatch(authMe())
+    //         setFirst(false);
+    //     }
+    // }, [first, dispatch])
+    //
+    // if (!isLoggedIn) {
+    //     return <Redirect to={PATH.LOGIN}/>
+    // }
     return (
         <div className={s.profile}>
             <div>{`your name is ${name}`}</div>

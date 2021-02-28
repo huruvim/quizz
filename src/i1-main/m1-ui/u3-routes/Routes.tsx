@@ -10,6 +10,7 @@ import {Logout} from "../../../i2-features/f1-Auth/f1-Login/Logout";
 import {Cards} from "../../../i2-features/f2-Table/t2-Cards/Cards";
 import {Packs} from "../../../i2-features/f2-Table/t1-Packs/Packs";
 import {Learn} from "../../../i2-features/f2-Table/t3-Learn/Learn";
+import AuthRedirectPage from "../u1-redirect/RedirectComponent";
 import {Progress} from "antd";
 
 
@@ -40,16 +41,16 @@ function Routes() {
                 <Route path={"/"} exact render={() => <Redirect to={PATH.PROFILE}/>}/>
                 <Route path={PATH.LOGIN} render={() => <Login/>}/>
                 <Route path={PATH.REGISTRATION} render={() => <Registration/>}/>
-                <Route path={PATH.PROFILE} render={() => <Profile/>}/>
+                <Route path={PATH.PROFILE} render={() => <AuthRedirectPage> <Profile/> </AuthRedirectPage>}/>
                 {/*<Route path={PATH.RECOVERY} render={() => <Recovery/>}/>*/}
                 <Route path={`${PATH.CREATE_NEW_PASSWORD}/:resetPasswordToken`}  render={() => <CreateNewPassword/>}/>
                 <Route path={PATH.RECOVERY} exact render={() => <Recovery/>}/>
                 <Route path={PATH.LOGOUT} render={() => <Logout/>}/>
-                <Route path={PATH.PACKS} render={() => <Packs/>}/>
+                <Route path={PATH.PACKS} render={() =><AuthRedirectPage><Packs/></AuthRedirectPage>}/>
 
                 <Route path={`${PATH.CARDS}/:packToken`} render={() => <Cards/>}/>
-                <Route path={`${PATH.CARDS}`} exact render={() => <Cards/>}/>
-                <Route path={`${PATH.LEARN}`} exact render={() => <Learn/>}/>
+                <Route path={`${PATH.CARDS}`} exact render={() =><AuthRedirectPage> <Cards/> </AuthRedirectPage>}/>
+                <Route path={`${PATH.LEARN}`} exact render={() =><AuthRedirectPage> <Learn/> </AuthRedirectPage>}/>
 
 
 
