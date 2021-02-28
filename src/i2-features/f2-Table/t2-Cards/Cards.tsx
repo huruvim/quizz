@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {RespondCardType} from "../../../i1-main/m3-dal/api";
 import {Redirect} from "react-router-dom";
-import {Button, Input, Layout, Modal, Popconfirm, Space, Table} from "antd";
+import {Button, Input, Layout, Modal, Popconfirm, Space, Spin, Table} from "antd";
 import {Content} from "antd/es/layout/layout";
 import {addCardTC, currentPackIdAC, deleteCardTC, getCardsTC} from "./cards-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
@@ -25,6 +25,7 @@ export const Cards = () => {
 
     const state = useSelector<AppRootStateType, Array<RespondCardType>>(s => s.cards.cards)
     const cardsPack_id = useSelector<AppRootStateType, string>(s => s.cards.cardsPack_id)
+    const isLoading = useSelector<AppRootStateType, boolean>(s => s.cards.isLoading)
     const dispatch = useDispatch()
 
 
@@ -66,7 +67,7 @@ export const Cards = () => {
             title: 'Question',
             dataIndex: 'question',
             key: 'question',
-            width: '20px',
+            width: '300px',
             render: (text: string, record) => {
                 return <div>{text}</div>
             }
@@ -75,7 +76,7 @@ export const Cards = () => {
             title: 'Answer',
             dataIndex: 'answer',
             key: 'answer',
-            width: '20px',
+            width: '300px',
             render: (text: string) => <div>{text}</div>
         },
         //Оценка колоды
@@ -83,6 +84,7 @@ export const Cards = () => {
             title: 'Grade',
             dataIndex: 'grade',
             key: 'grade',
+            width: '100px',
             sorter: {
                 compare: (a: any, b: any) => a.grade - b.grade,
                 multiple: 2
@@ -98,11 +100,12 @@ export const Cards = () => {
             title: 'Last Update',
             dataIndex: 'lastUpdate',
             key: 'lastUpdate',
+            width: '200px',
         },
         //actions
         {
-            title: 'Action',
-            key: 'action',
+            title: 'Actions',
+            key: 'actions',
             render: (_: any, record: { key: React.Key }) => (
                 <Space size="middle">
                     <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
@@ -127,6 +130,7 @@ export const Cards = () => {
 
     return (
         <>
+            <Spin spinning={isLoading}>
             <Layout>
                 <Button onClick={showModal}>Add Card</Button>
                 <Modal title="Add Card" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
@@ -137,7 +141,7 @@ export const Cards = () => {
                     <Table
                         dataSource={data}
                         columns={columns}
-                        bordered
+                        // bordered
                         pagination={{
                             position: ['topRight'],
                             defaultPageSize: 10,
@@ -147,6 +151,7 @@ export const Cards = () => {
                     />
                 </Content>
             </Layout>
+            </Spin>
         </>
     )
 }

@@ -16,14 +16,16 @@ const initialState = {
     maxCardsCount: 4,
     minCardsCount: 0,
     page: 1,
-    pageCount: 4
+    pageCount: 4,
+    isLoading: false
 }
 export type InitialStateType = typeof initialState
 
 type CARD_PACKS = ReturnType<typeof cardPacksAC>
 type CURRENT_PACK = ReturnType<typeof currentPackIdAC>
+type LOADER = ReturnType<typeof packsLoaderAC>
 
-type ActionsType = CARD_PACKS | CURRENT_PACK
+type ActionsType = CARD_PACKS | CURRENT_PACK | LOADER
 type ThunkType = ThunkAction<void, AppRootStateType, unknown, ActionsType>
 
 export const packsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -32,6 +34,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
             return {...state, cardPacks: action.data}
         case cardsPack_id:
             return {...state, cardsPack_id: action.value}
+        case packsLoaderIsOn:
+            return {...state, isLoading: action.isLoading}
         default:
             return state
     }
@@ -39,12 +43,17 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
 
 const getCardPacks = 'getCardPacks'
 const cardsPack_id = 'cardsPack_id'
+const packsLoaderIsOn = 'packsLoaderIsOn'
+
 
 //ac
 export const cardPacksAC = (data: Array<CardPacksType>) => ({ type: getCardPacks, data } as const )
 export const currentPackIdAC = (value: string) => ({ type: cardsPack_id, value } as const )
+export const packsLoaderAC = (isLoading: boolean) => ({ type: packsLoaderIsOn, isLoading} as const)
+
 //tc
 export const getPacksTC = ():ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
+    dispatch(packsLoaderAC(true))
     cardsAPI.packs()
         .then((res:AxiosResponse<PacksResponseType>) => {
             dispatch(cardPacksAC(res.data.cardPacks))
@@ -54,9 +63,13 @@ export const getPacksTC = ():ThunkType => (dispatch: ThunkDispatch<AppRootStateT
                 ? err.response.data.error : (err.message + ', more details in the console');
             message.error(error,2)
         })
+        .finally(() => {
+            dispatch(packsLoaderAC(false))
+        })
 }
 
 export const addPackTC = (data: RequestPackType):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
+    dispatch(packsLoaderAC(true))
     cardsAPI.packsAdd(data)
         .then((res: AxiosResponse) => {
             dispatch(getPacksTC())
@@ -67,8 +80,12 @@ export const addPackTC = (data: RequestPackType):ThunkType => (dispatch: ThunkDi
                 ? err.response.data.error : (err.message + ', more details in the console');
             message.error(error,2)
         })
+        .finally(() => {
+            dispatch(packsLoaderAC(false))
+        })
 }
 export const updatePack = (data: {_id: string, name: string}):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
+    dispatch(packsLoaderAC(true))
     cardsAPI.packUpdate(data)
         .then( res => {
             dispatch(getPacksTC());
@@ -79,8 +96,12 @@ export const updatePack = (data: {_id: string, name: string}):ThunkType => (disp
                 ? err.response.data.error : (err.message + ', more details in the console');
             message.error(error,2)
         })
+        .finally(() => {
+            dispatch(packsLoaderAC(false))
+        })
 }
 export const deletePackTC = (id?: string):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
+    dispatch(packsLoaderAC(true))
     cardsAPI.packDelete(id)
         .then( res => {
             debugger
@@ -91,5 +112,8 @@ export const deletePackTC = (id?: string):ThunkType => (dispatch: ThunkDispatch<
             const error = err.response
                 ? err.response.data.error : (err.message + ', more details in the console');
             message.error(error,2)
+        })
+        .finally(() => {
+            dispatch(packsLoaderAC(false))
         })
 }

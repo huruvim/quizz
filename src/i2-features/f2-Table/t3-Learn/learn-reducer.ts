@@ -56,6 +56,7 @@ export const updateCardAC = (data: LearnCardType) => ({ type: updatedCard, data 
 
 //tc
 export const cardsEvaluation = (data: ThunkLearnPutType):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
+    debugger
     cardsAPI.evaluationCard(data)
         .then((res:AxiosResponse<LearnCardType>) => {
             dispatch(updateCardAC(res.data))

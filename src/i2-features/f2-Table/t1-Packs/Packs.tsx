@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {Button, Input, Layout, Modal, Popconfirm, Space, Table} from "antd";
+import {Button, Input, Layout, Modal, Popconfirm, Space, Spin, Table} from "antd";
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {Content} from "antd/es/layout/layout";
@@ -36,6 +36,7 @@ export const Packs = () => {
 
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
     const currentId = useSelector<AppRootStateType, string>(s => s.packs.cardsPack_id)
+    const isLoading = useSelector<AppRootStateType, boolean>(s => s.packs.isLoading)
 
     const dispatch = useDispatch()
 
@@ -44,7 +45,8 @@ export const Packs = () => {
             dispatch(authMe())
             dispatch(getPacksTC())
             setFirst(false)
-        }},[dispatch, first])
+        }
+    }, [dispatch, first])
     ////
     const onOk = () => {
         setUpdateModalVisible(false);
@@ -99,7 +101,7 @@ export const Packs = () => {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            width: '200px',
+            width: '250px',
             render: (value: React.ReactNode) => {
                 return <div>
                     <NavLink to={PATH.CARDS}>{value}</NavLink>
@@ -115,6 +117,7 @@ export const Packs = () => {
             //     compare: (a, b) => a.grade - b.grade,
             //     multiple: 2
             // },
+            width: '100',
             render: (creator: React.ReactNode) => (
                 <Space size="middle">
                     <div>{creator}</div>
@@ -126,6 +129,7 @@ export const Packs = () => {
             title: 'Cards Count',
             dataIndex: 'cardsCount',
             key: 'cardsCount',
+            width: '200',
             sorter: {
                 compare: (a, b) => a.cardsCount - b.cardsCount,
                 multiple: 1
@@ -148,7 +152,9 @@ export const Packs = () => {
                             <a>Delete</a>
                         </Popconfirm>
                         <NavLink to={PATH.LEARN}>Learn</NavLink>
-                        <a rel="stylesheet" onClick={() => {modalCallBack()}}>Update</a>
+                        <a rel="stylesheet" onClick={() => {
+                            modalCallBack()
+                        }}>Update</a>
                     </Space>
 
                 </div>
@@ -178,8 +184,10 @@ export const Packs = () => {
 
     return (
         <>
+        <Spin spinning={isLoading}>
             <Layout>
-                <Button onClick={showModal}>Add Pack</Button>
+
+                <Button onClick={showModal} >Add Pack</Button>
                 <Modal title="Add Pack" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                     <span>Pack name: </span><Input onChange={handleSetName}/>
                 </Modal>
@@ -198,7 +206,7 @@ export const Packs = () => {
                                 }, // click row
                             };
                         }}
-                        bordered
+                        // bordered
                         pagination={{
                             position: ['topRight'],
                             defaultPageSize: 10,
@@ -207,6 +215,7 @@ export const Packs = () => {
                     />
                 </Content>
             </Layout>
+        </Spin>
         </>
     )
 }

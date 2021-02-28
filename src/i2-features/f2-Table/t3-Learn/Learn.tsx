@@ -60,6 +60,8 @@ export const Learn = () => {
     const [first, setFirst] = useState<boolean>(true);
     const [check, setCheck] = useState(false)
     const [isDisable, setIsDisable] = useState(true)
+    const [isDisabledButton, setIsDisabledButton] = useState(false)
+
     const [card, setCard] = useState<CardType>({
         _id: 'fake',
         cardsPack_id: '',
@@ -81,6 +83,7 @@ export const Learn = () => {
         message.info(messages[grade - 1], 2)
         dispatch(cardsEvaluation({grade, card_id}))
         setIsDisable(false)
+        setIsDisabledButton(true)
 
     }, [setIsDisable, dispatch])
 
@@ -89,6 +92,7 @@ export const Learn = () => {
         if (cards.length > 0 && !check) {
             setCard(getCard(cards));
         }
+        setIsDisabledButton(false)
     }, [setCheck])
 
     useEffect(() => {
@@ -114,26 +118,26 @@ export const Learn = () => {
                 <div>
                     <div className={s.question}>
                         <div className={s.question}>{card.question}</div>
-                        <Button onClick={() => checkButton(true)}>CHECK</Button></div>
+                        <Button onClick={() => checkButton(true) } disabled={isDisabledButton}>CHECK</Button></div>
                     {check &&
                     <div>
                         <Divider/>
                         <div className={s.answer}>{card.answer}</div>
                         <div className={s.buttons}>
                             <div className={s.button}>
-                                <Button onClick={() => myCallBack(1, card._id)}>I do not know it</Button>
+                                <Button onClick={() => myCallBack(1, card._id)} disabled={isDisabledButton}>I do not know it</Button>
                             </div>
                             <div className={s.button}>
-                                <Button onClick={() => myCallBack(2, card._id)}>I am not sure</Button>
+                                <Button onClick={() => myCallBack(2, card._id)} disabled={isDisabledButton}>I am not sure</Button>
                             </div>
                             <div className={s.button}>
-                                <Button onClick={() => myCallBack(3, card._id)}>I feel I knew it</Button>
+                                <Button onClick={() => myCallBack(3, card._id)} disabled={isDisabledButton}>I feel I knew it</Button>
                             </div>
                             <div className={s.button}>
-                                <Button onClick={() => myCallBack(4, card._id)}>I know it</Button>
+                                <Button onClick={() => myCallBack(4, card._id)} disabled={isDisabledButton}>I know it</Button>
                             </div>
                             <div className={s.button}>
-                                <Button onClick={() => myCallBack(5, card._id)}>I know well</Button>
+                                <Button onClick={() => myCallBack(5, card._id)} disabled={isDisabledButton}>I know well</Button>
                             </div>
                         </div>
                         <div className={s.nextButton}>
