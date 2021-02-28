@@ -7,14 +7,15 @@ import {NavLink, Redirect} from 'react-router-dom';
 import {ColumnsType} from "antd/es/table";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {CardPacksType} from "../../../i1-main/m3-dal/api";
-import {addPackTC, currentPackIdAC, deletePackTC, getPacksTC} from "./packs-reducer";
+import {addPackTC, currentPackIdAC, deletePackTC, getPacksTC, updatePack} from "./packs-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
+import {authMe} from "../../../i1-main/m2-bll/auth-reducer";
 
 
 interface User {
     name: string
     cardsCount: number
-    grade: number
+    creator: string
     lastUpdate: string
     key: string
 }
@@ -23,27 +24,27 @@ export const Packs = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [packName, setPackName] = useState("")
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
-    const [first, setFirst] = useState<boolean>(true);
 
+    const [first, setFirst] = useState<boolean>(true);
 
     const [updateModalVisible, setUpdateModalVisible] = useState(false)
     const [updatePackName, setUpdatePackName] = useState("")
 
 
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
+
+
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
+    const currentId = useSelector<AppRootStateType, string>(s => s.packs.cardsPack_id)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if(first) {
+        if (first) {
             dispatch(authMe())
             dispatch(getPacksTC())
             setFirst(false)
-        }
-    }, [dispatch, first])
-        dispatch(getPacksTC())
-    }, [dispatch])
+        }},[dispatch, first])
     ////
     const onOk = () => {
         setUpdateModalVisible(false);
@@ -107,16 +108,16 @@ export const Packs = () => {
         },
         //Оценка колоды
         {
-            title: 'Grade',
-            dataIndex: 'grade',
-            key: 'grade',
-            sorter: {
-                compare: (a, b) => a.grade - b.grade,
-                multiple: 2
-            },
-            render: (grade: React.ReactNode) => (
+            title: 'Creator',
+            dataIndex: 'creator',
+            key: 'creator',
+            // sorter: {
+            //     compare: (a, b) => a.grade - b.grade,
+            //     multiple: 2
+            // },
+            render: (creator: React.ReactNode) => (
                 <Space size="middle">
-                    <div>{grade}</div>
+                    <div>{creator}</div>
                 </Space>
             ),
         },
@@ -167,7 +168,7 @@ export const Packs = () => {
         name: pack.name,
         cardsCount: pack.cardsCount,
         lastUpdate: pack.updated.substr(0, 10).replace(/-/g, " "),
-        grade: pack.grade,
+        creator: pack.user_name,
         key: pack._id
     }))
 

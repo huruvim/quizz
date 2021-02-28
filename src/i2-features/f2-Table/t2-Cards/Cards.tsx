@@ -36,8 +36,9 @@ export const Cards = () => {
     }
 
     useEffect(() => {
+        // debugger
         const packId = state.find(cr=> cr.cardsPack_id )
-        if (packId) {
+        if (cardsPack_id) {
         dispatch(getCardsTC(cardsPack_id))
         }
     }, [dispatch])
