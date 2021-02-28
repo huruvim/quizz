@@ -7,6 +7,7 @@ import {
 import {AxiosResponse} from "axios";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import {message} from "antd";
 
 const initialState = {
     cardPacks: [] as Array<CardPacksType>,
@@ -49,7 +50,9 @@ export const getPacksTC = ():ThunkType => (dispatch: ThunkDispatch<AppRootStateT
             dispatch(cardPacksAC(res.data.cardPacks))
         })
         .catch((err) => {
-            console.log(err)
+            const error = err.response
+                ? err.response.data.error : (err.message + ', more details in the console');
+            message.error(error,2)
         })
 }
 
@@ -57,26 +60,36 @@ export const addPackTC = (data: RequestPackType):ThunkType => (dispatch: ThunkDi
     cardsAPI.packsAdd(data)
         .then((res: AxiosResponse) => {
             dispatch(getPacksTC())
+            message.info(`New pack ${res.data.newCardsPack.name} has been added`)
         })
         .catch(err => {
-            console.log(err)
+            const error = err.response
+                ? err.response.data.error : (err.message + ', more details in the console');
+            message.error(error,2)
         })
 }
 export const updatePack = (data: {_id: string, name: string}):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
     cardsAPI.packUpdate(data)
         .then( res => {
             dispatch(getPacksTC());
+            message.info(`Pack name has been updated to ${res.data.updatedCardsPack.name}`)
         })
         .catch(err => {
-            console.log(err)
+            const error = err.response
+                ? err.response.data.error : (err.message + ', more details in the console');
+            message.error(error,2)
         })
 }
 export const deletePackTC = (id?: string):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
     cardsAPI.packDelete(id)
         .then( res => {
+            debugger
             dispatch(getPacksTC())
+            message.info(`Pack ${res.data.deletedCardsPack.name} has been deleted`)
         })
         .catch(err => {
-            console.log(err)
+            const error = err.response
+                ? err.response.data.error : (err.message + ', more details in the console');
+            message.error(error,2)
         })
 }

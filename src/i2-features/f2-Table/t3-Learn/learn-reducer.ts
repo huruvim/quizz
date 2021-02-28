@@ -2,6 +2,7 @@ import {cardsAPI, LearnCardType, ThunkLearnPutType} from "../../../i1-main/m3-da
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {AxiosResponse} from "axios";
+import {message} from "antd";
 
 
 const initialState = {
@@ -57,12 +58,12 @@ export const updateCardAC = (data: LearnCardType) => ({ type: updatedCard, data 
 export const cardsEvaluation = (data: ThunkLearnPutType):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
     cardsAPI.evaluationCard(data)
         .then((res:AxiosResponse<LearnCardType>) => {
-            console.log('cool')
             dispatch(updateCardAC(res.data))
-
         })
         .catch((err) => {
-            console.log('lox')
+            const error = err.response
+                ? err.response.data.error : (err.message + ', more details in the console');
+            message.error(error, 2)
         })
     }
 

@@ -15,6 +15,7 @@ export const Profile = () => {
     if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>
     }
+
     return (
         <div className={s.profile}>
             <div>{`your name is ${name}`}</div>

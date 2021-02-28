@@ -1,13 +1,14 @@
 import {
     cardsAPI,
+    OnCardAddType,
     RespondCardsType,
     RespondCardType,
-    OnCardAddType, UpdatedRespondCardType, UpdatedRespondDataCardType
+    UpdatedRespondCardType,
 } from "../../../i1-main/m3-dal/api";
 import {AxiosResponse} from "axios";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
-
+import {message} from "antd";
 
 const initialState = {
     cards: [] as Array<RespondCardType>,
@@ -35,21 +36,6 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Act
             return {...state, cards: action.data}
         case cardsPack_id:
             return {...state, cardsPack_id: action.value}
-        // case updatedCard:
-        //     return {...state, cards: action.data}
-            //     answer: action.
-            //     }
-            // question: string
-            // cardsPack_id: string
-            // grade: number
-            // rating: number
-            // shots: number
-            // type: string
-            // user_id: string
-            // created: string
-            // updated: string
-            // __v: number
-            // _id: string}
         default:
             return state
     }
@@ -67,44 +53,42 @@ export const updatedCardAC = (data: Array<UpdatedRespondCardType>) => ({ type: u
 
 //tc
 export const getCardsTC = (data: string):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
-    debugger
     cardsAPI.cards(data)
-
         .then((res: AxiosResponse<RespondCardsType>) => {
-            debugger
             dispatch(cardsAC(res.data.cards))
+            message.info(`Here is ${res.data.cardsTotalCount} cards available!`)
         })
         .catch(err => {
-            console.log(err)
+            const error = err.response
+                ? err.response.data.error : (err.message + ', more details in the console');
+            message.error(error,2 )
         })
 }
 export const addCardTC = (data: {}):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
     cardsAPI.cardAdd(data)
         .then((res: AxiosResponse<OnCardAddType>) => {
             dispatch(getCardsTC(res.data.newCard.cardsPack_id));
+            message.info(`New card has been created`)
         })
         .catch(err => {
-            console.log(err)
+            const error = err.response
+                ? err.response.data.error : (err.message + ', more details in the console');
+            message.error(error,2)
         })
 }
 export const deleteCardTC = (data: string):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
     cardsAPI.cardDelete(data)
         .then((res: AxiosResponse<any>) => {
             dispatch(getCardsTC(res.data.deletedCard.cardsPack_id));
+            message.info(`Picked card has been deleted`)
         })
         .catch(err => {
-            console.log(err)
+            const error = err.response
+                ? err.response.data.error : (err.message + ', more details in the console');
+            message.error(error, 2)
         })
 }
-export const updateCardTC = (data: {}):ThunkType => (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
-    cardsAPI.cardUpdate(data)
-        .then((res: AxiosResponse<UpdatedRespondDataCardType>) => {
-            dispatch(getCardsTC(res.data.updatedCard.cardsPack_id));
-        })
-        .catch(err => {
-            console.log(err)
-        })
-}
+
 
 
 

@@ -1,5 +1,4 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux'
-import {testReducer} from "./test-reducer";
 import {authReducer} from "./auth-reducer";
 import {profileReducer} from "./profile-reducer";
 import {registrationReducer} from "./registration-reducer";
@@ -12,7 +11,6 @@ import {learnReducer} from "../../i2-features/f2-Table/t3-Learn/learn-reducer";
 
 
 const rootReducer = combineReducers({
-    test: testReducer,
     isLoggedIn: authReducer,
     profile: profileReducer,
     isRegistered: registrationReducer,

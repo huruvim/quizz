@@ -8,7 +8,7 @@ import {AxiosResponseType, LoginType} from "../m2-bll/auth-reducer";
 // 'valentyn.333k@gmail.com'
 // '111qwe222'
 const instance  = axios.create ({
-    baseURL: 'https://neko-back.herokuapp.com/2.0/',
+    baseURL: 'http://localhost:7542/2.0/',
     withCredentials: true,
 })
 
@@ -45,21 +45,21 @@ export type SetNewPasswordResponseType = {
 }
 
 export type CardPacksType = {
-    "_id": string,
-    "user_id": string,
-    "user_name": string,
-    "private": boolean,
-    "name": string,
-    "path": string,
-    "grade": number,
-    "shots": number,
-    "cardsCount": number,
-    "type": string,
-    "rating": number,
-    "created": string,
-    "updated": string,
-    "more_id": string,
-    "__v": number
+    _id: string,
+    user_id: string,
+    user_name: string,
+    private: boolean,
+    name: string,
+    path: string,
+    grade: number,
+    shots: number,
+    cardsCount: number,
+    type: string,
+    rating: number,
+    created: string,
+    updated: string,
+    more_id: string,
+    __v: number
 }
 
 export type PacksResponseType = {
@@ -209,7 +209,6 @@ export const authAPI = {
 
 export const cardsAPI = {
     packs() {
-        // debugger
         return instance.get(`cards/pack?pageCount=100`)
         //?packName=english // не обязательно
         // &min=3 // не обязательно
@@ -219,41 +218,25 @@ export const cardsAPI = {
         // &pageCount=4 // не обязательно
     },
     packsAdd(data: RequestPackType) {
-        // debugger//
         return instance.post(`cards/pack`, {cardsPack: data})
     },
     packDelete(id?: string) {
-        // debugger
         return instance.delete(`cards/pack?id=${id}`)
     },
     packUpdate(data: {_id: string, name?: string}) {
-        // debugger
         return instance.put(`cards/pack`, {cardsPack: data})
     },
 
     cards(data: string) {
-        debugger
         return instance.get(`cards/card/?cardsPack_id=${data}&pageCount=20`)
     },
     cardAdd(data: {}) {
-        // debugger
         return instance.post(`cards/card/`, {card: data})
     },
     cardDelete(data: string) {
-        // debugger
         return instance.delete(`cards/card?id=${data}`)
     },
-    cardUpdate(data: {}) {
-        // debugger
-        return instance.put(`cards/card`,{
-            card: {
-                _id: data,
-                question: 'updated message'
-            }
-        })
-    },
     evaluationCard(data: {}) {
-        // debugger
         return instance.put('cards/grade', data)
     }
 }

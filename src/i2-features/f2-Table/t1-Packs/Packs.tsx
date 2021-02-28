@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {Button, Input, Layout, Modal, Popconfirm, Space, Table} from "antd";
-import {ExclamationCircleOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {Content} from "antd/es/layout/layout";
@@ -8,8 +7,7 @@ import {NavLink} from 'react-router-dom';
 import {ColumnsType} from "antd/es/table";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {CardPacksType} from "../../../i1-main/m3-dal/api";
-import {addPackTC, currentPackIdAC, deletePackTC, getPacksTC} from "./packs-reducer";
-import {getCardsTC} from "../t2-Cards/cards-reducer";
+import {addPackTC, currentPackIdAC, deletePackTC, getPacksTC, updatePack} from "./packs-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
 
 
@@ -26,6 +24,10 @@ export const Packs = () => {
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [packName, setPackName] = useState("")
 
+    const [updateModalVisible, setUpdateModalVisible] = useState(false)
+    const [updatePackName, setUpdatePackName] = useState("")
+
+
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
     const currentId = useSelector<AppRootStateType, string>(s => s.packs.cardsPack_id)
 
@@ -34,8 +36,27 @@ export const Packs = () => {
     useEffect(() => {
         dispatch(getPacksTC())
     }, [dispatch])
+    ////
+    const onOk = () => {
+        setUpdateModalVisible(false);
+        dispatch(updatePack({_id: currentId, name: updatePackName}))
+        // dispatch(addPackTC({name: packName}))
+    };
+    const onCancel = () => {
+        setUpdateModalVisible(false);
+    };
+    const onUpdateName = (event: ChangeEvent<HTMLInputElement>) => {
+        setUpdatePackName(event.currentTarget.value)
+    }
+
+    const modalCallBack = () => {
+        setUpdateModalVisible(true)
+    }
+
+    ////
 
 
+    //addPack {
     //добовление имя колоды в useState
     const handleSetName = (event: ChangeEvent<HTMLInputElement>) => {
         setPackName(event.currentTarget.value)
@@ -58,30 +79,10 @@ export const Packs = () => {
     };
     // забирается id колоды
     const myCallBack = (id: string) => {
-        dispatch(getCardsTC(id))
         dispatch(currentPackIdAC(id))
     }
-    // const editPackName = () => {
-    //     setIsModalVisible(false)
-    //     dispatch(updatePack({_id: currentId, name: packName}))
-    //     console.log(currentId, packName)
     // }
 
-    //  для создания модалки
-    function confirm() {
-        Modal.confirm({
-            title: "Confirm",
-            content: 'Please confirm',
-            icon: <ExclamationCircleOutlined/>,
-            okText: "Yes",
-            okType: 'danger',
-            onOk() {
-                // debugger
-                dispatch(deletePackTC(currentId))
-            },
-            cancelText: "No",
-        })
-    }
 
     const columns: ColumnsType<User> = [
         //Название Колоды
@@ -137,33 +138,28 @@ export const Packs = () => {
                         <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
                             <a>Delete</a>
                         </Popconfirm>
-                        <NavLink to={PATH.LEARN} onClick={() => learnThisPack}>Learn</NavLink>
+                        <NavLink to={PATH.LEARN}>Learn</NavLink>
+                        <a rel="stylesheet" onClick={() => {modalCallBack()}}>Update</a>
                     </Space>
-
                 </div>
 
             ),
         },
     ];
+
     const handleDelete = (key: React.Key) => {
         const packId = key.toString()
         dispatch(deletePackTC(packId))
         dispatch(currentPackIdAC(packId))
     };
 
-    const learnThisPack = (key: React.Key) => {
-        const packId = key.toString()
-        dispatch(currentPackIdAC(packId))
-        dispatch(getCardsTC(packId))
-    }
-
-
-    const data: User[] = state.map((pack) => ({
+    const data: User[] = state.map((pack, o) => ({
         name: pack.name,
         cardsCount: pack.cardsCount,
         lastUpdate: pack.updated.substr(0, 10).replace(/-/g, " "),
         grade: pack.grade,
-        key: pack._id
+        key: pack._id,
+
     }))
 
     return (
@@ -173,9 +169,12 @@ export const Packs = () => {
                 <Modal title="Add Pack" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                     <span>Pack name: </span><Input onChange={handleSetName}/>
                 </Modal>
+                <Modal title="Update pack name" visible={updateModalVisible} onOk={onOk} onCancel={onCancel}>
+                    <span>Update pack name: </span><Input onChange={onUpdateName}/>
+                </Modal>
                 <Content>
                     <Table<User>
-                        rowKey="uid"
+                        // rowKey="uid"
                         dataSource={data}
                         columns={columns}
                         onRow={(record) => {

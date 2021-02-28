@@ -44,7 +44,7 @@ const getCard = (cards: Array<CardType>) => {
             return {sum: newSum, id: newSum < rand ? i : acc.id}
         }
         , {sum: 0, id: -1});
-    console.log('test: ', sum, rand, res)
+    // console.log('test: ', sum, rand, res)
 
     return cards[res.id + 1];
 }
@@ -84,14 +84,11 @@ export const Learn = () => {
     }, [setIsDisable, dispatch])
 
     const checkButton = useCallback((check: boolean) => {
-        // debugger
         setCheck(check)
         if (cards.length > 0 && !check) {
-            // dispatch
             setCard(getCard(cards));
         }
     }, [setCheck])
-
 
     useEffect(() => {
         if (first) {
@@ -101,17 +98,13 @@ export const Learn = () => {
 
         if (cards.length > 0) setCard(getCard(cards));
         return () => {
-            console.log('LearnContainer useEffect off');
+            // console.log('LearnContainer useEffect off');
         }
     }, [dispatch, cards, first])
-
 
     if (cardsPack_id === '') {
         return <Redirect to={PATH.PACKS}/>
     }
-
-
-    debugger
 
     return (
         <> {card &&

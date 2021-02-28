@@ -51,14 +51,11 @@ const checkRegistration = (isRegistered: boolean) => ({type: IS_REGISTRATION, is
 export const createUserTC = (dataRegistration: RequestType) => (dispatch: Dispatch) => {
     authAPI.signUp({email: dataRegistration.email, password: dataRegistration.password})
         .then((res) => {
-            if (res.status === 201) {
-                dispatch(checkRegistration(true))
-            } else {
-                console.log('error')
-            }
+            dispatch(checkRegistration(true))
         })
         .catch(err => {
-            const error = err.response ? err.response.data.error : (err.message + ', more details in the console');
+            const error = err.response
+                ? err.response.data.error : (err.message + ', more details in the console');
             dispatch(onErrorAC(error))
             message.error(error)
         })

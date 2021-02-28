@@ -5,7 +5,7 @@ import {RespondCardType} from "../../../i1-main/m3-dal/api";
 import {Redirect} from "react-router-dom";
 import {Button, Input, Layout, Modal, Popconfirm, Space, Table} from "antd";
 import {Content} from "antd/es/layout/layout";
-import {addCardTC, currentPackIdAC, deleteCardTC, getCardsTC, updateCardTC} from "./cards-reducer";
+import {addCardTC, currentPackIdAC, deleteCardTC, getCardsTC} from "./cards-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
 import {ColumnsType} from "antd/es/table";
 
@@ -26,9 +26,6 @@ export const Cards = () => {
     const state = useSelector<AppRootStateType, Array<RespondCardType>>(s => s.cards.cards)
     const cardsPack_id = useSelector<AppRootStateType, string>(s => s.cards.cardsPack_id)
     const dispatch = useDispatch()
-
-    const [isEditable, setIsEditable] = useState(false)
-    const [title, setTitle] = useState('')
 
 
     const handleSetQuestion = (event: ChangeEvent<HTMLInputElement>) => {
@@ -62,22 +59,6 @@ export const Cards = () => {
         return <Redirect to={PATH.PACKS}/>
     }
 
-    const handelTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-
-    const switchToEditable = () => {
-        setIsEditable(true)
-    }
-    const switchToUneditable = () => {
-        setIsEditable(false)
-    }
-    const thunkRequest = (key: React.Key) => {
-        dispatch(updateCardTC(key))
-    }
-    // const handleSave = (s: number) => {
-    //     // debugger
-    // }
 
     const columns: ColumnsType<User> = [
         {
@@ -86,15 +67,8 @@ export const Cards = () => {
             key: 'question',
             width: '20px',
             render: (text: string, record) => {
-                if (!isEditable) {
-                    return <div onDoubleClick={switchToEditable}>
-                        {text}
-                    </div>
-                } else
-                    return <div onBlur={switchToUneditable}>
-                        <input type="text" value={title} onChange={handelTitleChange} onBlur={ () => thunkRequest(record.key)}/>
-                    </div>
-            },
+                return <div>{text}</div>
+            }
         },
         {
             title: 'Answer',

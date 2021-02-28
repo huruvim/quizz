@@ -89,7 +89,6 @@ export const onSubmitTC = (data: LoginType) => (dispatch: Dispatch) => {
     authAPI.login(data)
 
         .then((res: AxiosResponse<AxiosResponseType>) => {
-            // console.log('you have logged in')
             dispatch(onSubmitAC())
             dispatch(profileAC(res.data._id, res.data.email, res.data.name, res.data.publicCardPacksCount, res.data.created,
                 res.data.updated, res.data.isAdmin, res.data.verified, res.data.rememberMe, res.data.avatar, res.data.error))
@@ -97,7 +96,7 @@ export const onSubmitTC = (data: LoginType) => (dispatch: Dispatch) => {
 
         .catch((err) => {
             const error = err.response
-            ? err.response.data.error : (err.message + ', more details in the console');
+                ? err.response.data.error : (err.message + ', more details in the console');
             dispatch(onErrorAC(error))
             message.error(error)
         })
