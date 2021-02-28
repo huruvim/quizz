@@ -25,7 +25,7 @@ const AuthRedirectPage: React.FC<AuthRedirectPagePropsType> = React.memo((
 
     useEffect(() => {
         if (firstRendering) {
-            if (isLoggedIn) console.log("Error");
+            // if (isLoggedIn) console.log("Error");
             if (user._id === "") {
                 dispatch(authMe());
             }
