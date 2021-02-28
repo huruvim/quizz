@@ -115,7 +115,6 @@ export const Cards = () => {
         const packId = key.toString()
         dispatch(deleteCardTC(packId))
         dispatch(currentPackIdAC(packId))
-
     };
     const data: User[] = state.map((pack) => ({
         question: pack.question,

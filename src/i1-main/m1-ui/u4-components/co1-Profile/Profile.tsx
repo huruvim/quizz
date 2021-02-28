@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import s from "./Profile.module.css";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../m2-bll/store";
 import {Redirect} from "react-router-dom";
 import {PATH} from "../../u3-routes/Routes";
+import {authMe} from "../../../m2-bll/auth-reducer";
+
 
 export const Profile = () => {
 
@@ -11,6 +13,15 @@ export const Profile = () => {
     const avatar = useSelector<AppRootStateType, string | undefined>(s => s.profile.avatar)
     const publicCardPacksCount = useSelector<AppRootStateType, number>(s => s.profile.publicCardPacksCount)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
+    const dispatch = useDispatch()
+    const [first, setFirst] = useState<boolean>(true);
+
+    useEffect(() => {
+        if (first) {
+            dispatch(authMe())
+            setFirst(false);
+        }
+    }, [first, dispatch])
 
     if (!isLoggedIn) {
         return <Redirect to={PATH.LOGIN}/>

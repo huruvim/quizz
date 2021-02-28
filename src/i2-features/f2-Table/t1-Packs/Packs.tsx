@@ -3,11 +3,11 @@ import {Button, Input, Layout, Modal, Popconfirm, Space, Table} from "antd";
 import 'antd/dist/antd.css';
 import {useDispatch, useSelector} from "react-redux";
 import {Content} from "antd/es/layout/layout";
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 import {ColumnsType} from "antd/es/table";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {CardPacksType} from "../../../i1-main/m3-dal/api";
-import {addPackTC, currentPackIdAC, deletePackTC, getPacksTC, updatePack} from "./packs-reducer";
+import {addPackTC, currentPackIdAC, deletePackTC, getPacksTC} from "./packs-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
 
 
@@ -23,17 +23,25 @@ export const Packs = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [packName, setPackName] = useState("")
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
+    const [first, setFirst] = useState<boolean>(true);
+
 
     const [updateModalVisible, setUpdateModalVisible] = useState(false)
     const [updatePackName, setUpdatePackName] = useState("")
 
 
     const state = useSelector<AppRootStateType, Array<CardPacksType>>(s => s.packs.cardPacks)
-    const currentId = useSelector<AppRootStateType, string>(s => s.packs.cardsPack_id)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
+        if(first) {
+            dispatch(authMe())
+            dispatch(getPacksTC())
+            setFirst(false)
+        }
+    }, [dispatch, first])
         dispatch(getPacksTC())
     }, [dispatch])
     ////
@@ -141,6 +149,7 @@ export const Packs = () => {
                         <NavLink to={PATH.LEARN}>Learn</NavLink>
                         <a rel="stylesheet" onClick={() => {modalCallBack()}}>Update</a>
                     </Space>
+
                 </div>
 
             ),
@@ -153,14 +162,18 @@ export const Packs = () => {
         dispatch(currentPackIdAC(packId))
     };
 
-    const data: User[] = state.map((pack, o) => ({
+
+    const data: User[] = state.map((pack) => ({
         name: pack.name,
         cardsCount: pack.cardsCount,
         lastUpdate: pack.updated.substr(0, 10).replace(/-/g, " "),
         grade: pack.grade,
-        key: pack._id,
-
+        key: pack._id
     }))
+
+    if (!isLoggedIn) {
+        return <Redirect to={PATH.LOGIN}/>
+    }
 
     return (
         <>

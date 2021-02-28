@@ -34,15 +34,12 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
                 verified: action.verified,
                 rememberMe: action.rememberMe,
                 avatar: action.avatar,
-                error: action.error
+                error: action.error,
             }
         default:
             return state
     }
 }
-
-const profileChanged = 'profileChanged'
-
 
 export const profileAC = (
     _id: string,
@@ -54,8 +51,11 @@ export const profileAC = (
     isAdmin: boolean,
     verified: boolean, // подтвердил ли почту
     rememberMe: boolean,
-    avatar?: string,
-    error?: string,
+    avatar: string | undefined,
+    error: string | undefined,
 ) => ({type: profileChanged, _id, email, name, avatar, publicCardPacksCount, created,
     updated, isAdmin, verified, rememberMe, error} as const)
+
+
+const profileChanged = 'profileChanged'
 

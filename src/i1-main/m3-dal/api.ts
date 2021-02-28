@@ -202,6 +202,9 @@ export const authAPI = {
     signUp(data: RequestType) {
         return instance.post<ResponseType>('auth/register', data)
     },
+    authMe() {
+      return instance.post(`/auth/me`, {})
+    },
     ping() {
         return instance.get('ping')
     }
