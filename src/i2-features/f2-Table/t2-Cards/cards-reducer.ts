@@ -65,9 +65,7 @@ export const getCardsTC = (data: string):ThunkType => (dispatch: ThunkDispatch<A
     dispatch(cardsLoaderAC(true))
     cardsAPI.cards(data)
         .then((res: AxiosResponse<RespondCardsType>) => {
-            // debugger
             dispatch(cardsAC(res.data.cards))
-            // message.info(`Here is ${res.data.cardsTotalCount} cards available!`)
         })
         .catch(err => {
             const error = err.response

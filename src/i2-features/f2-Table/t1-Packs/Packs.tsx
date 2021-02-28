@@ -9,6 +9,7 @@ import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {CardPacksType} from "../../../i1-main/m3-dal/api";
 import {addPackTC, currentPackIdAC, deletePackTC, getPacksTC, updatePack} from "./packs-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
+import {message} from "antd/es";
 
 
 interface User {
@@ -48,12 +49,17 @@ export const Packs = () => {
     }, [dispatch, first])
     ////
     const onOk = () => {
+        if (updatePackName) {
         setUpdateModalVisible(false);
         dispatch(updatePack({_id: currentId, name: updatePackName}))
-        // dispatch(addPackTC({name: packName}))
+        setUpdatePackName('')
+        } else {
+            message.error(`Puck name must contain at least one regular character`)
+        }
     };
     const onCancel = () => {
         setUpdateModalVisible(false);
+        setUpdatePackName('')
     };
     const onUpdateName = (event: ChangeEvent<HTMLInputElement>) => {
         setUpdatePackName(event.currentTarget.value)
@@ -70,6 +76,7 @@ export const Packs = () => {
     //добовление имя колоды в useState
     const handleSetName = (event: ChangeEvent<HTMLInputElement>) => {
         setPackName(event.currentTarget.value)
+
     }
 
     //Показать модальное окно
@@ -79,13 +86,21 @@ export const Packs = () => {
 
     // При нажатии в модальном окне кнопки ок
     const handleOk = () => {
-        // debugger
-        setIsModalVisible(false);
-        dispatch(addPackTC({name: packName}))
+        if (packName) {
+            setIsModalVisible(false);
+            dispatch(addPackTC({name: packName}))
+            setPackName('')
+        }   else {
+            message.error(`Puck name must contain at least one regular character`)
+        }
+
+
+
     };
     // закрытие модалки по кнопке cancel или X
     const handleCancel = () => {
-        setIsModalVisible(false);
+        setIsModalVisible(false)
+        setPackName('')
     };
     // забирается id колоды
     const myCallBack = (id: string) => {
@@ -109,7 +124,7 @@ export const Packs = () => {
                 </div>;
             },
         },
-        //Оценка колоды
+        //Создатель колоды
         {
             title: 'Creator',
             dataIndex: 'creator',
@@ -186,10 +201,10 @@ export const Packs = () => {
 
                     <Button onClick={showModal}>Add Pack</Button>
                     <Modal title="Add Pack" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                        <span>Pack name: </span><Input onChange={handleSetName}/>
+                        <span>Pack name: </span><Input onChange={handleSetName} value={packName}/>
                     </Modal>
                     <Modal title="Update pack name" visible={updateModalVisible} onOk={onOk} onCancel={onCancel}>
-                        <span>Update pack name: </span><Input onChange={onUpdateName}/>
+                        <span>Update pack name: </span><Input onChange={onUpdateName} value={updatePackName}/>
                     </Modal>
                     <Content>
                         <Table<User>

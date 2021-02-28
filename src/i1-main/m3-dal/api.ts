@@ -8,7 +8,7 @@ import {AxiosResponseType, LoginType} from "../m2-bll/auth-reducer";
 // 'valentyn.333k@gmail.com'
 // '111qwe222'
 const instance  = axios.create ({
-    baseURL: 'http://localhost:7542/2.0/',
+    baseURL: 'https://neko-back.herokuapp.com/2.0/',
     withCredentials: true,
 })
 
@@ -72,15 +72,6 @@ export type PacksResponseType = {
     token: string
     tokenDeathTime: number
 }
-
-// export type PaginationType = {
-//     cardPacksTotalCount: number
-//     maxCardsCount: number
-//     minCardsCount: number
-//     page: number
-//     pageCount: number
-//     token: string
-// }
 
 export type RequestPackType = {
     name?: string

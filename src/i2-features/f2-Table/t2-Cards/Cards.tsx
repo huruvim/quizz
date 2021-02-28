@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../../i1-main/m2-bll/store";
 import {RespondCardType} from "../../../i1-main/m3-dal/api";
 import {Redirect} from "react-router-dom";
-import {Button, Input, Layout, Modal, Popconfirm, Space, Spin, Table} from "antd";
+import {Button, Input, Layout, message, Modal, Popconfirm, Space, Spin, Table} from "antd";
 import {Content} from "antd/es/layout/layout";
 import {addCardTC, currentPackIdAC, deleteCardTC, getCardsTC} from "./cards-reducer";
 import {PATH} from "../../../i1-main/m1-ui/u3-routes/Routes";
@@ -49,8 +49,19 @@ export const Cards = () => {
     };
 
     const handleOk = () => {
-        setIsModalVisible(false);
-        dispatch(addCardTC({cardsPack_id, question, answer, }))
+        if (question) {
+            if (answer) {
+                setIsModalVisible(false);
+                dispatch(addCardTC({cardsPack_id, question: `${question.trim()}?`, answer, }))
+                setQuestion('')
+                setAnswer('')
+            } else {
+                message.warn(`Answer must contain at least one regular character`)
+            }
+        } else {
+            message.warn(`Question must contain at least one regular character`)
+        }
+
     };
 
     const handleCancel = () => {

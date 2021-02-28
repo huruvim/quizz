@@ -104,7 +104,6 @@ export const deletePackTC = (id?: string):ThunkType => (dispatch: ThunkDispatch<
     dispatch(packsLoaderAC(true))
     cardsAPI.packDelete(id)
         .then( res => {
-            debugger
             dispatch(getPacksTC())
             message.info(`Pack ${res.data.deletedCardsPack.name} has been deleted`)
         })

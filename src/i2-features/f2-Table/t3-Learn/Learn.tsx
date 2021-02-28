@@ -44,15 +44,12 @@ const getCard = (cards: Array<CardType>) => {
             return {sum: newSum, id: newSum < rand ? i : acc.id}
         }
         , {sum: 0, id: -1});
-    // console.log('test: ', sum, rand, res)
-
     return cards[res.id + 1];
 }
 
 
 export const Learn = () => {
     const {cards} = useSelector((store: AppRootStateType) => store.cards);
-    // const {cards} = useSelector<AppRootStateType, CardType>(store => store.cards);
     const cardsPack_id = useSelector<AppRootStateType, string>(s => s.cards.cardsPack_id)
     const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
     const dispatch = useDispatch()
