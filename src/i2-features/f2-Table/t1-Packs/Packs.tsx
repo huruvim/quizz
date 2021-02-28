@@ -24,7 +24,6 @@ export const Packs = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [packName, setPackName] = useState("")
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(s => s.isLoggedIn.isLoggedIn)
     const [first, setFirst] = useState<boolean>(true);
 
 
@@ -34,7 +33,6 @@ export const Packs = () => {
 
     useEffect(() => {
         if(first) {
-            dispatch(authMe())
             dispatch(getPacksTC())
             setFirst(false)
         }
@@ -141,10 +139,6 @@ export const Packs = () => {
         grade: pack.grade,
         key: pack._id
     }))
-
-    if (!isLoggedIn) {
-        return <Redirect to={PATH.LOGIN}/>
-    }
 
     return (
         <>

@@ -3,7 +3,6 @@ import {authAPI} from "../m3-dal/api";
 import {AxiosResponse} from "axios";
 import {profileAC} from "./profile-reducer";
 import {message} from "antd";
-import {getPacksTC} from "../../i2-features/f2-Table/t1-Packs/packs-reducer";
 
 
 type EMAIL_CHANGED = ReturnType<typeof emailChangedAC>
