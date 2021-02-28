@@ -49,17 +49,35 @@ export const Cards = () => {
     };
 
     const handleOk = () => {
-        if (question) {
-            if (answer) {
+        const trimmedQuestion = question.trim()
+        const trimmedAnswer = answer.trim()
+        if (trimmedQuestion) {
+            if (trimmedAnswer) {
                 setIsModalVisible(false);
-                dispatch(addCardTC({cardsPack_id, question: `${question.trim()}?`, answer, }))
+                dispatch(addCardTC({cardsPack_id, question: `${trimmedQuestion}?`, answer: trimmedAnswer, }))
                 setQuestion('')
                 setAnswer('')
             } else {
                 message.warn(`Answer must contain at least one regular character`)
+                if(!trimmedAnswer) {
+                    setAnswer('')
+                } else if (!trimmedQuestion) {
+                    setQuestion('')
+                } else {
+                    setAnswer('')
+                    setQuestion('')
+                }
             }
         } else {
             message.warn(`Question must contain at least one regular character`)
+            if(!trimmedAnswer) {
+                setAnswer('')
+            } else if (!trimmedQuestion) {
+                setQuestion('')
+            } else {
+                setAnswer('')
+                setQuestion('')
+            }
         }
 
     };

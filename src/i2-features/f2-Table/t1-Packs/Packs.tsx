@@ -49,12 +49,14 @@ export const Packs = () => {
     }, [dispatch, first])
     ////
     const onOk = () => {
-        if (updatePackName) {
+        const trimmedUpdatePackName = updatePackName.trim()
+        if (trimmedUpdatePackName) {
         setUpdateModalVisible(false);
-        dispatch(updatePack({_id: currentId, name: updatePackName}))
+        dispatch(updatePack({_id: currentId, name: trimmedUpdatePackName}))
         setUpdatePackName('')
         } else {
             message.error(`Puck name must contain at least one regular character`)
+            setUpdatePackName('')
         }
     };
     const onCancel = () => {
@@ -86,12 +88,15 @@ export const Packs = () => {
 
     // При нажатии в модальном окне кнопки ок
     const handleOk = () => {
-        if (packName) {
+        debugger
+        const trimmedPackName = packName.trim()
+        if (trimmedPackName) {
             setIsModalVisible(false);
-            dispatch(addPackTC({name: packName}))
+            dispatch(addPackTC({name: trimmedPackName}))
             setPackName('')
         }   else {
             message.error(`Puck name must contain at least one regular character`)
+            setPackName('')
         }
 
 
